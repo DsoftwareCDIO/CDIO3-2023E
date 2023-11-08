@@ -17,6 +17,10 @@ public class Player {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void addGetOutOfJailCard() {
         getOutOfJailCards++;
     }
