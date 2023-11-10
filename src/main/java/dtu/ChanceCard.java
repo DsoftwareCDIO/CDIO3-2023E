@@ -8,7 +8,7 @@ public class ChanceCard {
         //Activate things, description and so on is determined by id
     }
 
-    public void activate(MonopolyJunior cont) {
-
+    public void activate() {
+        //TODO: switch statement with effects
     }
 }

@@ -7,14 +7,15 @@ public class ChanceCardDeck {
     private Queue<ChanceCard> cards;
     
     public ChanceCardDeck(Player[] players) {
-        cards = new PriorityQueue<ChanceCard>();
-
-        // Add cards to queue
+        cards = new PriorityQueue<>();
+        for (int i = 0; i < 20 - (4 - players.length); i++) {
+            // Add cards to queue
+        }
     }
 
-    public void draw(MonopolyJunior cont){
+    public ChanceCard draw(){
         ChanceCard card = cards.poll();
-        card.activate(cont);
         cards.add(card);
+        return card;
     }
 }
