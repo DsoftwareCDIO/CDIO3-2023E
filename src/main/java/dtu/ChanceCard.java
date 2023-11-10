@@ -10,7 +10,7 @@ public class ChanceCard {
 
     public void activate() {
         // TODO: switch statement with effects
-        switch (1) {
+        switch (id) {
             case 0:
                 // effect
                 // car gets to choose what field to land on next round
