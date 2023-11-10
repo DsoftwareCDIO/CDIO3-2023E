@@ -9,8 +9,8 @@ public class Property extends Field {
     private final int price;
     private final Color color;
 
-    public Property(int price, Color color) {
-        super(Field.FieldType.PROPERTY);
+    public Property(int price, Color color, int position) {
+        super(Field.FieldType.PROPERTY, position);
         this.price = price;
         this.color = color;
     }
