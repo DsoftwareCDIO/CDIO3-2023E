@@ -9,7 +9,6 @@ public class Board {
     
     public Board(Player[] players) {
         fields = new Field[24];
-        // Add fields to list with description, type and inforamtion
         fields[0] = new Field(FieldType.START, 0);
         fields[1] = new Property(1, Color.BROWN, 1);
         fields[2] = new Property(1, Color.BROWN,2);
