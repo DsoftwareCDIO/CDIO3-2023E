@@ -3,8 +3,6 @@ package dtu;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import dtu.Field.FieldType;
-
 public final class MonopolyJunior {
     protected Player[] players;
     protected Board board;
