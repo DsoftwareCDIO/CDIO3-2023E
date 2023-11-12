@@ -30,7 +30,22 @@ public final class MonopolyJunior {
         while (true) {
             currentPlayer = players[turn%4];
 
-            Field[] fields = board.move(currentPlayer.piece.getPosition(), die.roll());
+            if (currentPlayer.inJail) {
+                if (!currentPlayer.getOutOfJail()) {
+                    endGame();
+                }
+            }
+
+            Field[] fields;
+            if (currentPlayer.useUniqueCard()) {
+                int targetField = 0;// TODO: Vælg felt at rykke til
+                int movement = targetField - currentPlayer.piece.getPosition();
+                movement = movement < 0 ? movement + 24 : movement;
+                fields = board.move(currentPlayer.piece.getPosition(), movement);
+            } else {
+                fields = board.move(currentPlayer.piece.getPosition(), die.roll());
+            }
+
             for (Field field : fields) {
                 switch (field.getType()) {
                     case PROPERTY:
