@@ -10,7 +10,6 @@ public final class MonopolyJunior {
     protected static Player currentPlayer;
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
         String[] playerNames = {"Cat", "Dog", "Ship", "Car"};
         // TODO: UI ting for at væle antal spillere
         // TODO: UI ting for at karakterer og rækkefølge af dem vælges
@@ -39,23 +38,24 @@ public final class MonopolyJunior {
 
             if (currentPlayer.useUniqueCard()) {
                 int targetField = 0;// TODO: Vælg felt at rykke til med UI
+                // Valget er kun mellem frie properties medmindre alle properties af købt, så er alle mulige
                 int movement = targetField - currentPlayer.piece.getPosition();
                 movement = movement < 0 ? movement + 24 : movement;
-                moveOnBoard(movement);
+                moveOnBoard(movement, true);
             } else {
-                moveOnBoard(die.roll());
+                moveOnBoard(die.roll(), false);
             }
 
             turn++;
         }
     }
 
-    public static void moveOnBoard(int movement){
+    public static void moveOnBoard(int movement, boolean forceBuy){
         Field[] fields = board.move(currentPlayer.piece.getPosition(), movement);
         for (Field field : fields) {
             switch (field.getType()) {
                 case PROPERTY:
-                    landOnProperty((Property)field, false); // Virker måske ikke at kalde metoden sådan her
+                    landOnProperty((Property)field, forceBuy); // Virker måske ikke at kalde metoden sådan her
                     break;
                 case JAIL:
                     currentPlayer.goToJail();
