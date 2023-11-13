@@ -90,11 +90,6 @@ public final class MonopolyJunior {
         }
     }
 
-    /* private void landOnChanceCard(){
-        ChanceCard card = board.cardDeck.draw();
-        card.activate();
-    } */
-
     public static void transaction(Player player, int money){
         if (!player.account.changeMoney(money)) {
             // TODO: End game
