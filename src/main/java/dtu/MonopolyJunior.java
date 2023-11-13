@@ -4,18 +4,20 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public final class MonopolyJunior {
-    protected Player[] players;
-    protected Board board;
-    protected Die die;
+    protected static Player[] players;
+    protected static Board board;
+    protected static Die die;
+    protected static Player currentPlayer;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        String[] playerNames = {"Cat", "Dog", "Ship", "Car"};
         // TODO: UI ting for at væle antal spillere
         // TODO: UI ting for at karakterer og rækkefølge af dem vælges
-        // play(playerNames);
+        play(playerNames);
     }
 
-    private void play(String[] playerNames){
+    private static void play(String[] playerNames){
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
             players[i] = new Player(playerNames[i], i);
@@ -25,7 +27,6 @@ public final class MonopolyJunior {
         die = new Die();
 
         int turn = 0;
-        Player currentPlayer;
 
         while (true) {
             currentPlayer = players[turn%4];
@@ -36,42 +37,43 @@ public final class MonopolyJunior {
                 }
             }
 
-            Field[] fields;
             if (currentPlayer.useUniqueCard()) {
-                int targetField = 0;// TODO: Vælg felt at rykke til
+                int targetField = 0;// TODO: Vælg felt at rykke til med UI
                 int movement = targetField - currentPlayer.piece.getPosition();
                 movement = movement < 0 ? movement + 24 : movement;
-                fields = board.move(currentPlayer.piece.getPosition(), movement);
+                moveOnBoard(movement);
             } else {
-                fields = board.move(currentPlayer.piece.getPosition(), die.roll());
-            }
-
-            for (Field field : fields) {
-                switch (field.getType()) {
-                    case PROPERTY:
-                        landOnProperty(currentPlayer, (Property)field); // Virker måske ikke at kalde metoden sådan her
-                        break;
-                    case JAIL:
-                        currentPlayer.goToJail();
-                        break;
-                    case EMPTY:
-                        break;
-                    case CHANCE:
-                        //board.cardDeck.draw().activate();
-                        break;
-                    case START:
-                        transaction(currentPlayer, 2);  
-                    default:
-                        break;
-                }
+                moveOnBoard(die.roll());
             }
 
             turn++;
         }
     }
 
+    public static void moveOnBoard(int movement){
+        Field[] fields = board.move(currentPlayer.piece.getPosition(), movement);
+        for (Field field : fields) {
+            switch (field.getType()) {
+                case PROPERTY:
+                    landOnProperty((Property)field, false); // Virker måske ikke at kalde metoden sådan her
+                    break;
+                case JAIL:
+                    currentPlayer.goToJail();
+                    break;
+                case EMPTY:
+                    break;
+                case CHANCE:
+                    //board.cardDeck.draw().activate();
+                    break;
+                case START:
+                    transaction(currentPlayer, 2);  
+                default:
+                    break;
+            }
+        }
+    }
 
-    private void landOnProperty(Player currentPlayer, Property property){
+    private static void landOnProperty(Property property, boolean forceBuy){
         Player owner = property.getOwner();
         if (owner == currentPlayer) {
             return;
@@ -81,6 +83,9 @@ public final class MonopolyJunior {
             property.setOwner(currentPlayer);
         }
         else {
+            if (forceBuy) {
+                property.setOwner(currentPlayer);
+            }
             transaction(owner, property.getPrice());
         }
     }
@@ -90,14 +95,14 @@ public final class MonopolyJunior {
         card.activate();
     } */
 
-    private void transaction(Player player, int money){
+    public static void transaction(Player player, int money){
         if (!player.account.changeMoney(money)) {
             // TODO: End game
             // endGame() og mere visuelt osv.
         };
     }
 
-    private void endGame(){
+    private static void endGame(){
         Arrays.sort(players, Comparator.comparing(player->player.account.getMoney()));
         // TODO: Opret test for dette
         // Vis dem en efter en, vinder er en første i listen (håber jeg)
