@@ -10,7 +10,7 @@ public class Property extends Field {
     private final Color color;
 
     public Property(int price, Color color, int position) {
-        super(Field.FieldType.PROPERTY, position);
+        super(FieldType.PROPERTY, position);
         this.price = price;
         this.color = color;
     }

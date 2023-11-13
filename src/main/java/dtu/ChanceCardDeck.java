@@ -8,8 +8,24 @@ public class ChanceCardDeck {
     
     public ChanceCardDeck(Player[] players) {
         cards = new PriorityQueue<>();
-        for (int i = 0; i < 20 - (4 - players.length); i++) {
-            // Add cards to queue
+        for (int i = 0; i < 16; i++) {
+            cards.add(new ChanceCard(i));
+        }
+        for (Player player : players) {
+            switch (player.getName()) {
+                case "Cat":
+                    cards.add(new ChanceCard(17));
+                    break;
+                case "Dog":
+                    cards.add(new ChanceCard(18));
+                    break;
+                case "Ship":
+                    cards.add(new ChanceCard(16));
+                    break;
+                case "Car":
+                    cards.add(new ChanceCard(19));
+                    break;
+            }
         }
     }
 
