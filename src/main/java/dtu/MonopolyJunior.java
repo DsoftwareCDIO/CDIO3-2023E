@@ -45,9 +45,9 @@ public final class MonopolyJunior {
                 // Valget er kun mellem frie properties medmindre alle properties af købt, så er alle mulige
                 int movement = targetField - currentPlayer.piece.getPosition();
                 movement = movement < 0 ? movement + 24 : movement;
-                moveOnBoard(movement, true);
+                moveOnBoard(movement, true, false);
             } else {
-                moveOnBoard(die.roll(), false);
+                moveOnBoard(die.roll(), false, false);
             }
 
             turn++;
@@ -55,12 +55,12 @@ public final class MonopolyJunior {
         endGame();
     }
 
-    public static void moveOnBoard(int movement, boolean forceBuy){
+    public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree){
         Field[] fields = board.move(currentPlayer.piece.getPosition(), movement);
         for (Field field : fields) {
             switch (field.getType()) {
                 case PROPERTY:
-                    landOnProperty((Property)field, forceBuy); // Virker måske ikke at kalde metoden sådan her
+                    landOnProperty((Property)field, forceBuy, getForFree); // Virker måske ikke at kalde metoden sådan her
                     break;
                 case JAIL:
                     currentPlayer.goToJail();
@@ -79,12 +79,14 @@ public final class MonopolyJunior {
         }
     }
 
-    private static void landOnProperty(Property property, boolean forceBuy){
+    private static void landOnProperty(Property property, boolean forceBuy, boolean getForFree){
         Player owner = property.getOwner();
         if (owner == currentPlayer) {
             return;
         }
-        transaction(currentPlayer, -property.getPrice());
+        if (!getForFree) {
+            transaction(currentPlayer, -property.getPrice());
+        }
         if (gameHasEnded) {
             return;
         }
