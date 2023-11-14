@@ -80,6 +80,7 @@ public final class MonopolyJunior {
     }
 
     private static void landOnProperty(Property property, boolean forceBuy, boolean getForFree){
+        // TODO: double price if owner has both of the same color
         Player owner = property.getOwner();
         if (owner == currentPlayer) {
             return;
