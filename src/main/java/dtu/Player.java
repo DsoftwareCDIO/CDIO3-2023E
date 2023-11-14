@@ -36,9 +36,8 @@ public class Player {
             getOutOfJailCards--;
             return true;
         }
-        else if (account.getMoney() > 0) {
+        else if (account.changeMoney(-1)) {
             inJail = false;
-            account.changeMoney(-1);
             return true;
         }
         return false;

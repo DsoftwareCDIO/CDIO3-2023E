@@ -12,10 +12,11 @@ public class Account {
     }
 
     public boolean changeMoney(int money) {
-        if (this.money >= money) {
+        if (this.money + money >= 0) {
             this.money += money;
             return true;
         }
+        this.money = 0;
         return false;
     }
 }
