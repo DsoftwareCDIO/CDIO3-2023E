@@ -40,13 +40,10 @@ public class Board {
 
     public Field[] move(int startPosition, int movement) {
         int endPosition = startPosition + movement;
-        Field[] endFields = new Field[1];
         if (endPosition >= 24) {
             endPosition %= 24;
-            endFields = new Field[2];
-            endFields[1] = fields[0];
+            return new Field[]{fields[0], fields[endPosition]};
         }
-        endFields[0] = fields[endPosition];
-        return endFields;
+        return new Field[]{fields[endPosition]};
     }
 }
