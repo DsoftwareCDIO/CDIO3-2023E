@@ -38,12 +38,12 @@ public class Board {
         cardDeck = new ChanceCardDeck(players);
     }
 
-    public Field move(Player p, int startPosition, int movement) {
+    public Field[] move(int startPosition, int movement) {
         int endPosition = startPosition + movement;
         if (endPosition >= 24) {
             endPosition %= 24;
-            p.account.changeMoney(2);
+            return new Field[]{fields[0], fields[endPosition]};
         }
-        return fields[endPosition];
+        return new Field[]{fields[endPosition]};
     }
 }
