@@ -9,6 +9,8 @@ public final class MonopolyJunior {
     protected static Die die;
     protected static Player currentPlayer;
 
+    private static boolean gameHasEnded;
+
     public static void main(String[] args) {
         String[] playerNames = {"Cat", "Dog", "Ship", "Car"};
         // TODO: UI ting for at væle antal spillere
@@ -17,6 +19,7 @@ public final class MonopolyJunior {
     }
 
     private static void play(String[] playerNames){
+        gameHasEnded = false;
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
             players[i] = new Player(playerNames[i], i);
@@ -27,12 +30,13 @@ public final class MonopolyJunior {
 
         int turn = 0;
 
-        while (true) {
+        while (!gameHasEnded) {
             currentPlayer = players[turn%4];
 
             if (currentPlayer.inJail) {
                 if (!currentPlayer.getOutOfJail()) {
-                    endGame();
+                    gameHasEnded = true;
+                    break;
                 }
             }
 
@@ -48,6 +52,7 @@ public final class MonopolyJunior {
 
             turn++;
         }
+        endGame();
     }
 
     public static void moveOnBoard(int movement, boolean forceBuy){
@@ -66,7 +71,8 @@ public final class MonopolyJunior {
                     //board.cardDeck.draw().activate();
                     break;
                 case START:
-                    transaction(currentPlayer, 2);  
+                    transaction(currentPlayer, 2); 
+                    break; 
                 default:
                     break;
             }
@@ -79,6 +85,10 @@ public final class MonopolyJunior {
             return;
         }
         transaction(currentPlayer, -property.getPrice());
+        if (gameHasEnded) {
+            return;
+        }
+
         if (owner == null) {
             property.setOwner(currentPlayer);
         }
@@ -94,10 +104,11 @@ public final class MonopolyJunior {
         if (!player.account.changeMoney(money)) {
             // TODO: End game
             // endGame() og mere visuelt osv.
-        };
+        }
     }
 
     private static void endGame(){
+        gameHasEnded = true;
         Arrays.sort(players, Comparator.comparing(player->player.account.getMoney()));
         // TODO: Opret test for dette
         // Vis dem en efter en, vinder er en første i listen (håber jeg)
