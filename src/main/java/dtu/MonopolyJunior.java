@@ -35,13 +35,16 @@ public final class MonopolyJunior {
 
             if (currentPlayer.inJail) {
                 if (!currentPlayer.getOutOfJail()) {
-                    gameHasEnded = true;
-                    break;
+                    transaction(currentPlayer, -1);
+                    if (gameHasEnded) {
+                        break;
+                    }
                 }
             }
 
             if (currentPlayer.useUniqueCard()) {
-                int targetField = 0;// TODO: Vælg felt at rykke til med UI
+                int targetField = 0;
+                // TODO: Vælg felt at rykke til med UI
                 // Valget er kun mellem frie properties medmindre alle properties af købt, så er alle mulige
                 int movement = targetField - currentPlayer.piece.getPosition();
                 movement = movement < 0 ? movement + 24 : movement;
@@ -52,7 +55,6 @@ public final class MonopolyJunior {
 
             turn++;
         }
-        endGame();
     }
 
     public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree){
@@ -68,7 +70,7 @@ public final class MonopolyJunior {
                 case EMPTY:
                     break;
                 case CHANCE:
-                    //board.cardDeck.draw().activate();
+                    board.cardDeck.draw().activate();
                     break;
                 case START:
                     transaction(currentPlayer, 2); 
@@ -105,15 +107,16 @@ public final class MonopolyJunior {
 
     public static void transaction(Player player, int money){
         if (!player.account.changeMoney(money)) {
-            // TODO: End game
-            // endGame() og mere visuelt osv.
+            // TODO: End game UI ting
+            gameHasEnded = false;
+            endGame();
         }
     }
 
     private static void endGame(){
-        gameHasEnded = true;
         Arrays.sort(players, Comparator.comparing(player->player.account.getMoney()));
         // TODO: Opret test for dette
         // Vis dem en efter en, vinder er en første i listen (håber jeg)
+        
     }
 }
