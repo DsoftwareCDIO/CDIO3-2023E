@@ -2,23 +2,25 @@ package dtu;
 
 public class CLIUI {
     public static String[] drawMenu() {
-        return new String[]{};
+        return new String[]{"Cat", "Dog", "Ship", "Car"};
     }
 
-    public static void drawBoard(Player[] players) {
-
+    public static void drawBoard() {
+        System.out.println("Welcome to the game, Monopoly Junior!");
     }
 
-    public static void movePlayer(int position, Player player) {
-        System.out.println(player + " you  ");
+    public static void movePlayer(int position, String player) {
+        System.out.println(player + " you are now on field " + position);
     }
 
-    public static void updateFieldOwnership(int fieldId, Player player) {
-
+    public static void updateFieldOwnership(int fieldId, String player) {
+        System.out.println(player + "You are now the proud owner of " + fieldId);
     }
 
-    public static void endGamePodium(Player[] players) {
-
+    public static void endGamePodium(String[] players) {
+        for (int i = 0; i < players.length; i++) {
+            System.out.println(i+1 + ". " + players[players.length-i]);
+        }
     }    
     
     public static void dieRollResult(int result) {
