@@ -121,6 +121,7 @@ public final class MonopolyJunior {
     //Laver en liste med spillernes penge og sortere den fra højst til lavest?
     private static void endGame(){
         Arrays.sort(players, Comparator.comparing(player->player.account.getMoney()));
+        // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette
         // Vis dem en efter en, vinder er en første i listen (håber jeg)
         
