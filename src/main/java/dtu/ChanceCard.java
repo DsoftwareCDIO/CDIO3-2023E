@@ -137,6 +137,7 @@ public class ChanceCard {
         }
     }
 
+    //Method to give player a unique card, aka get out of jail and the other card
     private void givePlayerUniqueCard(String name) {
         for (Player p : MonopolyJunior.players) {
             if (p.getName().equals(name)) {
@@ -145,8 +146,10 @@ public class ChanceCard {
         }
     }
 
+    //Method to move a player to a target field
     private void movePlayerToTarget(int target, boolean getForFree) {
         int movement = target - MonopolyJunior.currentPlayer.piece.getPosition();
+        //Incase of movement going negative, add 24 so player still recieves start money
         movement = movement < 0 ? movement + 24 : movement;
         MonopolyJunior.moveOnBoard(movement, false, getForFree);
     }

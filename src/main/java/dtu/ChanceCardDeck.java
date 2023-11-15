@@ -6,6 +6,7 @@ import java.util.Queue;
 public class ChanceCardDeck {
     private Queue<ChanceCard> cards;
     
+    //Constructor to create carddeck, adds the special cards depending on players
     public ChanceCardDeck(Player[] players) {
         cards = new PriorityQueue<>();
         for (int i = 0; i < 16; i++) {
@@ -29,6 +30,7 @@ public class ChanceCardDeck {
         }
     }
 
+    //Method to draw card from pile
     public ChanceCard draw(){
         ChanceCard card = cards.poll();
         cards.add(card);
