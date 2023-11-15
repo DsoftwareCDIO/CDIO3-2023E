@@ -30,6 +30,7 @@ public class Player {
         piece.setPosition(6);
     }
 
+    //Method to check if a player has a get out of jail card, removed upon landing in jail
     public boolean getOutOfJail(){
         inJail = false;
         if (getOutOfJailCards > 0) {

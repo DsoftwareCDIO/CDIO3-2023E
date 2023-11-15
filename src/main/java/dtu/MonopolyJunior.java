@@ -20,11 +20,13 @@ public final class MonopolyJunior {
 
     private static void play(String[] playerNames){
         gameHasEnded = false;
+        //Modtager listen af spillernavne og laver en liste af mængden af spillerne
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
             players[i] = new Player(playerNames[i], i);
         }
 
+        //Sætter boardet op med 2-4 spillere
         board = new Board(players);
         die = new Die();
 
@@ -33,6 +35,7 @@ public final class MonopolyJunior {
         while (!gameHasEnded) {
             currentPlayer = players[turn%4];
 
+            //Check for om spiller er i fængsel, hvis ja så fjern enten 1 money eller 1 goujc
             if (currentPlayer.inJail) {
                 if (!currentPlayer.getOutOfJail()) {
                     transaction(currentPlayer, -1);
@@ -42,6 +45,7 @@ public final class MonopolyJunior {
                 }
             }
 
+            //Hvis spiller har modtaget specielt(aka ryk felt), så vælger man felt
             if (currentPlayer.useUniqueCard()) {
                 int targetField = 0;
                 // TODO: Vælg felt at rykke til med UI
@@ -56,7 +60,7 @@ public final class MonopolyJunior {
             turn++;
         }
     }
-
+    //Flytter spiller til position, switch case for type af felt og hvad der så skal ske
     public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree){
         Field[] fields = board.move(currentPlayer.piece.getPosition(), movement);
         for (Field field : fields) {
@@ -105,6 +109,7 @@ public final class MonopolyJunior {
         }
     }
 
+    //Checker om en spiller kan købe grund, hvis return er false så ender spillet
     public static void transaction(Player player, int money){
         if (!player.account.changeMoney(money)) {
             // TODO: End game UI ting
@@ -113,6 +118,7 @@ public final class MonopolyJunior {
         }
     }
 
+    //Laver en liste med spillernes penge og sortere den fra højst til lavest?
     private static void endGame(){
         Arrays.sort(players, Comparator.comparing(player->player.account.getMoney()));
         // TODO: Opret test for dette
