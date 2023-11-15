@@ -7,6 +7,7 @@ public class Board {
     private Field[] fields;
     protected ChanceCardDeck cardDeck;
     
+    //Board object, creates all the fields when initialised 
     public Board(Player[] players) {
         fields = new Field[24];
         fields[0] = new Field(FieldType.START, 0);
@@ -38,6 +39,7 @@ public class Board {
         cardDeck = new ChanceCardDeck(players);
     }
 
+    //Function to move position on the board
     public Field[] move(int startPosition, int movement) {
         int endPosition = startPosition + movement;
         if (endPosition >= 24) {
