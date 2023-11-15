@@ -27,24 +27,24 @@ public class CLIUI {
         System.out.println("You have rolled a " + result);
     }
 
-    public static void updateMoneyInAccount(int money, Player player, boolean gained) {
-        System.out.println(player + " now have " + money + " monobucks");
+    public static void updateMoneyInAccount(int money, int moneyTotal, String player, boolean gained) {
+        System.out.println(player + ", you " + (gained ? "gained" : "lost") + " " + money + " monobucks, you now have " + moneyTotal + " monobucks");
     }
 
-    public static void showNetWorth(Player player) {
+    public static void showNetWorth(String player) {
        // System.out.println("Nani");
     }
 
-    public static void showChanceCard(ChanceCard card) {
+    public static void showChanceCard(String card) {
         
     }
 
-    public static void updateGetOutOfJailCards(int cards, boolean gained, Player player) {
-
+    public static void updateGetOutOfJailCards(int cards, boolean gained, String player) {
+        System.out.println(player + ", you " + (gained ? "gained" : "used") + " a Get Out Of Jail card, you now have " + cards + " left");
     }
 
-    public static void updateUniqueCards(boolean gained, Player player) {
-        
+    public static void updateUniqueCards(boolean gained, String player) {
+        System.out.println(player + ", you " + (gained ? "gained" : "used") + " your unique card");
     }
 
     public static int chooseFieldOnBoard(int[] fields) {
@@ -54,6 +54,4 @@ public class CLIUI {
     public static int chooseOption(String[] options){
         return 1;
     }
-
-    
 }
