@@ -21,6 +21,7 @@ public class Property extends Field {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+        UIController.updateFieldOwnership(position, owner);
     }
 
     public int getPrice() {

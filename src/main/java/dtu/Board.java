@@ -44,7 +44,9 @@ public class Board {
         int endPosition = startPosition + movement;
         if (endPosition >= 24) {
             endPosition %= 24;
-            return new Field[]{fields[0], fields[endPosition]};
+            if (endPosition > 0) {            
+                return new Field[]{fields[0], fields[endPosition]};
+            }
         }
         return new Field[]{fields[endPosition]};
     }

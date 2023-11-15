@@ -1,6 +1,9 @@
 package dtu;
 
+import java.util.Scanner;
+
 public class CLIUI {
+    private static Scanner scanner = new Scanner(System.in);
     public static String[] drawMenu() {
         return new String[]{"Cat", "Dog", "Ship", "Car"};
     }
@@ -19,12 +22,18 @@ public class CLIUI {
 
     public static void endGamePodium(String[] players) {
         for (int i = 0; i < players.length; i++) {
-            System.out.println(i+1 + ". " + players[players.length-i]);
+            System.out.println(i+1 + ". " + players[players.length-1-i]);
         }
+        scanner.close();
     }    
     
     public static void dieRollResult(int result) {
         System.out.println("You have rolled a " + result);
+    }
+
+    public static void waitForRoll() {
+        System.out.println("Roll the dice");
+        scanner.nextLine();
     }
 
     public static void updateMoneyInAccount(int money, int moneyTotal, String player, boolean gained) {
@@ -36,11 +45,11 @@ public class CLIUI {
     }
 
     public static void showChanceCard(String card) {
-        
+        System.out.println("You got a chance card:\n" + card);
     }
 
-    public static void updateGetOutOfJailCards(int cards, boolean gained, String player) {
-        System.out.println(player + ", you " + (gained ? "gained" : "used") + " a Get Out Of Jail card, you now have " + cards + " left");
+    public static void updateGetOutOfJailCards(int cardsTotal, boolean gained, String player) {
+        System.out.println(player + ", you " + (gained ? "gained" : "used") + " a Get Out Of Jail card, you now have " + cardsTotal + " left");
     }
 
     public static void updateUniqueCards(boolean gained, String player) {

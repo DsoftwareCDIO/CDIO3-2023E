@@ -6,6 +6,8 @@ import java.util.Random;
 public class Die {
     Random rand = new Random();
     public int roll(){
-        return rand.nextInt(6)+1;
+        int roll = rand.nextInt(6)+1;
+        UIController.dieRollResult(roll);
+        return roll;
     }
 }

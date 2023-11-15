@@ -12,18 +12,20 @@ public final class MonopolyJunior {
     private static boolean gameHasEnded;
 
     public static void main(String[] args) {
-        String[] playerNames = {"Cat", "Dog", "Ship", "Car"};
+        String[] playerNames = UIController.drawMenu();
         // TODO: UI ting for at væle antal spillere
         // TODO: UI ting for at karakterer og rækkefølge af dem vælges
         play(playerNames);
     }
 
     private static void play(String[] playerNames){
+        UIController.drawBoard(players);
+
         gameHasEnded = false;
         //Recieves a list of player names and creats a new of players with the names
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
-            players[i] = new Player(playerNames[i], i);
+            players[i] = new Player(playerNames[i], 10);
         }
 
         //Creates board with chosen amount of players (2/4)
@@ -46,7 +48,7 @@ public final class MonopolyJunior {
             }
 
             //If special card(move to x location) is recieved from chancepile, moves the player to chosen target
-            if (currentPlayer.useUniqueCard()) {
+            if (currentPlayer.useUniqueCardIfPossible()) {
                 int targetField = 0;
                 // TODO: Vælg felt at rykke til med UI
                 // Valget er kun mellem frie properties medmindre alle properties af købt, så er alle mulige
@@ -54,15 +56,20 @@ public final class MonopolyJunior {
                 movement = movement < 0 ? movement + 24 : movement;
                 moveOnBoard(movement, true, false);
             } else {
+                UIController.waitForRoll();
                 moveOnBoard(die.roll(), false, false);
             }
 
             turn++;
         }
     }
+
     //Moves player on the board, switch case for different field types
     public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree){
         Field[] fields = board.move(currentPlayer.piece.getPosition(), movement);
+        currentPlayer.piece.setPosition(fields[fields.length-1].position);
+        UIController.movePlayer(fields[fields.length-1].position, currentPlayer);
+
         for (Field field : fields) {
             switch (field.getType()) {
                 case PROPERTY:
@@ -116,11 +123,14 @@ public final class MonopolyJunior {
             gameHasEnded = false;
             endGame();
         }
+        UIController.updateMoneyInAccount(money, player);
     }
 
     //Creates a list of the player account holdings, sorts them by value
     private static void endGame(){
+        gameHasEnded = true;
         Arrays.sort(players, Comparator.comparing(player->player.account.getMoney()));
+        UIController.endGamePodium(players);
         // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette
         // Vis dem en efter en, vinder er en første i listen (håber jeg)
