@@ -31,13 +31,9 @@ public class Player {
     }
 
     public boolean getOutOfJail(){
+        inJail = false;
         if (getOutOfJailCards > 0) {
-            inJail = false;
             getOutOfJailCards--;
-            return true;
-        }
-        else if (account.changeMoney(-1)) {
-            inJail = false;
             return true;
         }
         return false;

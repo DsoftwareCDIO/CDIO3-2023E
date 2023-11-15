@@ -56,116 +56,98 @@ public class ChanceCard {
             case 6:
                 // effect
                 // go to start
-                MonopolyJunior.moveOnBoard(24 - MonopolyJunior.currentPlayer.piece.getPosition(), false, false);
+                movePlayerToTarget(0, false);
                 break;
             case 7:
                 // effect
                 // go to strandpromenaden
-                movement = 23 - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, false);
+                movePlayerToTarget(23, false);
                 break;
             case 8:
                 // effect
                 // go to the skatepark
                 // get it for free if its available
-                movement = 23 - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(10, true);
 
                 break;
             case 9:
                 // effect
                 // go to an orange field
                 // get it for free if its available
-                movement = 0 /* Chhose with UI */ - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(1 /* Chhose with UI */, true);
                 break;
             case 10:
                 // effect
                 // go to lightblue field
                 // get it for free if its available
-                movement = 0 /* Chhose with UI */ - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(2 /* Chhose with UI */, true);
                 break;
             case 11:
                 // effect
                 // go to a red feild
                 // you get it for free if its available
-                movement = 0 /* Chhose with UI */ - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(3 /* Chhose with UI */, true);
                 break;
             case 12:
                 // effect
                 // go to a light blue or red field
                 // get it for free if its available
-                movement = 0 /* Chhose with UI */ - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(4 /* Chhose with UI */, true);
                 break;
             case 13:
                 // effect
                 // go to a brown or yellow field
                 // get it for free if its available
-                movement = 0 /* Chhose with UI */ - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(4 /* Chhose with UI */, true);
                 break;
             case 14:
                 // effect
                 // go to orange or green
                 // get it for free if its available
-                movement = 0 /* Chhose with UI */ - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(5 /* Chhose with UI */, true);
                 break;
             case 15:
                 // effect
                 // go to a pink or dark blue field
                 // get it for free if its available
-                movement = 0 /* Chhose with UI */ - MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                MonopolyJunior.moveOnBoard(movement, false, true);
+                movePlayerToTarget(6 /* Chhose with UI */, true);
                 break;
             case 16:
                 // effect
                 // ship gets to choose what field to land on next round
-                for (Player p : MonopolyJunior.players) {
-                    if (p.getName().equals("Ship")) {
-                        p.recieveUniqueCard();
-                    }
-                }
+                givePlayerUniqueCard("Ship");
                 break;
             case 17:
                 // effect
                 // cat gets to choose what field to land on next round
-                for (Player p : MonopolyJunior.players) {
-                    if (p.getName().equals("Cat")) {
-                        p.recieveUniqueCard();
-                    }
-                }
+                givePlayerUniqueCard("Cat");
                 break;
             case 18:
                 // effect
                 // dog gets to choose what field to land on next round
-                for (Player p : MonopolyJunior.players) {
-                    if (p.getName().equals("Dog")) {
-                        p.recieveUniqueCard();
-                    }
-                }
+                givePlayerUniqueCard("Dog");
                 break;
             case 19:
                 // effect
                 // car gets to choose what field to land on next round
-                for (Player p : MonopolyJunior.players) {
-                    if (p.getName().equals("Car")) {
-                        p.recieveUniqueCard();
-                    }
-                }
+                givePlayerUniqueCard("Car");
+                break;
+            default:
                 break;
         }
+    }
+
+    private void givePlayerUniqueCard(String name) {
+        for (Player p : MonopolyJunior.players) {
+            if (p.getName().equals(name)) {
+                p.recieveUniqueCard();
+            }
+        }
+    }
+
+    private void movePlayerToTarget(int target, boolean getForFree) {
+        int movement = target - MonopolyJunior.currentPlayer.piece.getPosition();
+        movement = movement < 0 ? movement + 24 : movement;
+        MonopolyJunior.moveOnBoard(movement, false, getForFree);
     }
 }
