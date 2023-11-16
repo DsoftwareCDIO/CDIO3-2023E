@@ -1,7 +1,9 @@
 package dtu;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public final class MonopolyJunior {
     protected static Player[] players;
@@ -123,17 +125,26 @@ public final class MonopolyJunior {
     public static void transaction(Player player, int money){
         if (!player.account.changeMoney(money)) {
             // TODO: End game UI ting
-            gameHasEnded = false;
-            endGame();
+            endGame(player);
         }
     }
 
     //Laver en liste med spillernes penge og sortere den fra højst til lavest?
-    private static void endGame(){
-        Arrays.sort(players, Comparator.comparing(player->player.account.getMoney()));
+    private static void endGame(Player loser){
+        gameHasEnded = false;
+        Player[] leaderBoard = new Player[players.length-1];
+        for (int i=0, k=0; i < players.length; i++){
+            if (players[i] != currentPlayer) {
+                leaderBoard[k] = players[i];
+                k++;
+            }
+        }
+
+        Arrays.sort(leaderBoard, Comparator.comparing(player->player.account.getMoney()));
+        // Leaderboard har en rangeret liste af spillerne, udover personen som tabte
+        
         // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette
-        // Vis dem en efter en, vinder er en første i listen (håber jeg)
         
     }
 }
