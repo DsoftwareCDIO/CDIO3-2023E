@@ -9,10 +9,20 @@ public class Property extends Field {
     private final int price;
     private final Color color;
 
+    private Property sameColor;
+
     public Property(int price, Color color, int position) {
         super(FieldType.PROPERTY, position);
         this.price = price;
         this.color = color;
+    }
+
+    public void setSameColor(Property sameColor) {
+        this.sameColor = sameColor;
+    }
+
+    public Property getSameColor() {
+        return sameColor;
     }
 
     public Player getOwner() {

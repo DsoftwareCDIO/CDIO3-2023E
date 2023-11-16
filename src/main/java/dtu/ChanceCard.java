@@ -8,7 +8,7 @@ public class ChanceCard {
         // Activate things, description and so on is determined by id
     }
 
-    public void activate() {
+    public void activate() throws TransactionImpossibleException {
         // TODO: switch statement with effects
         int movement;
         switch (id) {
@@ -147,7 +147,7 @@ public class ChanceCard {
     }
 
     //Method to move a player to a target field
-    private void movePlayerToTarget(int target, boolean getForFree) {
+    private void movePlayerToTarget(int target, boolean getForFree) throws TransactionImpossibleException {
         int movement = target - MonopolyJunior.currentPlayer.piece.getPosition();
         //Incase of movement going negative, add 24 so player still recieves start money
         movement = movement < 0 ? movement + 24 : movement;
