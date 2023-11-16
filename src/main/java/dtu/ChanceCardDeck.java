@@ -34,6 +34,7 @@ public class ChanceCardDeck {
     public ChanceCard draw(){
         ChanceCard card = cards.poll();
         cards.add(card);
+        UIController.showChanceCard(card);
         return card;
     }
 }

@@ -7,7 +7,7 @@ public class Field {
     }
 
     private FieldType type;
-    private final int position;
+    public final int position;
 
     //Constructor for type field, takes fieldtype and position as arguments
     public Field(FieldType type, int position){

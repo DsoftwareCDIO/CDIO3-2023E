@@ -23,6 +23,7 @@ public class Player {
 
     public void addGetOutOfJailCard() {
         getOutOfJailCards++;
+        UIController.updateGetOutOfJailCards(getOutOfJailCards, true, this);
     }
 
     public void goToJail(){
@@ -35,6 +36,7 @@ public class Player {
         inJail = false;
         if (getOutOfJailCards > 0) {
             getOutOfJailCards--;
+            UIController.updateGetOutOfJailCards(getOutOfJailCards, false, this);
             return true;
         }
         return false;
@@ -42,10 +44,15 @@ public class Player {
 
     public void recieveUniqueCard() {
         uniqueCard = true;
+        UIController.updateUniqueCards(true, this);
     }
 
-    public boolean useUniqueCard(){
-        uniqueCard = false;
+    public boolean useUniqueCardIfPossible(){
+        if (uniqueCard) { 
+            uniqueCard = false;
+            UIController.updateUniqueCards(false, this);
+        }
         return uniqueCard;
     }
+    
 }
