@@ -36,6 +36,24 @@ public class Board {
         fields[23] = new Property(5, Color.BLUE,23);
         //I'm having a field day, ha ha
 
+        // We need to find a better way of doing this
+        ((Property)fields[1]).setSameColor((Property)fields[2]);
+        ((Property)fields[2]).setSameColor((Property)fields[1]);
+        ((Property)fields[4]).setSameColor((Property)fields[5]);
+        ((Property)fields[5]).setSameColor((Property)fields[4]);
+        ((Property)fields[7]).setSameColor((Property)fields[8]);
+        ((Property)fields[8]).setSameColor((Property)fields[7]);
+        ((Property)fields[10]).setSameColor((Property)fields[11]);
+        ((Property)fields[11]).setSameColor((Property)fields[10]);
+        ((Property)fields[13]).setSameColor((Property)fields[14]);
+        ((Property)fields[14]).setSameColor((Property)fields[13]);
+        ((Property)fields[16]).setSameColor((Property)fields[17]);
+        ((Property)fields[17]).setSameColor((Property)fields[16]);
+        ((Property)fields[19]).setSameColor((Property)fields[20]);
+        ((Property)fields[20]).setSameColor((Property)fields[19]);
+        ((Property)fields[22]).setSameColor((Property)fields[23]);
+        ((Property)fields[23]).setSameColor((Property)fields[22]);
+
         cardDeck = new ChanceCardDeck(players);
     }
 

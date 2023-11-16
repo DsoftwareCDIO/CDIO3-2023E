@@ -91,21 +91,31 @@ public final class MonopolyJunior {
         if (owner == currentPlayer) {
             return;
         }
-        if (!getForFree) {
-            transaction(currentPlayer, -property.getPrice());
-        }
-        if (gameHasEnded) {
-            return;
-        }
 
         if (owner == null) {
-            property.setOwner(currentPlayer);
-        }
-        else {
-            if (forceBuy) {
-                property.setOwner(currentPlayer);
+            if (!getForFree) {
+                transaction(currentPlayer, -property.getPrice());
+                if (gameHasEnded) {
+                    return;
+                }
             }
-            transaction(owner, property.getPrice());
+            property.setOwner(currentPlayer);
+        } else {
+            if (forceBuy) {
+                transaction(currentPlayer, -property.getPrice());
+                if (gameHasEnded) {
+                    return;
+                }
+                property.setOwner(currentPlayer);
+                transaction(owner, property.getPrice());
+            } else {
+                int rent = (owner == property.getSameColor().getOwner() ? 2 : 1);
+                transaction(currentPlayer, -property.getPrice() * rent);
+                if (gameHasEnded) {
+                    return;
+                }
+                transaction(owner, property.getPrice() * rent);
+            }
         }
     }
 
