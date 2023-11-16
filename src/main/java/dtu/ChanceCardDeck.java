@@ -1,6 +1,6 @@
 package dtu;
 
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class ChanceCardDeck {
@@ -8,7 +8,7 @@ public class ChanceCardDeck {
     
     //Constructor to create carddeck, adds the special cards depending on players
     public ChanceCardDeck(Player[] players) {
-        cards = new PriorityQueue<>();
+        cards = new LinkedList<>();
         for (int i = 0; i < 16; i++) {
             cards.add(new ChanceCard(i));
         }
