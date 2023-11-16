@@ -20,10 +20,11 @@ public class CLIUI {
         System.out.println(player + "You are now the proud owner of " + fieldId);
     }
 
-    public static void endGamePodium(String[] players) {
-        for (int i = 0; i < players.length; i++) {
-            System.out.println(i+1 + ". " + players[players.length-1-i]);
+    public static void endGamePodium(String[] players, String loser) {
+        for (int i = 1; i <= players.length; i++) {
+            System.out.println(i + ". " + players[players.length-i]);
         }
+        System.out.println(players.length+1 + ". " + loser);
         scanner.close();
     }    
     

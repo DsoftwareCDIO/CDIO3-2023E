@@ -27,13 +27,13 @@ public class UIController {
         }
     }
 
-    public static void endGamePodium(Player[] players) {
+    public static void endGamePodium(Player[] players, Player loser) {
         String[] playerNames = new String[players.length];
         for (int i = 0; i < players.length; i++) {
             playerNames[i] = players[i].getName();
         }
         if (CLI) {
-            CLIUI.endGamePodium(playerNames);
+            CLIUI.endGamePodium(playerNames, loser.getName());
         }
     }
 
