@@ -134,7 +134,7 @@ public final class MonopolyJunior {
         }
 
         Arrays.sort(leaderBoard, Comparator.comparing(player->player.account.getMoney()));
-        UIController.endGamePodium(players, loser);
+        UIController.endGamePodium(leaderBoard, loser);
 
         // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette

@@ -1,8 +1,17 @@
 package dtu;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CLIUI {
+    
+    private static String[] fieldNames = new String[] {"Start", "The Burger Bar", "The Pizzaria", "Chance Field", "The Candy Shop", "The Ice Cream Shop", 
+        "Visiting Prison", "The Museum", "The Library", "Chance Field", "The Skate Park", "The Swimming Pool", "Free Parking", "The Game Center", 
+        "The Cinema", "Chande Field", "The Toy Store", "The Pet Shop", "Go To Prison", "The Bowling Alley", "The Zoo", "Chance Card", "The Water Park", 
+        "\"Strandpromenaden\""
+    };
+
     private static Scanner scanner = new Scanner(System.in);
     public static String[] drawMenu() {
         return new String[]{"Cat", "Dog", "Ship", "Car"};
@@ -13,11 +22,11 @@ public class CLIUI {
     }
 
     public static void movePlayer(int position, String player) {
-        System.out.println(player + " you are now on field " + position);
+        System.out.println(player + ", you landed on " + fieldNames[position]);
     }
 
     public static void updateFieldOwnership(int fieldId, String player) {
-        System.out.println(player + "You are now the proud owner of " + fieldId);
+        System.out.println(player + ", You are now the proud owner of " + fieldNames[fieldId]);
     }
 
     public static void endGamePodium(String[] players, String loser) {
