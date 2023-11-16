@@ -1,9 +1,7 @@
 package dtu;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 public final class MonopolyJunior {
     protected static Player[] players;
@@ -33,37 +31,41 @@ public final class MonopolyJunior {
         die = new Die();
 
         int turn = 0;
+        try {
+            while (!gameHasEnded) {
+                currentPlayer = players[turn%4];
 
-        while (!gameHasEnded) {
-            currentPlayer = players[turn%4];
-
-            //Check for om spiller er i fængsel, hvis ja så fjern enten 1 money eller 1 goujc
-            if (currentPlayer.inJail) {
-                if (!currentPlayer.getOutOfJail()) {
-                    transaction(currentPlayer, -1);
-                    if (gameHasEnded) {
-                        break;
+                //Check for om spiller er i fængsel, hvis ja så fjern enten 1 money eller 1 goujc
+                if (currentPlayer.inJail) {
+                    if (!currentPlayer.getOutOfJail()) {
+                        transaction(currentPlayer, -1);
+                        if (gameHasEnded) {
+                            break;
+                        }
                     }
                 }
-            }
 
-            //Hvis spiller har modtaget specielt(aka ryk felt), så vælger man felt
-            if (currentPlayer.useUniqueCard()) {
-                int targetField = 0;
-                // TODO: Vælg felt at rykke til med UI
-                // Valget er kun mellem frie properties medmindre alle properties af købt, så er alle mulige
-                int movement = targetField - currentPlayer.piece.getPosition();
-                movement = movement < 0 ? movement + 24 : movement;
-                moveOnBoard(movement, true, false);
-            } else {
-                moveOnBoard(die.roll(), false, false);
-            }
+                //Hvis spiller har modtaget specielt(aka ryk felt), så vælger man felt
+                if (currentPlayer.useUniqueCard()) {
+                    int targetField = 0;
+                    // TODO: Vælg felt at rykke til med UI
+                    // Valget er kun mellem frie properties medmindre alle properties af købt, så er alle mulige
+                    int movement = targetField - currentPlayer.piece.getPosition();
+                    movement = movement < 0 ? movement + 24 : movement;
+                    moveOnBoard(movement, true, false);
+                } else {
+                    moveOnBoard(die.roll(), false, false);
+                }
 
-            turn++;
+                turn++;
+            }
+        } catch (TransactionImpossibleException e) {
+            endGame(e.loser);
         }
     }
+
     //Flytter spiller til position, switch case for type af felt og hvad der så skal ske
-    public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree){
+    public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree) throws TransactionImpossibleException {
         Field[] fields = board.move(currentPlayer.piece.getPosition(), movement);
         for (Field field : fields) {
             switch (field.getType()) {
@@ -87,7 +89,7 @@ public final class MonopolyJunior {
         }
     }
 
-    private static void landOnProperty(Property property, boolean forceBuy, boolean getForFree){
+    private static void landOnProperty(Property property, boolean forceBuy, boolean getForFree) throws TransactionImpossibleException {
         // TODO: double price if owner has both of the same color
         Player owner = property.getOwner();
         if (owner == currentPlayer) {
@@ -122,10 +124,10 @@ public final class MonopolyJunior {
     }
 
     //Checker om en spiller kan købe grund, hvis return er false så ender spillet
-    public static void transaction(Player player, int money){
+    public static void transaction(Player player, int money) throws TransactionImpossibleException {
         if (!player.account.changeMoney(money)) {
             // TODO: End game UI ting
-            endGame(player);
+            throw new TransactionImpossibleException(player);
         }
     }
 
@@ -142,7 +144,7 @@ public final class MonopolyJunior {
 
         Arrays.sort(leaderBoard, Comparator.comparing(player->player.account.getMoney()));
         // Leaderboard har en rangeret liste af spillerne, udover personen som tabte
-        
+
         // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette
         
