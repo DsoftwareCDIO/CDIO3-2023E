@@ -38,9 +38,6 @@ public final class MonopolyJunior {
                 if (currentPlayer.inJail) {
                     if (!currentPlayer.getOutOfJail()) {
                         transaction(currentPlayer, -1);
-                        if (gameHasEnded) {
-                            break;
-                        }
                     }
                 }
 
@@ -102,25 +99,16 @@ public final class MonopolyJunior {
         if (owner == null) {
             if (!getForFree) {
                 transaction(currentPlayer, -property.getPrice());
-                if (gameHasEnded) {
-                    return;
-                }
             }
             property.setOwner(currentPlayer);
         } else {
             if (forceBuy) {
                 transaction(currentPlayer, -property.getPrice());
-                if (gameHasEnded) {
-                    return;
-                }
                 property.setOwner(currentPlayer);
                 transaction(owner, property.getPrice());
             } else {
                 int rent = (owner == property.getSameColor().getOwner() ? 2 : 1);
                 transaction(currentPlayer, -property.getPrice() * rent);
-                if (gameHasEnded) {
-                    return;
-                }
                 transaction(owner, property.getPrice() * rent);
             }
         }
