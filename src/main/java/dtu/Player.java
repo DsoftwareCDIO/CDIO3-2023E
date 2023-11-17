@@ -13,6 +13,7 @@ public class Player {
     public Player(String name, int startCapital){
         piece = new Piece();
         account = new Account(startCapital);
+        UIController.updateMoneyInAccount(startCapital, this);
 
         this.name = name;
     }

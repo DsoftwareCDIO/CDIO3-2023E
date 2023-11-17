@@ -19,7 +19,6 @@ public class Account {
             this.money += money;
             return true;
         }
-        this.money = 0;
         return false;
     }
 }

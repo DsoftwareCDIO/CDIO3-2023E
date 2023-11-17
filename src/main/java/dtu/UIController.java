@@ -57,6 +57,9 @@ public class UIController {
         if (CLI) {
             CLIUI.updateMoneyInAccount(Math.abs(money), player.account.getMoney(), player.getName(), money >= 0);
         }
+        else {
+            JFrameUI.updateMoneyInAccount(player.account.getMoney(), player.getName(), money >= 0);
+        }
     }
 
     public static void showNetWorth(Player player) {
