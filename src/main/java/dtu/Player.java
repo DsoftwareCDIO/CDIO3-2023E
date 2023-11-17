@@ -51,8 +51,9 @@ public class Player {
         if (uniqueCard) { 
             uniqueCard = false;
             UIController.updateUniqueCards(false, this);
+            return true;
         }
-        return uniqueCard;
+        return false;
     }
     
 }

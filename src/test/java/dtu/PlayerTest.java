@@ -50,4 +50,13 @@ class PlayerTest {
         assertTrue(p.getOutOfJail());
         assertFalse(p.inJail);
     }
+
+    @Test
+    void testUniqueCard() {
+        Player p = new Player("Test", 0);
+        assertFalse(p.useUniqueCardIfPossible());
+        p.recieveUniqueCard();
+        assertTrue(p.useUniqueCardIfPossible());
+        assertFalse(p.useUniqueCardIfPossible());
+    }
 }
