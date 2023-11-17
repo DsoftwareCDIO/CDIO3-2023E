@@ -10,8 +10,12 @@ public class UIController {
     }
 
     public static void drawBoard(Player[] players) {
+        String[] playerNames = new String[players.length];
+        for (int i = 0; i < players.length; i++) {
+            playerNames[i] = players[i].getName();
+        }
         if (CLI) {
-            CLIUI.drawBoard();
+            CLIUI.drawBoard(playerNames);
         }
     }
 

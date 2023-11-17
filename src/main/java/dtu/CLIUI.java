@@ -1,7 +1,5 @@
 package dtu;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class CLIUI {
@@ -17,7 +15,7 @@ public class CLIUI {
         return new String[]{"Cat", "Dog", "Ship", "Car"};
     }
 
-    public static void drawBoard() {
+    public static void drawBoard(String[] playerNames) {
         System.out.println("Welcome to the game, Monopoly Junior!");
     }
 
@@ -30,6 +28,7 @@ public class CLIUI {
     }
 
     public static void endGamePodium(String[] players, String loser) {
+        System.out.println(loser + ", you can't pay and have lost the game, all players money will be tallied now");
         for (int i = 1; i <= players.length; i++) {
             System.out.println(i + ". " + players[players.length-i]);
         }
