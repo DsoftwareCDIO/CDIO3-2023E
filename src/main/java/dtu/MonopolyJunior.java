@@ -18,11 +18,12 @@ public final class MonopolyJunior {
 
     private static void play(String[] playerNames){
         UIController.drawBoard(players);
+        int startcapital = 24 - (2*playerNames.length);
 
         //Recieves a list of player names and creats a new of players with the names
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
-            players[i] = new Player(playerNames[i], 10);
+            players[i] = new Player(playerNames[i], startcapital);
         }
 
         //Creates board with chosen amount of players (2/4)
