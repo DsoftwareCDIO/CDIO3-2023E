@@ -22,6 +22,8 @@ public class UIController {
     public static void movePlayer(int position, Player player) {
         if (CLI) {
             CLIUI.movePlayer(position, player.getName());
+        } else {
+            JFrameUI.movePlayer(position, player.getName());
         }
     }
 

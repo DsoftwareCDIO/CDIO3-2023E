@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,6 +23,7 @@ import java.awt.LayoutManager;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -29,8 +31,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 class bgImage extends JPanel{
     Image img;
-    public bgImage(LayoutManager lm) {
-        super(lm);
+    public bgImage() {
         img = Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Board.png");
     }
     public void paintComponent(Graphics g) {      
@@ -65,31 +66,51 @@ class plImage extends JPanel{
         g.drawImage(images.get(playerName), 0, 0, getWidth(), getHeight(), this);
     } 
 }
-class pl extends JLabel{
-    Image img;
-    protected int scale;
-    public pl() {
+
+class pl extends JPanel {
+    protected int scale, x, y; 
+    public pl(int scale, int xOffset, int yOffset) {
+        this.scale = scale;
+        x = xOffset;
+        y = yOffset;
     }
-    public void paintComponent(Graphics g) {      
-        super.paintComponent(g);  
-        g.drawOval(0, 0, getWidth(), getHeight());
-    } 
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        drawCircle(g, x, y, scale/50);
+    }
+    public void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
+        cg.fillOval(xCenter, yCenter, 2*r, 2*r);
+    }
 }
 
 
 public class JFrameUI {
-    private static pl[] players;
+    private static HashMap<String, Color> playerColors = new HashMap<>();
+    private static HashMap<String, pl> players = new HashMap<>();
     private static HashMap<String, JLabel> playerMoney = new HashMap<>();
 
     // Temp main method to test JFrame
     public static void main(String[] args){
         testDraw(new String[]{"Cat", "Car", "Dog", "Ship"});
-        //drawBoard();
-        
+        /* for (int i = 0; i <= 24; i++) {
+            try {
+                Thread.sleep(500);
+                movePlayer(i, "Cat");
+                movePlayer(i, "Car");
+                movePlayer(i, "Dog");
+                movePlayer(i, "Ship");
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        } */
     }
 
     public static void testDraw(String[] playerNames) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        playerColors.put("Cat", Color.RED);
+        playerColors.put("Car", Color.GREEN);
+        playerColors.put("Dog", Color.BLACK);
+        playerColors.put("Ship", Color.BLUE);
 
         JFrame frame = new JFrame();
         // Set to full screen constantly
@@ -115,7 +136,7 @@ public class JFrameUI {
         right.setBackground(backGroundColor);
         left.setBackground(backGroundColor);
         
-        JPanel backImage = new bgImage(new GridBagLayout());
+        JPanel backImage = new bgImage();
         backImage.setPreferredSize(new Dimension(scale, scale));
         
         int playerWidth = 180;
@@ -155,62 +176,25 @@ public class JFrameUI {
             playerMoney.put(playerNames[i], moneyText);
         }
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 7;
-        c.gridy = 7;
-        c.gridheight = 100;
-        c.gridwidth = 100;
-        for (int i = 0; i < 49; i++) {
-            JLabel gridElement = new JLabel("Test");
-            gridElement.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-            backImage.add(gridElement, c);
+
+        int[] xOffsets = new int[]{0, scale/25, 0, scale/25};
+        int[] yOffsets = new int[]{0, 0, scale/25, scale/25};
+        
+        backImage.setLayout(null);
+        for (int i = 0; i < playerNames.length; i++) {
+            pl player = new pl(scale, xOffsets[i], yOffsets[i]);
+            player.setLocation(60, 60);
+            player.setSize(new Dimension(100, 100));
+            player.setBackground(new Color(255, 255, 255, 0));
+            player.setForeground(playerColors.get(playerNames[i]));
+            players.put(playerNames[i], player);
+            backImage.add(player);
         }
-        /* for (JPanel panel : new JPanel[]{leftPlayerPanel, rightPlayerPanel}) {
-            JPanel top = new JPanel(new FlowLayout());
-            JPanel topImage = new plImage();
-            top.setPreferredSize(new Dimension(playerWidth, playerWidth));
-            topImage.setPreferredSize(new Dimension(playerWidth, playerWidth));
-            top.add(topImage);
-            panel.add(top, BorderLayout.NORTH);
-
-            JPanel bottom = new JPanel(new FlowLayout());
-            JPanel bottomImage = new plImage();
-            bottom.setPreferredSize(new Dimension(playerWidth, playerWidth));
-            bottomImage.setPreferredSize(new Dimension(playerWidth, playerWidth));
-            bottom.add(bottomImage);
-            panel.add(bottom, BorderLayout.SOUTH);
-        } */
-
+        
         left.add(leftPlayerPanel, BorderLayout.WEST);
         right.add(rightPlayerPanel, BorderLayout.EAST);
 
 
-        // Create exit button
-        /* JButton button = new JButton("X");
-        button.setBackground(Color.RED);
-        button.setForeground(Color.WHITE);
-        button.setSize(50, 50);
-        button.addActionListener(e -> {
-            frame.dispose();
-        });
-        right.add(button, BorderLayout.EAST);
-        
-        
-        // Put exit button i ntop right corner
-        JPanel exitBtn = new JPanel();
-        exitBtn.setBackground(Color.BLACK);
-        exitBtn.add(button, FlowLayout.RIGHT);
-        frame.add(exitBtn, FlowLayout.LEADING); */
-
-        /*
-        players = new pl[playerNames.length];
-        for (int player = 0; player < playerNames.length; player++) {
-            pl p = new pl();
-            p.setForeground(Color.RED);
-            p.setSize(100,100);               
-            c.anchor = GridBagConstraints.EAST;
-            frame.add(p, c);
-        } */
         // Show frame
         back.add(backImage, BorderLayout.CENTER);
         frame.add(left, BorderLayout.WEST);
@@ -231,6 +215,29 @@ public class JFrameUI {
             // TODO: handle exception
         }
         
+    }
+
+    public static void movePlayer(int position, String player) {
+        int x, y;
+        int startOffset = 60;
+        int fieldSize = 135;
+        if (position <= 5) {
+            x = position*fieldSize+60;
+            y = startOffset;
+        }
+        else if (position > 5 && position <= 12) {
+            x = 6*fieldSize+startOffset;
+            y = (position-6)*fieldSize+startOffset;
+        }
+        else if (position > 12 && position <= 18) {
+            x = (18-position)*fieldSize+startOffset;
+            y = 6*fieldSize+startOffset;
+        }
+        else {
+            x = startOffset;
+            y = (24-position)*fieldSize+startOffset;
+        }
+        players.get(player).setLocation(x, y);
     }
 
     public static JFrame drawBoard(String[] playerNames) {
@@ -260,7 +267,4 @@ public class JFrameUI {
         return container;
     }
 
-    public static void movePlayer(int position, Player player) {
-
-    }
 }
