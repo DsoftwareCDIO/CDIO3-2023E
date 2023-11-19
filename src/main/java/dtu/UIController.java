@@ -79,12 +79,16 @@ public class UIController {
     public static void updateGetOutOfJailCards(int cardsTotal, boolean gained, Player player) {
         if (CLI) {
             CLIUI.updateGetOutOfJailCards(cardsTotal, gained, player.getName());
+        } else {
+            JFrameUI.updateGetOutOfJailCards(cardsTotal, player.getName());
         }
     }
 
     public static void updateUniqueCards(boolean gained, Player player) {
         if (CLI) {
             CLIUI.updateUniqueCards(gained, player.getName());
+        } else {
+            JFrameUI.updateUniqueCards(gained, player.getName());
         }
     }
 

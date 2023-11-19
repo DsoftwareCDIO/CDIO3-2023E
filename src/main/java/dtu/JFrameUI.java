@@ -1,32 +1,16 @@
 package dtu;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-import javax.swing.GroupLayout.Alignment;
-
-import javafx.scene.text.Font;
-import javafx.stage.PopupWindow.AnchorLocation;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.LayoutManager;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 class bgImage extends JPanel{
@@ -47,6 +31,23 @@ class moneyImage extends JPanel{
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    } 
+}
+
+class chanceCardImage extends JPanel{
+    HashMap<Integer, Image> images;
+    int cardId;
+    public chanceCardImage(int cardId) {
+        this.cardId = cardId;
+        images = new HashMap<>();
+        images.put(0, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
+        images.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+    }
+    public void paintComponent(Graphics g) {      
+        super.paintComponent(g);  
+        g.drawImage(images.get(cardId), 0, 0, getWidth(), getHeight(), this);
     } 
 }
 
@@ -93,27 +94,21 @@ public class JFrameUI {
     private static HashMap<String, Color> playerColors = new HashMap<>();
     private static HashMap<String, pl> players = new HashMap<>();
     private static HashMap<String, JLabel> playerMoney = new HashMap<>();
+    private static HashMap<String, JLabel> playerGetOutOfJailCards = new HashMap<>();
+    private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
     private static HashMap<Integer, plImage> propertyTags = new HashMap<>();
 
     // Temp main method to test JFrame
     public static void main(String[] args){
         testDraw(new String[]{"Cat", "Car", "Dog", "Ship"});
-        updateFieldOwnership(1, "Dog");
-        updateFieldOwnership(8, "Dog");
-        updateFieldOwnership(23, "Ship");
-        updateFieldOwnership(20, "Cat");
-        updateFieldOwnership(13, "Car");
-        /* for (int i = 0; i <= 24; i++) {
-            try {
-                Thread.sleep(500);
-                movePlayer(i, "Cat");
-                movePlayer(i, "Car");
-                movePlayer(i, "Dog");
-                movePlayer(i, "Ship");
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        } */
+        updateGetOutOfJailCards(1, "Cat");
+        updateGetOutOfJailCards(2, "Car");
+        updateGetOutOfJailCards(5, "Dog");
+        updateGetOutOfJailCards(0, "Car");
+        updateUniqueCards(true, "Car");
+        updateUniqueCards(true, "Cat");
+        updateUniqueCards(true, "Ship");
+        updateUniqueCards(false, "Cat");
     }
 
     public static void testDraw(String[] playerNames) {
@@ -161,11 +156,17 @@ public class JFrameUI {
 
         for (int i = 0; i < playerNames.length; i++) {
             JPanel panel = i % 2 == 0 ? leftPlayerPanel : rightPlayerPanel;
-            JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 15));
+            JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 5));
             JPanel img = new plImage(playerNames[i]);
             JPanel moneyImg = new moneyImage();
             JLabel moneyText = new JLabel("0");
-            newPanel.setPreferredSize(new Dimension(playerWidth, (int)(playerWidth*1.7)));
+            JPanel jailCardImg = new chanceCardImage(0);
+            JLabel jailCardText = new JLabel("0");
+            JPanel jailPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 0));
+            JPanel uniqueCardImg = new chanceCardImage(1);
+            JLabel uniqueCardText = new JLabel("0");
+            JPanel uniquePanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 0));
+            newPanel.setPreferredSize(new Dimension(playerWidth, (int)(playerWidth*2.3)));
             newPanel.setBackground(backGroundColor);
             img.setBackground(backGroundColor);
             img.setPreferredSize(new Dimension(playerWidth, playerWidth));
@@ -173,7 +174,25 @@ public class JFrameUI {
             moneyImg.setBackground(backGroundColor);
             moneyText.setForeground(Color.WHITE);
             moneyText.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 80));
+            jailCardImg.setPreferredSize(new Dimension(playerWidth/2, playerWidth/4));
+            jailCardImg.setBackground(backGroundColor);
+            jailCardText.setForeground(Color.WHITE);
+            jailCardText.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60));
+            jailPanel.setPreferredSize(new Dimension(playerWidth, playerWidth/3));
+            jailPanel.setBackground(backGroundColor);
+            jailPanel.add(jailCardText);
+            jailPanel.add(jailCardImg);
+            uniqueCardImg.setPreferredSize(new Dimension(playerWidth/2, playerWidth/4));
+            uniqueCardImg.setBackground(backGroundColor);
+            uniqueCardText.setForeground(Color.WHITE);
+            uniqueCardText.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60));
+            uniquePanel.setPreferredSize(new Dimension(playerWidth, playerWidth/3));
+            uniquePanel.setBackground(backGroundColor);
+            uniquePanel.add(uniqueCardText);
+            uniquePanel.add(uniqueCardImg);
             if (i > 1) {
+                newPanel.add(uniquePanel);
+                newPanel.add(jailPanel);
                 newPanel.add(moneyText);
                 newPanel.add(moneyImg);
                 newPanel.add(img);
@@ -181,10 +200,14 @@ public class JFrameUI {
                 newPanel.add(img);
                 newPanel.add(moneyText);
                 newPanel.add(moneyImg);
+                newPanel.add(jailPanel);
+                newPanel.add(uniquePanel);
             }
             panel.add(newPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
 
             playerMoney.put(playerNames[i], moneyText);
+            playerGetOutOfJailCards.put(playerNames[i], jailCardText);
+            playerUniqueCards.put(playerNames[i], uniqueCardText);
         }
 
 
@@ -251,7 +274,14 @@ public class JFrameUI {
         } catch (Exception e) {
             // TODO: handle exception
         }
-        
+    }
+
+    public static void updateGetOutOfJailCards(int cards, String player) {
+        playerGetOutOfJailCards.get(player).setText("" + cards);
+    }
+
+    public static void updateUniqueCards(boolean gained, String player) {
+        playerUniqueCards.get(player).setText(gained ? "1" : "0");
     }
 
     public static void movePlayer(int position, String player) {
