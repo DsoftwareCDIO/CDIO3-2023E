@@ -2,9 +2,13 @@ package dtu;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import javafx.event.ActionEvent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,6 +17,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 class bgImage extends JPanel{
     Image img;
     public bgImage() {
@@ -97,18 +102,15 @@ public class JFrameUI {
     private static HashMap<String, JLabel> playerGetOutOfJailCards = new HashMap<>();
     private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
     private static HashMap<Integer, plImage> propertyTags = new HashMap<>();
+    private static HashMap<String, JButton> rollBtns = new HashMap<>();
 
     // Temp main method to test JFrame
     public static void main(String[] args){
         testDraw(new String[]{"Cat", "Car", "Dog", "Ship"});
-        updateGetOutOfJailCards(1, "Cat");
-        updateGetOutOfJailCards(2, "Car");
-        updateGetOutOfJailCards(5, "Dog");
-        updateGetOutOfJailCards(0, "Car");
-        updateUniqueCards(true, "Car");
-        updateUniqueCards(true, "Cat");
-        updateUniqueCards(true, "Ship");
-        updateUniqueCards(false, "Cat");
+        waitForRoll("Cat");
+        waitForRoll("Dog");
+        waitForRoll("Ship");
+        waitForRoll("Car");
     }
 
     public static void testDraw(String[] playerNames) {
@@ -154,6 +156,14 @@ public class JFrameUI {
         rightPlayerPanel.setPreferredSize(new Dimension(playerWidth, scale));
         rightPlayerPanel.setBackground(backGroundColor);
 
+        JPanel rightRollField = new JPanel(new BorderLayout());
+        rightRollField.setPreferredSize(new Dimension((int)(playerWidth*1.5), scale));
+        rightRollField.setBackground(backGroundColor);
+
+        JPanel leftRollField = new JPanel(new BorderLayout());
+        leftRollField.setPreferredSize(new Dimension((int)(playerWidth*1.5), scale));
+        leftRollField.setBackground(backGroundColor);
+
         for (int i = 0; i < playerNames.length; i++) {
             JPanel panel = i % 2 == 0 ? leftPlayerPanel : rightPlayerPanel;
             JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 5));
@@ -166,7 +176,7 @@ public class JFrameUI {
             JPanel uniqueCardImg = new chanceCardImage(1);
             JLabel uniqueCardText = new JLabel("0");
             JPanel uniquePanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 0));
-            newPanel.setPreferredSize(new Dimension(playerWidth, (int)(playerWidth*2.3)));
+            newPanel.setPreferredSize(new Dimension(100, (int)(playerWidth*2.3)));
             newPanel.setBackground(backGroundColor);
             img.setBackground(backGroundColor);
             img.setPreferredSize(new Dimension(playerWidth, playerWidth));
@@ -203,8 +213,20 @@ public class JFrameUI {
                 newPanel.add(jailPanel);
                 newPanel.add(uniquePanel);
             }
+            JPanel rollField = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+            rollField.setPreferredSize(new Dimension(1, (int)(playerWidth/1.5)));
+            rollField.setBackground(backGroundColor);
+            JButton roll = new JButton("Roll");
+            roll.setBackground(Color.WHITE);
+            roll.setForeground(Color.RED);
+            roll.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60));
+            roll.setVisible(false);
+            rollField.add(roll);
+            
+            (i % 2 == 0 ? leftRollField : rightRollField).add(rollField, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
             panel.add(newPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
 
+            rollBtns.put(playerNames[i], roll);
             playerMoney.put(playerNames[i], moneyText);
             playerGetOutOfJailCards.put(playerNames[i], jailCardText);
             playerUniqueCards.put(playerNames[i], uniqueCardText);
@@ -253,6 +275,9 @@ public class JFrameUI {
 
         left.add(leftPlayerPanel, BorderLayout.WEST);
         right.add(rightPlayerPanel, BorderLayout.EAST);
+
+        left.add(leftRollField, BorderLayout.EAST);
+        right.add(rightRollField, BorderLayout.WEST);
 
 
         // Show frame
@@ -309,6 +334,25 @@ public class JFrameUI {
 
     public static void updateFieldOwnership(int position, String player) {
         propertyTags.get(position).setNewPlayerImg(player);
+    }
+
+    public static boolean pressed = false;
+    public static void waitForRoll(String player) {
+        JButton btn = rollBtns.get(player);
+        btn.setVisible(true);
+        pressed = false;
+        btn.addActionListener(e ->
+        {
+            pressed = true;
+        }); 
+        while (!pressed) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        btn.setVisible(false);
     }
 
     public static JFrame drawBoard(String[] playerNames) {

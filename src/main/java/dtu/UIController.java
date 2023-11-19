@@ -1,5 +1,7 @@
 package dtu;
 
+import javax.swing.JFrame;
+
 public class UIController {
     private static boolean CLI = true;
     public static String[] drawMenu() {
@@ -49,9 +51,11 @@ public class UIController {
         }
     }
 
-    public static void waitForRoll() {
+    public static void waitForRoll(Player player) {
         if (CLI) {
             CLIUI.waitForRoll();
+        } else {
+            JFrameUI.waitForRoll(player.getName());
         }
     }
 

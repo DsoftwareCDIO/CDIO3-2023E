@@ -51,7 +51,7 @@ public final class MonopolyJunior {
                     movement = movement < 0 ? movement + 24 : movement;
                     moveOnBoard(movement, true, false);
                 } else {
-                    UIController.waitForRoll();
+                    UIController.waitForRoll(currentPlayer);
                     moveOnBoard(die.roll(), false, false);
                 }
 
