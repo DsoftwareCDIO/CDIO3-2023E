@@ -49,11 +49,32 @@ class chanceCardImage extends JPanel{
         images.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
         images.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
         images.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(4, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(5, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(6, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(7, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(8, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(9, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(10, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(11, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(12, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(13, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(14, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(15, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(16, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(17, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        images.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
     }
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
         g.drawImage(images.get(cardId), 0, 0, getWidth(), getHeight(), this);
     } 
+    public void setNewCardImg(int cardId) {
+        this.cardId = cardId;
+        paintComponent(getGraphics());
+        this.setVisible(true);
+    }
 }
 
 class plImage extends JPanel{
@@ -103,14 +124,16 @@ public class JFrameUI {
     private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
     private static HashMap<Integer, plImage> propertyTags = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
+    private static chanceCardImage drawnCard;
 
     // Temp main method to test JFrame
     public static void main(String[] args){
         testDraw(new String[]{"Cat", "Car", "Dog", "Ship"});
         waitForRoll("Cat");
-        waitForRoll("Dog");
+        movePlayer(3, "Cat");
+        showChanceCard(0);
         waitForRoll("Ship");
-        waitForRoll("Car");
+
     }
 
     public static void testDraw(String[] playerNames) {
@@ -237,6 +260,13 @@ public class JFrameUI {
         int[] yOffsets = new int[]{0, 0, scale/25, scale/25};
         
         backImage.setLayout(null);
+        chanceCardImage chanceCard = new chanceCardImage(0);
+        chanceCard.setLocation(scale/4,scale/3);
+        chanceCard.setSize(new Dimension(scale/2,scale/4));
+        chanceCard.setVisible(false);
+        backImage.add(chanceCard);
+        drawnCard = chanceCard;
+
         for (int i = 0; i < playerNames.length; i++) {
             pl player = new pl(scale, xOffsets[i], yOffsets[i]);
             player.setLocation(60, 60);
@@ -272,6 +302,8 @@ public class JFrameUI {
                 backImage.add(propertyTag);
             }
         }
+        
+        
 
         left.add(leftPlayerPanel, BorderLayout.WEST);
         right.add(rightPlayerPanel, BorderLayout.EAST);
@@ -353,6 +385,16 @@ public class JFrameUI {
             }
         }
         btn.setVisible(false);
+    }
+
+    public static void showChanceCard(int cardId) {
+        drawnCard.setNewCardImg(cardId);
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        drawnCard.setVisible(false);
     }
 
     public static JFrame drawBoard(String[] playerNames) {

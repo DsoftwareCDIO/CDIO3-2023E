@@ -77,6 +77,8 @@ public class UIController {
     public static void showChanceCard(ChanceCard card) {
         if (CLI) {
             CLIUI.showChanceCard("" + card.id); // Temporary
+        } else {
+            JFrameUI.showChanceCard(card.id);
         }
     }
 
