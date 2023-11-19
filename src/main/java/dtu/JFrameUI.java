@@ -65,6 +65,11 @@ class plImage extends JPanel{
         super.paintComponent(g);  
         g.drawImage(images.get(playerName), 0, 0, getWidth(), getHeight(), this);
     } 
+    public void setNewPlayerImg(String player) {
+        playerName = player;
+        paintComponent(getGraphics());
+        this.setVisible(true);
+    }
 }
 
 class pl extends JPanel {
@@ -88,10 +93,16 @@ public class JFrameUI {
     private static HashMap<String, Color> playerColors = new HashMap<>();
     private static HashMap<String, pl> players = new HashMap<>();
     private static HashMap<String, JLabel> playerMoney = new HashMap<>();
+    private static HashMap<Integer, plImage> propertyTags = new HashMap<>();
 
     // Temp main method to test JFrame
     public static void main(String[] args){
         testDraw(new String[]{"Cat", "Car", "Dog", "Ship"});
+        updateFieldOwnership(1, "Dog");
+        updateFieldOwnership(8, "Dog");
+        updateFieldOwnership(23, "Ship");
+        updateFieldOwnership(20, "Cat");
+        updateFieldOwnership(13, "Car");
         /* for (int i = 0; i <= 24; i++) {
             try {
                 Thread.sleep(500);
@@ -184,13 +195,39 @@ public class JFrameUI {
         for (int i = 0; i < playerNames.length; i++) {
             pl player = new pl(scale, xOffsets[i], yOffsets[i]);
             player.setLocation(60, 60);
-            player.setSize(new Dimension(100, 100));
+            player.setSize(new Dimension(scale/10, scale/10));
             player.setBackground(new Color(255, 255, 255, 0));
             player.setForeground(playerColors.get(playerNames[i]));
             players.put(playerNames[i], player);
             backImage.add(player);
         }
-        
+        for (int i = 0; i < 8; i++) {
+            for (int j = 1; j <= 2; j++) {
+                plImage propertyTag = new plImage("Cat");
+                propertyTag.setSize(new Dimension(scale/18, scale/18));
+                propertyTag.setBackground(new Color(255, 255, 255, 1));
+                propertyTags.put(i*3+j, propertyTag);
+                switch ((int)Math.floor(i/2)) {
+                    case 0:
+                        propertyTag.setLocation(220+(int)(scale/7.6)*(3*i+j-1), 140);
+                        break;
+                    case 1:
+                        propertyTag.setLocation(150+(int)(scale/7.6*5), 220+(int)(scale/7.6)*(i*3+j-7));
+                        break;
+                    case 2:
+                        propertyTag.setLocation(220+(int)(scale/7.6)*(17-i*3-j), 140+(int)(scale/7.6)*5);
+                        break;
+                    case 3:
+                        propertyTag.setLocation(150, 220+(int)(scale/7.6)*(23-3*i-j));
+                        break;
+                    default:
+                        break;
+                }
+                propertyTag.setVisible(false);
+                backImage.add(propertyTag);
+            }
+        }
+
         left.add(leftPlayerPanel, BorderLayout.WEST);
         right.add(rightPlayerPanel, BorderLayout.EAST);
 
@@ -238,6 +275,10 @@ public class JFrameUI {
             y = (24-position)*fieldSize+startOffset;
         }
         players.get(player).setLocation(x, y);
+    }
+
+    public static void updateFieldOwnership(int position, String player) {
+        propertyTags.get(position).setNewPlayerImg(player);
     }
 
     public static JFrame drawBoard(String[] playerNames) {
