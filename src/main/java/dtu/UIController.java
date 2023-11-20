@@ -1,7 +1,5 @@
 package dtu;
 
-import javax.swing.JFrame;
-
 public class UIController {
     private static boolean CLI = false;
     public static String[] drawMenu() {
