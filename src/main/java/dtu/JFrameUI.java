@@ -112,8 +112,13 @@ class ChanceCardImage extends JPanel{
 class PlayerImage extends JPanel{
     HashMap<String, Image> images;
     String playerName;
-    public PlayerImage(String playerName) {
+    int xOffset, yOffset;
+    double scaleDivide;
+    public PlayerImage(String playerName, int xOffset, int yOffset, double scaleDivide) {
         this.playerName = playerName;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+        this.scaleDivide = scaleDivide;
         images = new HashMap<>();
         images.put("Cat", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\katcirkel.png"));
         images.put("Car", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\bilcirkel.png"));
@@ -123,40 +128,47 @@ class PlayerImage extends JPanel{
     @Override
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
-        g.drawImage(images.get(playerName), 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(images.get(playerName), xOffset, yOffset, (int)(getWidth()/scaleDivide), (int)(getHeight()/scaleDivide), this);
     } 
-    public void setNewPlayerImg(String player) {
-        playerName = player;
-        paintComponent(getGraphics());
-        this.setVisible(true);
-    }
 }
 
 class PlayerPiece extends JPanel {
-    protected int scale, xOffset, yOffset; 
-    public PlayerPiece(int scale, int xOffset, int yOffset) {
+    protected int scale; 
+    private static HashMap<String, Color> playerColors = new HashMap<>();
+    private String player;
+    public PlayerPiece(int scale, String player) {
         this.scale = scale;
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+        this.player = player;
+        playerColors.put("Cat", Color.RED);
+        playerColors.put("Car", Color.GREEN);
+        playerColors.put("Dog", Color.BLACK);
+        playerColors.put("Ship", Color.BLUE);
     }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCircle(g, xOffset, yOffset, scale/50);
+        drawCircle(g, 0, 0, scale/40);
     }
     public void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
+        this.setForeground(playerColors.get(player));
         cg.fillOval(xCenter, yCenter, 2*r, 2*r);
+        this.setBackground(new Color(0, 0, 0, 0));
+    }
+    public void setNewPlayer(String player) {
+        this.player = player;
+        paintComponent(getGraphics());
+        this.setVisible(true);
     }
 }
 
 
 public class JFrameUI {
     private static HashMap<String, Color> playerColors = new HashMap<>();
-    private static HashMap<String, PlayerPiece> players = new HashMap<>();
+    private static HashMap<String, PlayerImage> players = new HashMap<>();
     private static HashMap<String, JLabel> playerMoney = new HashMap<>();
     private static HashMap<String, JLabel> playerGetOutOfJailCards = new HashMap<>();
     private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
-    private static HashMap<Integer, PlayerImage> propertyTags = new HashMap<>();
+    private static HashMap<Integer, PlayerPiece> propertyTags = new HashMap<>();
     private static HashMap<Integer, ChoiceBtn> fieldChoices = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
     private static ChanceCardImage drawnCard;
@@ -232,7 +244,7 @@ public class JFrameUI {
         for (int i = 0; i < playerNames.length; i++) {
             JPanel panel = i % 2 == 0 ? leftPlayerPanel : rightPlayerPanel;
             JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 5));
-            JPanel img = new PlayerImage(playerNames[i]);
+            JPanel img = new PlayerImage(playerNames[i], 0, 0, 1);
             JPanel moneyImg = new MoneyImage();
             JLabel moneyText = new JLabel("0");
             JPanel jailCardImg = new ChanceCardImage(5);
@@ -314,15 +326,7 @@ public class JFrameUI {
         backImage.add(chanceCard);
         drawnCard = chanceCard;
 
-        for (int i = 0; i < playerNames.length; i++) {
-            PlayerPiece player = new PlayerPiece(scale, xOffsets[i], yOffsets[i]);
-            player.setLocation(60, 60);
-            player.setSize(new Dimension(scale/10, scale/10));
-            player.setBackground(new Color(255, 255, 255, 0));
-            player.setForeground(playerColors.get(playerNames[i]));
-            players.put(playerNames[i], player);
-            backImage.add(player);
-        }
+        
 
         int btnScale = scale/10;
         ImageIcon choiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
@@ -361,14 +365,21 @@ public class JFrameUI {
             backImage.add(btn);
         }
 
+        for (int i = 0; i < playerNames.length; i++) {
+            PlayerImage player = new PlayerImage(playerNames[i], xOffsets[i], yOffsets[i], 2.2);
+            player.setLocation(60, 60);
+            player.setSize(new Dimension(scale/10, scale/10));
+            player.setBackground(new Color(255, 255, 255, 0));
+            player.setForeground(playerColors.get(playerNames[i]));
+            players.put(playerNames[i], player);
+            backImage.add(player);
+        }
 
         for (int i = 0; i < 8; i++) {
             for (int j = 1; j <= 2; j++) {
-                
-
-                PlayerImage propertyTag = new PlayerImage("Cat");
+                PlayerPiece propertyTag = new PlayerPiece(scale, "Cat");
                 propertyTag.setSize(new Dimension(scale/18, scale/18));
-                propertyTag.setBackground(new Color(255, 255, 255, 1));
+                propertyTag.setBackground(new Color(255, 255, 255, 0));
                 propertyTags.put(i*3+j, propertyTag);
                 switch (i/2) {
                     case 0:
@@ -453,7 +464,7 @@ public class JFrameUI {
     }
 
     public static void updateFieldOwnership(int position, String player) {
-        propertyTags.get(position).setNewPlayerImg(player);
+        propertyTags.get(position).setNewPlayer(player);
     }
 
     
