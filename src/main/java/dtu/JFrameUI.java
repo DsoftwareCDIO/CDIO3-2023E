@@ -27,8 +27,7 @@ class BoardImage extends JPanel{
 }
 class MoneyImage extends JPanel{
     Image img;
-    public MoneyImage
-() {
+    public MoneyImage() {
         img = Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\monopolybuckswhite.png");
     }
     @Override
@@ -36,6 +35,14 @@ class MoneyImage extends JPanel{
         super.paintComponent(g);  
         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
     } 
+}
+
+class ChoiceBtn extends JButton{
+    protected int id;
+    public ChoiceBtn(ImageIcon img, int id) {
+        super(img);
+        this.id = id;
+    }
 }
 
 class ChanceCardImage extends JPanel{
@@ -125,16 +132,24 @@ public class JFrameUI {
     private static HashMap<String, JLabel> playerGetOutOfJailCards = new HashMap<>();
     private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
     private static HashMap<Integer, PlayerImage> propertyTags = new HashMap<>();
+    private static HashMap<Integer, ChoiceBtn> propertyChoices = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
     private static ChanceCardImage drawnCard;
+
+    public static boolean btnPressed = false;
+    public static int btnChoice = 0;
 
     // Temp main method to test JFrame
     public static void main(String[] args){
         testDraw(new String[]{"Cat", "Car", "Dog", "Ship"});
         waitForRoll("Cat");
-        movePlayer(3, "Cat");
-        showChanceCard(0);
+        movePlayer(2, "Cat");
         waitForRoll("Ship");
+        System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
+        System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
+        System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
+        System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
+        waitForRoll("Car");
 
     }
 
@@ -193,8 +208,7 @@ public class JFrameUI {
             JPanel panel = i % 2 == 0 ? leftPlayerPanel : rightPlayerPanel;
             JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 5));
             JPanel img = new PlayerImage(playerNames[i]);
-            JPanel moneyImg = new MoneyImage
-        ();
+            JPanel moneyImg = new MoneyImage();
             JLabel moneyText = new JLabel("0");
             JPanel jailCardImg = new ChanceCardImage(0);
             JLabel jailCardText = new JLabel("0");
@@ -211,11 +225,11 @@ public class JFrameUI {
             moneyText.setForeground(Color.WHITE);
             java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 80);
             moneyText.setFont(font);
-            font = font.deriveFont(60);
+            java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60);
             jailCardImg.setPreferredSize(new Dimension(playerWidth/2, playerWidth/4));
             jailCardImg.setBackground(backGroundColor);
             jailCardText.setForeground(Color.WHITE);
-            jailCardText.setFont(font);
+            jailCardText.setFont(smallFont);
             jailPanel.setPreferredSize(new Dimension(playerWidth, playerWidth/3));
             jailPanel.setBackground(backGroundColor);
             jailPanel.add(jailCardText);
@@ -223,7 +237,7 @@ public class JFrameUI {
             uniqueCardImg.setPreferredSize(new Dimension(playerWidth/2, playerWidth/4));
             uniqueCardImg.setBackground(backGroundColor);
             uniqueCardText.setForeground(Color.WHITE);
-            uniqueCardText.setFont(font);
+            uniqueCardText.setFont(smallFont);
             uniquePanel.setPreferredSize(new Dimension(playerWidth, playerWidth/3));
             uniquePanel.setBackground(backGroundColor);
             uniquePanel.add(uniqueCardText);
@@ -247,9 +261,13 @@ public class JFrameUI {
             JButton roll = new JButton("Roll");
             roll.setBackground(Color.WHITE);
             roll.setForeground(Color.RED);
-            roll.setFont(font);
+            roll.setFont(smallFont);
             roll.setVisible(false);
             rollField.add(roll);
+            roll.addActionListener(e ->
+            {
+                btnPressed = true;
+            }); 
             
             (i % 2 == 0 ? leftRollField : rightRollField).add(rollField, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
             panel.add(newPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
@@ -281,30 +299,51 @@ public class JFrameUI {
             players.put(playerNames[i], player);
             backImage.add(player);
         }
+
+        int btnScale = scale/10;
+        ImageIcon choiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
+        Image choiceImgTemp = choiceImg.getImage();
+        choiceImg = new ImageIcon(choiceImgTemp.getScaledInstance(btnScale, btnScale, Image.SCALE_DEFAULT));
         for (int i = 0; i < 8; i++) {
             for (int j = 1; j <= 2; j++) {
+                ChoiceBtn btn = new ChoiceBtn(choiceImg, i*3+j);
+                btn.setSize(new Dimension(btnScale, btnScale));
+                btn.setBackground(Color.WHITE);
+                btn.addActionListener(e ->
+                {
+                    btnChoice = ((ChoiceBtn)e.getSource()).id;
+                    btnPressed = true;
+                }); 
+                propertyChoices.put(i*3+j, btn);
+                btn.setVisible(false);
+
                 PlayerImage propertyTag = new PlayerImage("Cat");
                 propertyTag.setSize(new Dimension(scale/18, scale/18));
                 propertyTag.setBackground(new Color(255, 255, 255, 1));
                 propertyTags.put(i*3+j, propertyTag);
                 switch (i/2) {
                     case 0:
+                        btn.setLocation(200+(int)(scale/7.6)*(3*i+j-1), 40);
                         propertyTag.setLocation(220+(int)(scale/7.6)*(3*i+j-1), 140);
                         break;
                     case 1:
+                        btn.setLocation(220+(int)(scale/7.6*5), 180+(int)(scale/7.6)*(i*3+j-7));
                         propertyTag.setLocation(150+(int)(scale/7.6*5), 220+(int)(scale/7.6)*(i*3+j-7));
                         break;
                     case 2:
+                        btn.setLocation(200+(int)(scale/7.6)*(17-i*3-j), 200+(int)(scale/7.6)*5);
                         propertyTag.setLocation(220+(int)(scale/7.6)*(17-i*3-j), 140+(int)(scale/7.6)*5);
                         break;
                     case 3:
+                        btn.setLocation(50, 180+(int)(scale/7.6)*(23-3*i-j));
                         propertyTag.setLocation(150, 220+(int)(scale/7.6)*(23-3*i-j));
                         break;
                     default:
                         break;
                 }
-                propertyTag.setVisible(true);
+                propertyTag.setVisible(false);
                 backImage.add(propertyTag);
+                backImage.add(btn);
             }
         }
         
@@ -373,16 +412,13 @@ public class JFrameUI {
         propertyTags.get(position).setNewPlayerImg(player);
     }
 
-    public static boolean pressed = false;
+    
     public static void waitForRoll(String player) {
+        btnPressed = false;
         JButton btn = rollBtns.get(player);
         btn.setVisible(true);
-        pressed = false;
-        btn.addActionListener(e ->
-        {
-            pressed = true;
-        }); 
-        while (!pressed) {
+        
+        while (!btnPressed) {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
@@ -390,6 +426,26 @@ public class JFrameUI {
             }
         }
         btn.setVisible(false);
+    }
+    public static int chooseFieldOnBoard(int[] fields) {
+        btnPressed = false;
+        for (int field : fields) {
+            ChoiceBtn btn = propertyChoices.get(field);
+            btn.setVisible(true);
+        }
+        
+        while (!btnPressed) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        for (int field : fields) {
+            ChoiceBtn btn = propertyChoices.get(field);
+            btn.setVisible(false);
+        }
+        return btnChoice;
     }
 
     public static void showChanceCard(int cardId) {
