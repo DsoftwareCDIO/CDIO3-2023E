@@ -3,21 +3,26 @@ package dtu;
 import javax.swing.JFrame;
 
 public class UIController {
-    private static boolean CLI = true;
+    private static boolean CLI = false;
     public static String[] drawMenu() {
         if (CLI) {
             return CLIUI.drawMenu();
         }
-        return new String[]{};
+        return new String[]{"Cat", "Dog", "Ship"};
     }
 
-    public static void drawBoard(Player[] players) {
+    public static void drawBoard(Player[] players, int startCapital) {
         String[] playerNames = new String[players.length];
         for (int i = 0; i < players.length; i++) {
             playerNames[i] = players[i].getName();
         }
         if (CLI) {
             CLIUI.drawBoard(playerNames);
+        } else {
+            JFrameUI.drawBoard(playerNames);
+            for (Player player : players) {
+                UIController.updateMoneyInAccount(startCapital, player);
+            }
         }
     }
 
@@ -32,6 +37,8 @@ public class UIController {
     public static void updateFieldOwnership(int fieldId, Player player) {
         if (CLI) {
             CLIUI.updateFieldOwnership(fieldId, player.getName());
+        } else {
+            JFrameUI.updateFieldOwnership(fieldId, player.getName());
         }
     }
 
@@ -42,6 +49,8 @@ public class UIController {
         }
         if (CLI) {
             CLIUI.endGamePodium(playerNames, loser.getName());
+        } else {
+            System.out.println("SLUT");
         }
     }
 
@@ -99,7 +108,13 @@ public class UIController {
     }
 
     public static int chooseFieldOnBoard(int[] fields) {
-        return 0;
+        if (CLI) {
+            return 0;
+        } else {
+            System.out.println(fields.length);
+            System.out.println(fields[0]);
+            return JFrameUI.chooseFieldOnBoard(fields);
+        }
     }
     
     public static int chooseOption(String[] options){

@@ -1,5 +1,7 @@
 package dtu;
 
+import java.util.stream.IntStream;
+
 public class ChanceCard {
     protected final int id;
 
@@ -11,12 +13,14 @@ public class ChanceCard {
     public void activate() throws TransactionImpossibleException {
         // TODO: switch statement with effects
         int movement;
+        int pos;
         switch (id) {
             case 0:
                 // effect
                 // go 1-5 fields ahead
-                movement = 5; // UI input
-                MonopolyJunior.moveOnBoard(movement, false, false);
+                pos = MonopolyJunior.currentPlayer.piece.getPosition();
+                movement = UIController.chooseFieldOnBoard(IntStream.range(pos+1, pos+6).toArray());
+                movePlayerToTarget(movement, false);
                 break;
             case 1:
                 // effect
@@ -44,9 +48,9 @@ public class ChanceCard {
                 for (Player p : MonopolyJunior.players) {
                     if (p != MonopolyJunior.currentPlayer) {
                         MonopolyJunior.transaction(p, -1);
-                        MonopolyJunior.transaction(MonopolyJunior.currentPlayer, 1);
                     }
                 }
+                MonopolyJunior.transaction(MonopolyJunior.currentPlayer, MonopolyJunior.players.length-1);
                 break;
             case 5:
                 // effect
@@ -73,44 +77,51 @@ public class ChanceCard {
             case 9:
                 // effect
                 // go to an orange field
-                // get it for free if its available
-                movePlayerToTarget(1 /* Chhose with UI */, true);
+                // get it for free if its availablepos = MonopolyJunior.currentPlayer.piece.getPosition();
+                movement = UIController.chooseFieldOnBoard(new int[]{10, 11});
+                movePlayerToTarget(movement, true);
                 break;
             case 10:
                 // effect
                 // go to lightblue field
                 // get it for free if its available
-                movePlayerToTarget(2 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{4, 5});
+                movePlayerToTarget(movement, true);
                 break;
             case 11:
                 // effect
                 // go to a red feild
                 // you get it for free if its available
-                movePlayerToTarget(3 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{13, 14});
+                movePlayerToTarget(movement, true);
                 break;
             case 12:
                 // effect
                 // go to a light blue or red field
                 // get it for free if its available
-                movePlayerToTarget(4 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{4, 5, 13, 14});
+                movePlayerToTarget(movement, true);
                 break;
             case 13:
                 // effect
                 // go to a brown or yellow field
                 // get it for free if its available
-                movePlayerToTarget(4 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{1, 2, 16, 17});
+                movePlayerToTarget(movement, true);
                 break;
             case 14:
                 // effect
                 // go to orange or green
                 // get it for free if its available
-                movePlayerToTarget(5 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{10, 11, 19, 20});
+                movePlayerToTarget(movement, true);
                 break;
             case 15:
                 // effect
                 // go to a pink or dark blue field
                 // get it for free if its available
-                movePlayerToTarget(6 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{7, 8, 22, 23});
+                movePlayerToTarget(movement, true);
                 break;
             case 16:
                 // effect

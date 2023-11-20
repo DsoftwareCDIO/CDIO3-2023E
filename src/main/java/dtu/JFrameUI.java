@@ -72,6 +72,31 @@ class ChanceCardImage extends JPanel{
         images.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-DogUnique.png"));
         images.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CarUnique.png"));
     }
+
+    public ChanceCardImage(String playerName) {
+        images = new HashMap<>();
+        switch (playerName) {
+            case "Ship":
+                images.put(16, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
+                cardId = 16;
+                break;
+            case "Car":
+                images.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CarUnique.png"));
+                cardId = 19;
+                break;
+            case "Cat":
+                images.put(17, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CatUnique.png"));
+                cardId = 17;
+                break;
+            case "Dog":
+                images.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-DogUnique.png"));
+                cardId = 18;
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
@@ -132,7 +157,7 @@ public class JFrameUI {
     private static HashMap<String, JLabel> playerGetOutOfJailCards = new HashMap<>();
     private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
     private static HashMap<Integer, PlayerImage> propertyTags = new HashMap<>();
-    private static HashMap<Integer, ChoiceBtn> propertyChoices = new HashMap<>();
+    private static HashMap<Integer, ChoiceBtn> fieldChoices = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
     private static ChanceCardImage drawnCard;
 
@@ -141,7 +166,7 @@ public class JFrameUI {
 
     // Temp main method to test JFrame
     public static void main(String[] args){
-        testDraw(new String[]{"Cat", "Car", "Dog", "Ship"});
+        drawBoard(new String[]{"Cat", "Car", "Dog", "Ship"});
         waitForRoll("Cat");
         movePlayer(2, "Cat");
         waitForRoll("Ship");
@@ -153,7 +178,7 @@ public class JFrameUI {
 
     }
 
-    public static void testDraw(String[] playerNames) {
+    public static void drawBoard(String[] playerNames) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         playerColors.put("Cat", Color.RED);
         playerColors.put("Car", Color.GREEN);
@@ -210,10 +235,10 @@ public class JFrameUI {
             JPanel img = new PlayerImage(playerNames[i]);
             JPanel moneyImg = new MoneyImage();
             JLabel moneyText = new JLabel("0");
-            JPanel jailCardImg = new ChanceCardImage(0);
+            JPanel jailCardImg = new ChanceCardImage(5);
             JLabel jailCardText = new JLabel("0");
             JPanel jailPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 0));
-            JPanel uniqueCardImg = new ChanceCardImage(1);
+            JPanel uniqueCardImg = new ChanceCardImage(playerNames[i]);
             JLabel uniqueCardText = new JLabel("0");
             JPanel uniquePanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 0));
             newPanel.setPreferredSize(new Dimension(100, (int)(playerWidth*2.3)));
@@ -256,12 +281,11 @@ public class JFrameUI {
                 newPanel.add(uniquePanel);
             }
             JPanel rollField = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
-            rollField.setPreferredSize(new Dimension(1, (int)(playerWidth/1.5)));
             rollField.setBackground(backGroundColor);
-            JButton roll = new JButton("Roll");
-            roll.setBackground(Color.WHITE);
-            roll.setForeground(Color.RED);
-            roll.setFont(smallFont);
+            JButton roll = new JButton("Slå terning");
+            roll.setBackground(new Color(222, 203, 175));
+            roll.setForeground(Color.BLACK);
+            roll.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 30));
             roll.setVisible(false);
             rollField.add(roll);
             roll.addActionListener(e ->
@@ -304,18 +328,43 @@ public class JFrameUI {
         ImageIcon choiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
         Image choiceImgTemp = choiceImg.getImage();
         choiceImg = new ImageIcon(choiceImgTemp.getScaledInstance(btnScale, btnScale, Image.SCALE_DEFAULT));
+
+        for (int i = 0; i < 24; i++) {
+            ChoiceBtn btn = new ChoiceBtn(choiceImg, i);
+            btn.setSize(new Dimension(btnScale, btnScale));
+            btn.setBackground(Color.WHITE);
+            btn.addActionListener(e ->
+            {
+                btnChoice = ((ChoiceBtn)e.getSource()).id;
+                btnPressed = true;
+            }); 
+            fieldChoices.put(i, btn);
+            btn.setVisible(false);
+
+            switch (i/6) {
+                    case 0:
+                        btn.setLocation(200+(int)(scale/7.6)*(i-1), 40);
+                        break;
+                    case 1:
+                        btn.setLocation(220+(int)(scale/7.6*5), 180+(int)(scale/7.6)*(i-7));
+                        break;
+                    case 2:
+                        btn.setLocation(200+(int)(scale/7.6)*(17-i), 200+(int)(scale/7.6)*5);
+                        break;
+                    case 3:
+                        btn.setLocation(50, 180+(int)(scale/7.6)*(23-i));
+                        break;
+                    default:
+                        break;
+                }
+                
+            backImage.add(btn);
+        }
+
+
         for (int i = 0; i < 8; i++) {
             for (int j = 1; j <= 2; j++) {
-                ChoiceBtn btn = new ChoiceBtn(choiceImg, i*3+j);
-                btn.setSize(new Dimension(btnScale, btnScale));
-                btn.setBackground(Color.WHITE);
-                btn.addActionListener(e ->
-                {
-                    btnChoice = ((ChoiceBtn)e.getSource()).id;
-                    btnPressed = true;
-                }); 
-                propertyChoices.put(i*3+j, btn);
-                btn.setVisible(false);
+                
 
                 PlayerImage propertyTag = new PlayerImage("Cat");
                 propertyTag.setSize(new Dimension(scale/18, scale/18));
@@ -323,19 +372,15 @@ public class JFrameUI {
                 propertyTags.put(i*3+j, propertyTag);
                 switch (i/2) {
                     case 0:
-                        btn.setLocation(200+(int)(scale/7.6)*(3*i+j-1), 40);
                         propertyTag.setLocation(220+(int)(scale/7.6)*(3*i+j-1), 140);
                         break;
                     case 1:
-                        btn.setLocation(220+(int)(scale/7.6*5), 180+(int)(scale/7.6)*(i*3+j-7));
                         propertyTag.setLocation(150+(int)(scale/7.6*5), 220+(int)(scale/7.6)*(i*3+j-7));
                         break;
                     case 2:
-                        btn.setLocation(200+(int)(scale/7.6)*(17-i*3-j), 200+(int)(scale/7.6)*5);
                         propertyTag.setLocation(220+(int)(scale/7.6)*(17-i*3-j), 140+(int)(scale/7.6)*5);
                         break;
                     case 3:
-                        btn.setLocation(50, 180+(int)(scale/7.6)*(23-3*i-j));
                         propertyTag.setLocation(150, 220+(int)(scale/7.6)*(23-3*i-j));
                         break;
                     default:
@@ -343,7 +388,6 @@ public class JFrameUI {
                 }
                 propertyTag.setVisible(false);
                 backImage.add(propertyTag);
-                backImage.add(btn);
             }
         }
         
@@ -368,9 +412,9 @@ public class JFrameUI {
     public static void updateMoneyInAccount(int money, String player, boolean gained) {
         try {
             playerMoney.get(player).setForeground(gained ? Color.GREEN : Color.RED);
-            Thread.sleep(1000);
+            Thread.sleep(500);
             playerMoney.get(player).setText("" + money);
-            Thread.sleep(1000);
+            Thread.sleep(500);
             playerMoney.get(player).setForeground(Color.WHITE);
         } catch (Exception e) {
             // TODO: handle exception
@@ -430,7 +474,7 @@ public class JFrameUI {
     public static int chooseFieldOnBoard(int[] fields) {
         btnPressed = false;
         for (int field : fields) {
-            ChoiceBtn btn = propertyChoices.get(field);
+            ChoiceBtn btn = fieldChoices.get(field);
             btn.setVisible(true);
         }
         
@@ -442,7 +486,7 @@ public class JFrameUI {
             }
         }
         for (int field : fields) {
-            ChoiceBtn btn = propertyChoices.get(field);
+            ChoiceBtn btn = fieldChoices.get(field);
             btn.setVisible(false);
         }
         return btnChoice;
@@ -451,40 +495,12 @@ public class JFrameUI {
     public static void showChanceCard(int cardId) {
         drawnCard.setNewCardImg(cardId);
         try {
-            Thread.sleep(5000);
+            Thread.sleep(cardId > 15 ? 5000 : 3000);
         } catch (Exception e) {
             // TODO: handle exception
         }
         drawnCard.setVisible(false);
     }
 
-    public static JFrame drawBoard(String[] playerNames) {
-        //Create objects
-        JFrame container = new JFrame();
-        JLabel boardLabel = new JLabel();
-        ImageIcon BoardImage
-     = new ImageIcon("src\\pictures\\Board.png");
-        ImageIcon containerIcon = new ImageIcon("src\\pictures\\Icon.png");
-
-        //Set container behavior
-        container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        container.setLayout(null);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        container.setSize(screenSize.width, screenSize.height);
-        container.setVisible(true);
-        container.setResizable(true);
-        container.setTitle("Monopoly Junior");
-        container.setIconImage(containerIcon.getImage());
-        boardLabel.setIcon(BoardImage
-    );
-        boardLabel.setBounds(0, 0, container.getWidth(), container.getHeight());
-        container.add(boardLabel);
-        /*container.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e){
-                
-            }
-        });*/
-        return container;
-    }
 
 }

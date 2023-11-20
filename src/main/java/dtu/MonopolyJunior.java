@@ -17,7 +17,6 @@ public final class MonopolyJunior {
     }
 
     private static void play(String[] playerNames){
-        UIController.drawBoard(players);
         int startcapital = 24 - (2*playerNames.length);
 
         //Recieves a list of player names and creats a new of players with the names
@@ -25,6 +24,7 @@ public final class MonopolyJunior {
         for (int i = 0; i < playerNames.length; i++) {
             players[i] = new Player(playerNames[i], startcapital);
         }
+        UIController.drawBoard(players, startcapital);
 
         //Creates board with chosen amount of players (2/4)
         board = new Board(players);
@@ -33,7 +33,7 @@ public final class MonopolyJunior {
         int turn = 0;
         try {
             while (true) {
-                currentPlayer = players[turn%4];
+                currentPlayer = players[turn%players.length];
               
                 //Checks if a player is in jail, if player is in jail eihter remove 1 money or use a goojfc
                 if (currentPlayer.inJail) {

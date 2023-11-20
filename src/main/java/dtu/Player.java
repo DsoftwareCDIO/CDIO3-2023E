@@ -13,8 +13,6 @@ public class Player {
     public Player(String name, int startCapital){
         piece = new Piece();
         account = new Account(startCapital);
-        UIController.updateMoneyInAccount(startCapital, this);
-
         this.name = name;
     }
 
@@ -30,6 +28,7 @@ public class Player {
     public void goToJail(){
         inJail = true;
         piece.setPosition(6);
+        UIController.movePlayer(6, this);
     }
 
     //Method to check if a player has a get out of jail card, removed upon landing in jail
