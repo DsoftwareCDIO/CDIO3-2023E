@@ -132,11 +132,11 @@ class PlayerImage extends JPanel{
     } 
 }
 
-class PlayerPiece extends JPanel {
+class PropertyTag extends JPanel {
     protected int scale; 
     private static HashMap<String, Color> playerColors = new HashMap<>();
     private String player;
-    public PlayerPiece(int scale, String player) {
+    public PropertyTag(int scale, String player) {
         this.scale = scale;
         this.player = player;
         playerColors.put("Cat", Color.RED);
@@ -168,7 +168,7 @@ public class JFrameUI {
     private static HashMap<String, JLabel> playerMoney = new HashMap<>();
     private static HashMap<String, JLabel> playerGetOutOfJailCards = new HashMap<>();
     private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
-    private static HashMap<Integer, PlayerPiece> propertyTags = new HashMap<>();
+    private static HashMap<Integer, PropertyTag> propertyTags = new HashMap<>();
     private static HashMap<Integer, ChoiceBtn> fieldChoices = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
     private static ChanceCardImage drawnCard;
@@ -179,14 +179,25 @@ public class JFrameUI {
     // Temp main method to test JFrame
     public static void main(String[] args){
         drawBoard(new String[]{"Cat", "Car", "Dog", "Ship"});
-        waitForRoll("Cat");
+        for (int i = 0; i < 24; i++) {
+            movePlayer(i, "Cat");
+            movePlayer(i, "Car");
+            movePlayer(i, "Dog");
+            movePlayer(i, "Ship");
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        /* waitForRoll("Cat");
         movePlayer(2, "Cat");
         waitForRoll("Ship");
         System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
         System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
         System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
         System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
-        waitForRoll("Car");
+        waitForRoll("Car"); */
 
     }
 
@@ -313,10 +324,6 @@ public class JFrameUI {
             playerGetOutOfJailCards.put(playerNames[i], jailCardText);
             playerUniqueCards.put(playerNames[i], uniqueCardText);
         }
-
-
-        int[] xOffsets = new int[]{0, scale/25, 0, scale/25};
-        int[] yOffsets = new int[]{0, 0, scale/25, scale/25};
         
         backImage.setLayout(null);
         ChanceCardImage chanceCard = new ChanceCardImage(0);
@@ -325,8 +332,6 @@ public class JFrameUI {
         chanceCard.setVisible(false);
         backImage.add(chanceCard);
         drawnCard = chanceCard;
-
-        
 
         int btnScale = scale/10;
         ImageIcon choiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
@@ -364,11 +369,13 @@ public class JFrameUI {
                 
             backImage.add(btn);
         }
-
+        
+        int[] xOffsets = new int[]{0, scale/20, 0, scale/20};
+        int[] yOffsets = new int[]{0, 0, scale/20, scale/20};
         for (int i = 0; i < playerNames.length; i++) {
-            PlayerImage player = new PlayerImage(playerNames[i], xOffsets[i], yOffsets[i], 2.2);
-            player.setLocation(60, 60);
+            PlayerImage player = new PlayerImage(playerNames[i], xOffsets[i], yOffsets[i], 1.9);
             player.setSize(new Dimension(scale/10, scale/10));
+            player.setLocation(50, 50);
             player.setBackground(new Color(255, 255, 255, 0));
             player.setForeground(playerColors.get(playerNames[i]));
             players.put(playerNames[i], player);
@@ -377,7 +384,7 @@ public class JFrameUI {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 1; j <= 2; j++) {
-                PlayerPiece propertyTag = new PlayerPiece(scale, "Cat");
+                PropertyTag propertyTag = new PropertyTag(scale, "Cat");
                 propertyTag.setSize(new Dimension(scale/18, scale/18));
                 propertyTag.setBackground(new Color(255, 255, 255, 0));
                 propertyTags.put(i*3+j, propertyTag);
@@ -442,10 +449,10 @@ public class JFrameUI {
 
     public static void movePlayer(int position, String player) {
         int xOffset, yOffset;
-        int startOffset = 60;
+        int startOffset = 50;
         int fieldSize = 135;
         if (position <= 5) {
-            xOffset = position*fieldSize+60;
+            xOffset = position*fieldSize+startOffset;
             yOffset = startOffset;
         }
         else if (position > 5 && position <= 12) {
