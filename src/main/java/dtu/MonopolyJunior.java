@@ -119,6 +119,7 @@ public final class MonopolyJunior {
     public static void transaction(Player player, int money) throws TransactionImpossibleException {
         if (!player.account.changeMoney(money)) {
             // TODO: End game UI ting
+            //document when done
             throw new TransactionImpossibleException(player);
         }
         UIController.updateMoneyInAccount(money, player);
