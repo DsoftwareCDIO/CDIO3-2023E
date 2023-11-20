@@ -52,9 +52,11 @@ public class UIController {
         }
     }
 
-    public static void dieRollResult(int result) {
+    public static void dieRollResult(int result, Player player) {
         if (CLI) {
             CLIUI.dieRollResult(result);
+        } else {
+            JFrameUI.dieRollResult(result, player.getName());
         }
     }
 

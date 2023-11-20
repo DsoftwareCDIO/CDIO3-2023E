@@ -7,7 +7,7 @@ public class Die {
     Random rand = new Random();
     public int roll(){
         int roll = rand.nextInt(6)+1;
-        UIController.dieRollResult(roll);
+        UIController.dieRollResult(roll, MonopolyJunior.currentPlayer);
         return roll;
     }
 }

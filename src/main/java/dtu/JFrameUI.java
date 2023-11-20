@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 class BoardImage extends JPanel{
     Image img;
@@ -132,6 +133,31 @@ class PlayerImage extends JPanel{
     } 
 }
 
+class RollPanel extends JPanel{
+    HashMap<Integer, Image> images;
+    int dieResult;
+    public RollPanel(LayoutManager lm) {
+        super(lm);
+        images = new HashMap<>();
+        images.put(0, null);
+        images.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieOneSide.png"));
+        images.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieTwoSide.png"));
+        images.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieThreeSide.png"));
+        images.put(4, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieFourSide.png"));
+        images.put(5, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieFiveSide.png"));
+        images.put(6, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieSixSide.png"));
+    }
+    @Override
+    public void paintComponent(Graphics g) {      
+        super.paintComponent(g);  
+        g.drawImage(images.get(dieResult), getHeight()/4, getHeight()/4, (int)(getHeight()*0.7), (int)(getHeight()*0.7), this);
+    } 
+    public void showNewResult(int dieResult) {
+        this.dieResult = dieResult;
+        paintComponent(getGraphics());
+    }
+}
+
 class PropertyTag extends JPanel {
     protected int scale; 
     private static HashMap<String, Color> playerColors = new HashMap<>();
@@ -171,6 +197,7 @@ public class JFrameUI {
     private static HashMap<Integer, PropertyTag> propertyTags = new HashMap<>();
     private static HashMap<Integer, ChoiceBtn> fieldChoices = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
+    private static HashMap<String, RollPanel> rollPanels = new HashMap<>();
     private static ChanceCardImage drawnCard;
 
     public static boolean btnPressed = false;
@@ -179,7 +206,10 @@ public class JFrameUI {
     // Temp main method to test JFrame
     public static void main(String[] args){
         drawBoard(new String[]{"Cat", "Car", "Dog", "Ship"});
-        for (int i = 0; i < 24; i++) {
+        waitForRoll("Cat");
+        dieRollResult(1, "Cat");
+        
+        /* for (int i = 0; i < 24; i++) {
             movePlayer(i, "Cat");
             movePlayer(i, "Car");
             movePlayer(i, "Dog");
@@ -189,7 +219,7 @@ public class JFrameUI {
             } catch (Exception e) {
                 // TODO: handle exception
             }
-        }
+        } */
         /* waitForRoll("Cat");
         movePlayer(2, "Cat");
         waitForRoll("Ship");
@@ -303,20 +333,22 @@ public class JFrameUI {
                 newPanel.add(jailPanel);
                 newPanel.add(uniquePanel);
             }
-            JPanel rollField = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
-            rollField.setBackground(backGroundColor);
+            RollPanel rollPanel = new RollPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+            rollPanel.setBackground(backGroundColor);
+            rollPanel.setPreferredSize(new Dimension(1, playerWidth));
             JButton roll = new JButton("Slå terning");
             roll.setBackground(new Color(222, 203, 175));
             roll.setForeground(Color.BLACK);
             roll.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 30));
             roll.setVisible(false);
-            rollField.add(roll);
+            rollPanel.add(roll);
+            rollPanels.put(playerNames[i], rollPanel);
             roll.addActionListener(e ->
             {
                 btnPressed = true;
             }); 
             
-            (i % 2 == 0 ? leftRollField : rightRollField).add(rollField, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
+            (i % 2 == 0 ? leftRollField : rightRollField).add(rollPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
             panel.add(newPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
 
             rollBtns.put(playerNames[i], roll);
@@ -405,6 +437,7 @@ public class JFrameUI {
                         break;
                 }
                 propertyTag.setVisible(false);
+                propertyTag.setOpaque(false);
                 backImage.add(propertyTag);
             }
         }
@@ -489,6 +522,18 @@ public class JFrameUI {
         }
         btn.setVisible(false);
     }
+
+    public static void dieRollResult(int result, String player) {
+        RollPanel r = rollPanels.get(player);
+        r.showNewResult(result);
+        try {
+            Thread.sleep(500);
+            r.showNewResult(0);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
     public static int chooseFieldOnBoard(int[] fields) {
         btnPressed = false;
         for (int field : fields) {
