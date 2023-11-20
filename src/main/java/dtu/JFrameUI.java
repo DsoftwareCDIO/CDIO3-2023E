@@ -5,10 +5,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import javafx.event.ActionEvent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,32 +14,34 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-class bgImage extends JPanel{
+class BoardImage extends JPanel{
     Image img;
-    public bgImage() {
+    public BoardImage() {
         img = Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Board.png");
     }
+    @Override
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
     } 
 }
-class moneyImage extends JPanel{
+class MoneyImage extends JPanel{
     Image img;
-    public moneyImage() {
+    public MoneyImage
+() {
         img = Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\monopolybuckswhite.png");
     }
+    @Override
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
     } 
 }
 
-class chanceCardImage extends JPanel{
+class ChanceCardImage extends JPanel{
     HashMap<Integer, Image> images;
     int cardId;
-    public chanceCardImage(int cardId) {
+    public ChanceCardImage(int cardId) {
         this.cardId = cardId;
         images = new HashMap<>();
         images.put(0, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
@@ -66,6 +65,7 @@ class chanceCardImage extends JPanel{
         images.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
         images.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
     }
+    @Override
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
         g.drawImage(images.get(cardId), 0, 0, getWidth(), getHeight(), this);
@@ -77,10 +77,10 @@ class chanceCardImage extends JPanel{
     }
 }
 
-class plImage extends JPanel{
+class PlayerImage extends JPanel{
     HashMap<String, Image> images;
     String playerName;
-    public plImage(String playerName) {
+    public PlayerImage(String playerName) {
         this.playerName = playerName;
         images = new HashMap<>();
         images.put("Cat", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\katcirkel.png"));
@@ -88,6 +88,7 @@ class plImage extends JPanel{
         images.put("Ship", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\bådcirkel.png"));
         images.put("Dog", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\hundcirkel.png"));
     }
+    @Override
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);  
         g.drawImage(images.get(playerName), 0, 0, getWidth(), getHeight(), this);
@@ -99,16 +100,17 @@ class plImage extends JPanel{
     }
 }
 
-class pl extends JPanel {
-    protected int scale, x, y; 
-    public pl(int scale, int xOffset, int yOffset) {
+class PlayerPiece extends JPanel {
+    protected int scale, xOffset, yOffset; 
+    public PlayerPiece(int scale, int xOffset, int yOffset) {
         this.scale = scale;
-        x = xOffset;
-        y = yOffset;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
     }
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCircle(g, x, y, scale/50);
+        drawCircle(g, xOffset, yOffset, scale/50);
     }
     public void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
         cg.fillOval(xCenter, yCenter, 2*r, 2*r);
@@ -118,13 +120,13 @@ class pl extends JPanel {
 
 public class JFrameUI {
     private static HashMap<String, Color> playerColors = new HashMap<>();
-    private static HashMap<String, pl> players = new HashMap<>();
+    private static HashMap<String, PlayerPiece> players = new HashMap<>();
     private static HashMap<String, JLabel> playerMoney = new HashMap<>();
     private static HashMap<String, JLabel> playerGetOutOfJailCards = new HashMap<>();
     private static HashMap<String, JLabel> playerUniqueCards = new HashMap<>();
-    private static HashMap<Integer, plImage> propertyTags = new HashMap<>();
+    private static HashMap<Integer, PlayerImage> propertyTags = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
-    private static chanceCardImage drawnCard;
+    private static ChanceCardImage drawnCard;
 
     // Temp main method to test JFrame
     public static void main(String[] args){
@@ -145,9 +147,8 @@ public class JFrameUI {
 
         JFrame frame = new JFrame();
         // Set to full screen constantly
-        //frame.setUndecorated(true);
         frame.setResizable(false);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH); 
         frame.setLayout(new BorderLayout());
         frame.setBackground(Color.BLACK);
         
@@ -167,7 +168,8 @@ public class JFrameUI {
         right.setBackground(backGroundColor);
         left.setBackground(backGroundColor);
         
-        JPanel backImage = new bgImage();
+        JPanel backImage = new BoardImage
+    ();
         backImage.setPreferredSize(new Dimension(scale, scale));
         
         int playerWidth = 180;
@@ -180,23 +182,24 @@ public class JFrameUI {
         rightPlayerPanel.setBackground(backGroundColor);
 
         JPanel rightRollField = new JPanel(new BorderLayout());
-        rightRollField.setPreferredSize(new Dimension((int)(playerWidth*1.5), scale));
+        rightRollField.setPreferredSize(new Dimension((int)((screenSize.getWidth()-scale)/2-playerWidth), scale));
         rightRollField.setBackground(backGroundColor);
 
         JPanel leftRollField = new JPanel(new BorderLayout());
-        leftRollField.setPreferredSize(new Dimension((int)(playerWidth*1.5), scale));
+        leftRollField.setPreferredSize(new Dimension((int)((screenSize.getWidth()-scale)/2-playerWidth), scale));
         leftRollField.setBackground(backGroundColor);
 
         for (int i = 0; i < playerNames.length; i++) {
             JPanel panel = i % 2 == 0 ? leftPlayerPanel : rightPlayerPanel;
             JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 5));
-            JPanel img = new plImage(playerNames[i]);
-            JPanel moneyImg = new moneyImage();
+            JPanel img = new PlayerImage(playerNames[i]);
+            JPanel moneyImg = new MoneyImage
+        ();
             JLabel moneyText = new JLabel("0");
-            JPanel jailCardImg = new chanceCardImage(0);
+            JPanel jailCardImg = new ChanceCardImage(0);
             JLabel jailCardText = new JLabel("0");
             JPanel jailPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 0));
-            JPanel uniqueCardImg = new chanceCardImage(1);
+            JPanel uniqueCardImg = new ChanceCardImage(1);
             JLabel uniqueCardText = new JLabel("0");
             JPanel uniquePanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 0));
             newPanel.setPreferredSize(new Dimension(100, (int)(playerWidth*2.3)));
@@ -206,11 +209,13 @@ public class JFrameUI {
             moneyImg.setPreferredSize(new Dimension(playerWidth/3, playerWidth/3));
             moneyImg.setBackground(backGroundColor);
             moneyText.setForeground(Color.WHITE);
-            moneyText.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 80));
+            java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 80);
+            moneyText.setFont(font);
+            font = font.deriveFont(60);
             jailCardImg.setPreferredSize(new Dimension(playerWidth/2, playerWidth/4));
             jailCardImg.setBackground(backGroundColor);
             jailCardText.setForeground(Color.WHITE);
-            jailCardText.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60));
+            jailCardText.setFont(font);
             jailPanel.setPreferredSize(new Dimension(playerWidth, playerWidth/3));
             jailPanel.setBackground(backGroundColor);
             jailPanel.add(jailCardText);
@@ -218,7 +223,7 @@ public class JFrameUI {
             uniqueCardImg.setPreferredSize(new Dimension(playerWidth/2, playerWidth/4));
             uniqueCardImg.setBackground(backGroundColor);
             uniqueCardText.setForeground(Color.WHITE);
-            uniqueCardText.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60));
+            uniqueCardText.setFont(font);
             uniquePanel.setPreferredSize(new Dimension(playerWidth, playerWidth/3));
             uniquePanel.setBackground(backGroundColor);
             uniquePanel.add(uniqueCardText);
@@ -242,7 +247,7 @@ public class JFrameUI {
             JButton roll = new JButton("Roll");
             roll.setBackground(Color.WHITE);
             roll.setForeground(Color.RED);
-            roll.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60));
+            roll.setFont(font);
             roll.setVisible(false);
             rollField.add(roll);
             
@@ -260,7 +265,7 @@ public class JFrameUI {
         int[] yOffsets = new int[]{0, 0, scale/25, scale/25};
         
         backImage.setLayout(null);
-        chanceCardImage chanceCard = new chanceCardImage(0);
+        ChanceCardImage chanceCard = new ChanceCardImage(0);
         chanceCard.setLocation(scale/4,scale/3);
         chanceCard.setSize(new Dimension(scale/2,scale/4));
         chanceCard.setVisible(false);
@@ -268,7 +273,7 @@ public class JFrameUI {
         drawnCard = chanceCard;
 
         for (int i = 0; i < playerNames.length; i++) {
-            pl player = new pl(scale, xOffsets[i], yOffsets[i]);
+            PlayerPiece player = new PlayerPiece(scale, xOffsets[i], yOffsets[i]);
             player.setLocation(60, 60);
             player.setSize(new Dimension(scale/10, scale/10));
             player.setBackground(new Color(255, 255, 255, 0));
@@ -278,11 +283,11 @@ public class JFrameUI {
         }
         for (int i = 0; i < 8; i++) {
             for (int j = 1; j <= 2; j++) {
-                plImage propertyTag = new plImage("Cat");
+                PlayerImage propertyTag = new PlayerImage("Cat");
                 propertyTag.setSize(new Dimension(scale/18, scale/18));
                 propertyTag.setBackground(new Color(255, 255, 255, 1));
                 propertyTags.put(i*3+j, propertyTag);
-                switch ((int)Math.floor(i/2)) {
+                switch (i/2) {
                     case 0:
                         propertyTag.setLocation(220+(int)(scale/7.6)*(3*i+j-1), 140);
                         break;
@@ -298,7 +303,7 @@ public class JFrameUI {
                     default:
                         break;
                 }
-                propertyTag.setVisible(false);
+                propertyTag.setVisible(true);
                 backImage.add(propertyTag);
             }
         }
@@ -342,26 +347,26 @@ public class JFrameUI {
     }
 
     public static void movePlayer(int position, String player) {
-        int x, y;
+        int xOffset, yOffset;
         int startOffset = 60;
         int fieldSize = 135;
         if (position <= 5) {
-            x = position*fieldSize+60;
-            y = startOffset;
+            xOffset = position*fieldSize+60;
+            yOffset = startOffset;
         }
         else if (position > 5 && position <= 12) {
-            x = 6*fieldSize+startOffset;
-            y = (position-6)*fieldSize+startOffset;
+            xOffset = 6*fieldSize+startOffset;
+            yOffset = (position-6)*fieldSize+startOffset;
         }
         else if (position > 12 && position <= 18) {
-            x = (18-position)*fieldSize+startOffset;
-            y = 6*fieldSize+startOffset;
+            xOffset = (18-position)*fieldSize+startOffset;
+            yOffset = 6*fieldSize+startOffset;
         }
         else {
-            x = startOffset;
-            y = (24-position)*fieldSize+startOffset;
+            xOffset = startOffset;
+            yOffset = (24-position)*fieldSize+startOffset;
         }
-        players.get(player).setLocation(x, y);
+        players.get(player).setLocation(xOffset, yOffset);
     }
 
     public static void updateFieldOwnership(int position, String player) {
@@ -401,7 +406,8 @@ public class JFrameUI {
         //Create objects
         JFrame container = new JFrame();
         JLabel boardLabel = new JLabel();
-        ImageIcon boardImage = new ImageIcon("src\\pictures\\Board.png");
+        ImageIcon BoardImage
+     = new ImageIcon("src\\pictures\\Board.png");
         ImageIcon containerIcon = new ImageIcon("src\\pictures\\Icon.png");
 
         //Set container behavior
@@ -413,7 +419,8 @@ public class JFrameUI {
         container.setResizable(true);
         container.setTitle("Monopoly Junior");
         container.setIconImage(containerIcon.getImage());
-        boardLabel.setIcon(boardImage);
+        boardLabel.setIcon(BoardImage
+    );
         boardLabel.setBounds(0, 0, container.getWidth(), container.getHeight());
         container.add(boardLabel);
         /*container.addComponentListener(new ComponentAdapter() {
