@@ -31,7 +31,7 @@ public class ChanceCardDeck {
             }
         }
         // Shuffle carddeck
-        Object[] cardsArr =  cards.toArray();
+        Object[] cardsArr = cards.toArray();
         Collections.shuffle(Arrays.asList(cardsArr));
         for (Object x : cardsArr){ // Remove all cards in queue
             cards.remove(x);

@@ -57,13 +57,15 @@ public class UIController {
 
     public static void endGamePodium(Player[] players, Player loser) {
         String[] playerNames = new String[players.length];
+        int[] money = new int[players.length];
         for (int i = 0; i < players.length; i++) {
             playerNames[i] = players[i].getName();
+            money[i] = players[i].account.getMoney();
         }
         if (CLI) {
             CLIUI.endGamePodium(playerNames, loser.getName());
         } else {
-            System.out.println("SLUT");
+            JFrameUI.endGamePodium(playerNames, money, loser.getName());
         }
     }
 

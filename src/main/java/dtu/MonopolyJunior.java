@@ -2,6 +2,7 @@ package dtu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -159,12 +160,11 @@ public final class MonopolyJunior {
             }
         }
 
-        Arrays.sort(leaderBoard, Comparator.comparing(player -> player.account.getMoney()));
+        Arrays.sort(leaderBoard, Collections.reverseOrder(Comparator.comparing(player -> getNetWorth(player, board))));
+        Arrays.sort(leaderBoard, Collections.reverseOrder(Comparator.comparing(player -> player.account.getMoney())));
+
         UIController.endGamePodium(leaderBoard, loser);
-
-        // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette
-
     }
 
     public static int getNetWorth(Player player, Board b) {
