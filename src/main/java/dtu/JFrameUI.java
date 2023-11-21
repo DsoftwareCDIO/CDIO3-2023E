@@ -295,7 +295,7 @@ public class JFrameUI {
         JPanel backImage = new BoardImage();
         backImage.setPreferredSize(new Dimension(boardScale, boardScale));
         
-        int playerWidth = 180;
+        int playerWidth = (int)(boardScale/5.6);
         JPanel leftPlayerPanel = new JPanel(new BorderLayout());
         leftPlayerPanel.setPreferredSize(new Dimension(playerWidth, boardScale));
         leftPlayerPanel.setBackground(backGroundColor);
@@ -420,7 +420,7 @@ public class JFrameUI {
         ImageIcon propertyChoiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
         Image choiceImgTemp = propertyChoiceImg.getImage();
         propertyChoiceImg = new ImageIcon(
-                choiceImgTemp.getScaledInstance(propertyBtnScale, propertyBtnScale, Image.SCALE_DEFAULT));
+        choiceImgTemp.getScaledInstance(propertyBtnScale, propertyBtnScale, Image.SCALE_DEFAULT));
 
         for (int i = 0; i < 24; i++) {
             ChoiceBtn btn = new ChoiceBtn(propertyChoiceImg, i);
@@ -489,7 +489,7 @@ public class JFrameUI {
                     default:
                         break;
                 }
-                propertyTag.setVisible(true);
+                propertyTag.setVisible(false);
                 propertyTag.setOpaque(false);
                 backImage.add(propertyTag);
             }
