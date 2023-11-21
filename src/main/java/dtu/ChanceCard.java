@@ -11,7 +11,6 @@ public class ChanceCard {
     }
 
     public void activate() throws TransactionImpossibleException {
-        // TODO: switch statement with effects
         int movement;
         int pos;
         switch (id) {
