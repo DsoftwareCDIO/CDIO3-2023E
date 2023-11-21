@@ -48,7 +48,6 @@ public final class MonopolyJunior {
                 // player to chosen target
                 if (currentPlayer.useUniqueCardIfPossible()) {
                     int targetField = 0;
-                    // TODO: Vælg felt at rykke til med UI
                     // Valget er kun mellem frie properties medmindre alle properties af købt, så er
                     // alle mulige
                     List<Integer> freeFieldsTemp = new ArrayList<>();
