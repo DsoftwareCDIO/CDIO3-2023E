@@ -1,5 +1,7 @@
 package dtu;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,6 +29,15 @@ public class ChanceCardDeck {
                     cards.add(new ChanceCard(19));
                     break;
             }
+        }
+        // Shuffle carddeck
+        Object[] cardsArr =  cards.toArray();
+        Collections.shuffle(Arrays.asList(cardsArr));
+        for (Object x : cardsArr){ // Remove all cards in queue
+            cards.remove(x);
+        }
+        for (Object x : cardsArr){ // Add the now shuffled cards back into queue
+            cards.add((ChanceCard)x);
         }
     }
 
