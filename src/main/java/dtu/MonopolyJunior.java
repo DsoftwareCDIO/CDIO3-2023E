@@ -48,9 +48,8 @@ public final class MonopolyJunior {
                 // player to chosen target
                 if (currentPlayer.useUniqueCardIfPossible()) {
                     int targetField = 0;
-                    // TODO: Vælg felt at rykke til med UI
-                    // Valget er kun mellem frie properties medmindre alle properties af købt, så er
-                    // alle mulige
+                    // Choice is only available properties, unless they are all bought
+                    // In which case, player can choose any property
                     List<Integer> freeFieldsTemp = new ArrayList<>();
                     List<Integer> ownedFieldsTemp = new ArrayList<>();
                     for (Field field : board.getFields()) {
@@ -173,6 +172,7 @@ public final class MonopolyJunior {
 
     public static int getNetWorth(Player player, Board b) {
         int worth = 0;
+        //Checks if player owns a property on the board and adds it to his networth
         for (Field field : b.getFields()) {
             try {
                 Property p = (Property)field;
