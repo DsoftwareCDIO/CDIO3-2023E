@@ -99,8 +99,7 @@ public final class MonopolyJunior {
         for (Field field : fields) {
             switch (field.getType()) {
                 case PROPERTY:
-                    landOnProperty((Property) field, forceBuy, getForFree); // Virker måske ikke at kalde metoden sådan
-                                                                            // her
+                    landOnProperty((Property) field, forceBuy, getForFree); 
                     break;
                 case JAIL:
                     currentPlayer.goToJail();
@@ -121,7 +120,6 @@ public final class MonopolyJunior {
 
     private static void landOnProperty(Property property, boolean forceBuy, boolean getForFree)
             throws TransactionImpossibleException {
-        // TODO: double price if owner has both of the same color
         Player owner = property.getOwner();
         if (owner == currentPlayer) {
             return;
