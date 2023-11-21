@@ -478,7 +478,7 @@ public class JFrameUI {
                         propertyTag.setLocation((int)(boardScale/4.6 + (boardScale/7.6)*(3*i+j-1)), (int)(boardScale/7.2));
                         break;
                     case 1:
-                        propertyTag.setLocation(150+(int)(boardScale/7.6*5), (int)(boardScale/4.6 + (boardScale/7.6)*(i*3+j-7)));
+                        propertyTag.setLocation((int)(boardScale/6.7)+(int)(boardScale/7.6*5), (int)(boardScale/4.6 + (boardScale/7.6)*(i*3+j-7)));
                         break;
                     case 2:
                         propertyTag.setLocation((int)(boardScale/4.6 + (boardScale/7.6)*(17-i*3-j)), (int)(boardScale/7.2+(boardScale/7.6)*5));
@@ -489,7 +489,7 @@ public class JFrameUI {
                     default:
                         break;
                 }
-                propertyTag.setVisible(false);
+                propertyTag.setVisible(true);
                 propertyTag.setOpaque(false);
                 backImage.add(propertyTag);
             }
