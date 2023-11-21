@@ -14,8 +14,6 @@ public final class MonopolyJunior {
 
     public static void main(String[] args) {
         String[] playerNames = UIController.drawMenu();
-        // TODO: UI ting for at væle antal spillere
-        // TODO: UI ting for at karakterer og rækkefølge af dem vælges
         play(playerNames);
     }
 
@@ -164,7 +162,6 @@ public final class MonopolyJunior {
         Arrays.sort(leaderBoard, Collections.reverseOrder(Comparator.comparing(player -> player.account.getMoney())));
 
         UIController.endGamePodium(leaderBoard, loser);
-        // TODO: Opret test for dette
     }
 
     public static int getNetWorth(Player player, Board b) {

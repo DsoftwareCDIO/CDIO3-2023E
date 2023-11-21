@@ -235,24 +235,6 @@ public class JFrameUI {
     public static void main(String[] args) {
         drawMenu();
         endGamePodium(new String[]{"Cat", "Car", "Ship"}, new int[]{15, 4, 2}, "Dog");
-        /* try {
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        drawBoard(new String[] { "Cat", "Car", "Dog", "Ship" }); */
-        
-        /* for (int i = 0; i < 24; i++) {
-            movePlayer(i, "Cat");
-            movePlayer(i, "Car");
-            movePlayer(i, "Dog");
-            movePlayer(i, "Ship");
-            try {
-                Thread.sleep(500);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        } */
     }
 
     public static void drawMenu() {
@@ -299,11 +281,12 @@ public class JFrameUI {
         frame.pack();
         frame.setVisible(true);
 
+        // Loop to wait for button press
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
-                // TODO: handle exception
+                System.err.println(e.getMessage());
             }
         }
         menuPanel.removeAll();
@@ -594,7 +577,7 @@ public class JFrameUI {
             Thread.sleep(500);
             playerMoney.get(player).setForeground(Color.WHITE);
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println(e.getMessage());
         }
     }
 
@@ -639,7 +622,7 @@ public class JFrameUI {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
-                // TODO: handle exception
+                System.err.println(e.getMessage());
             }
         }
         btn.setVisible(false);
@@ -652,7 +635,7 @@ public class JFrameUI {
             Thread.sleep(500);
             r.showNewResult(0);
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println(e.getMessage());
         }
     }
 
@@ -667,7 +650,7 @@ public class JFrameUI {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
-                // TODO: handle exception
+                System.err.println(e.getMessage());
             }
         }
         for (int field : fields) {
@@ -682,7 +665,7 @@ public class JFrameUI {
         try {
             Thread.sleep(cardId > 15 ? 5000 : 3000);
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println(e.getMessage());
         }
         drawnCard.setVisible(false);
     }
@@ -699,7 +682,7 @@ public class JFrameUI {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
-                // TODO: handle exception
+                System.err.println(e.getMessage());
             }
         }
         for (int i = 0; i < options.length; i++) {
@@ -740,7 +723,7 @@ public class JFrameUI {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
-                // TODO: handle exception
+                System.err.println(e.getMessage());
             }
         }
 
