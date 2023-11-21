@@ -19,7 +19,11 @@ public class ChanceCard {
                 // effect
                 // go 1-5 fields ahead
                 pos = MonopolyJunior.currentPlayer.piece.getPosition();
-                movement = UIController.chooseFieldOnBoard(IntStream.range(pos+1, pos+6).toArray());
+                int[] temp = IntStream.range(pos+1, pos+6).toArray();
+                for (int i = 0; i < temp.length; i++) {
+                    temp[i] = temp[i] > 23 ? temp[i] - 24 : temp[i];
+                }
+                movement = UIController.chooseFieldOnBoard(temp);
                 movePlayerToTarget(movement, false);
                 break;
             case 1:
