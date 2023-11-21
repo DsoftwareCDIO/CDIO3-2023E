@@ -10,7 +10,7 @@ public class Controllertest {
     public void testgetNetWorth() {
         Player p = new Player("Cat", 0);
         Player p2 = new Player("Car", 0);
-        Board board = new Board(new Player[]{p});
+        Board board = new Board(new Player[]{p, p2});
         Property apartment1 = (Property)(board.getFields()[1]);
         apartment1.setOwner(p);
         //Check for 1 property
