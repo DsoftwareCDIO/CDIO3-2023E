@@ -700,6 +700,7 @@ public class JFrameUI {
         }
 
         characterChoicePanel.removeAll();
+        characterChoicePanel.paint(characterChoicePanel.getGraphics());
         btnPressed = false;
         return btnChoice;
     }

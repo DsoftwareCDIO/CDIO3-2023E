@@ -15,7 +15,6 @@ public class Field {
         this.position = position;
     }
 
-
     //Method to get fieldtype
     public FieldType getType() {
         return type;
