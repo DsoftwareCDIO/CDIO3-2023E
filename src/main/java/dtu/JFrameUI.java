@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -220,6 +221,8 @@ public class JFrameUI {
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static JPanel characterChoicePanel;
     private static JLabel characterChoiceText;
+    private static JLabel startText;
+    private static JButton startButton;
     
     public static boolean btnPressed = false;
     public static int btnChoice = 0;
@@ -251,7 +254,7 @@ public class JFrameUI {
         } */
     }
 
-    public static String[] drawMenu() {
+    public static void drawMenu() {
         playerImages = new HashMap<>();
         playerImages.put("Cat", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\katcirkel.png"));
         playerImages.put("Car", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\bilcirkel.png"));
@@ -270,10 +273,45 @@ public class JFrameUI {
         menuPanel.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         menuPanel.setBackground(new Color(222, 203, 175));
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+
+        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/20));
+        JTextArea rules = new JTextArea("Regler:\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rhoncus metus sit amet enim placerat, quis tempor ex auctor. Fusce mollis risus et eros iaculis, eget egestas massa tempor. Sed rhoncus, quam in molestie dictum, est massa fermentum lorem, id aliquam tellus elit et dui. Sed a ex non lacus bibendum porttitor eget nec est. Cras nunc magna, finibus a ultrices ac, consequat eget mauris. Pellentesque gravida tellus vitae dui pulvinar, eu tincidunt ipsum laoreet. Integer nec odio vehicula, imperdiet risus ut, tincidunt urna. Mauris mattis vulputate metus a condimentum. Donec cursus porta metus. Proin mauris enim, mattis et elit ac, ornare lacinia leo. Vestibulum gravida quam non posuere viverra.");
+        rules.setBackground(new Color(222, 203, 175));
+        rules.setLineWrap(true);
+        rules.setEditable(false);
+        rules.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+        rules.setMaximumSize(new Dimension((int)(screenSize.getWidth()*0.8), (int)(screenSize.getHeight()*0.8)));
+        rules.setFont(font);
+        rules.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        menuPanel.add(rules);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
+
+        JButton nextBtn = new JButton("Videre");
+        nextBtn.setBackground(Color.GREEN);
+        nextBtn.setFont(font);
+        nextBtn.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        nextBtn.addActionListener(e -> {
+            btnPressed = true;
+        });
+        menuPanel.add(nextBtn);
+        frame.add(menuPanel, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+
+        while (!btnPressed) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        menuPanel.removeAll();
+        menuPanel.repaint();
+        btnPressed = false;
+
         menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/10))));
 
         JLabel character = new JLabel("Spiller 1, vælg din karakter");
-        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/20));
         character.setFont(font);
         character.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         characterChoiceText = character;
@@ -290,6 +328,8 @@ public class JFrameUI {
         JLabel fillText = new JLabel("Eller");
         fillText.setFont(font);
         fillText.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        fillText.setVisible(false);
+        startText = fillText;
         menuPanel.add(fillText);
         menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
 
@@ -301,12 +341,12 @@ public class JFrameUI {
             btnChoice = -1;
             btnPressed = true;
         });
+        startBtn.setVisible(false);
+        startButton = startBtn;
         menuPanel.add(startBtn);
-
+        
         frame.add(menuPanel, BorderLayout.CENTER);
-        frame.pack();
         frame.setVisible(true);
-        return new String[]{};
     }
 
     public static void drawBoard(String[] playerNames) {
@@ -671,6 +711,10 @@ public class JFrameUI {
 
     public static int chooseCharacter(String[] options, int playerNum) {
         characterChoiceText.setText("Player " + playerNum + ", vælg din karakter");
+        if (playerNum > 2) {
+            startButton.setVisible(true);
+            startText.setVisible(true);
+        }
         for (int i = 0; i < options.length; i++) {
             if (options[i].equals("")) {
                 continue;
