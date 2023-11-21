@@ -55,7 +55,7 @@ public final class MonopolyJunior {
                     List<Integer> ownedFieldsTemp = new ArrayList<>();
                     for (Field field : board.getFields()) {
                         try {
-                            Property p = (Property) field;
+                            Property p = (Property)field;
                             if (p.getOwner() == null) {
                                 freeFieldsTemp.add(field.getPosition());
                                 continue;
@@ -99,8 +99,7 @@ public final class MonopolyJunior {
         for (Field field : fields) {
             switch (field.getType()) {
                 case PROPERTY:
-                    landOnProperty((Property) field, forceBuy, getForFree); // Virker måske ikke at kalde metoden sådan
-                                                                            // her
+                    landOnProperty((Property) field, forceBuy, getForFree); 
                     break;
                 case JAIL:
                     currentPlayer.goToJail();
@@ -121,7 +120,6 @@ public final class MonopolyJunior {
 
     private static void landOnProperty(Property property, boolean forceBuy, boolean getForFree)
             throws TransactionImpossibleException {
-        // TODO: double price if owner has both of the same color
         Player owner = property.getOwner();
         if (owner == currentPlayer) {
             return;
@@ -171,5 +169,21 @@ public final class MonopolyJunior {
         // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette
 
+    }
+
+    public static int getNetWorth(Player player, Board b) {
+        int worth = 0;
+        for (Field field : b.getFields()) {
+            try {
+                Property p = (Property)field;
+                if (p.getOwner() == player) {
+                    worth += p.getPrice();
+                }
+                
+            } catch (ClassCastException e) {
+
+            }
+        }
+        return worth;
     }
 }
