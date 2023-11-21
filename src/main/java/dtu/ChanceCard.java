@@ -25,8 +25,8 @@ public class ChanceCard {
             case 1:
                 // effect
                 // go one field ahead or take another chancecard
-                boolean chooseMove = true;// UI choose an option
-                if (chooseMove == true) {
+                int choice = UIController.chooseOption(new String[]{"Ryk 1 felt frem", "Træk et nyt kort"});// UI choose an option
+                if (choice == 0) {
                     MonopolyJunior.moveOnBoard(1, false, false);
                     break;
                 }

@@ -111,14 +111,16 @@ public class UIController {
         if (CLI) {
             return 0;
         } else {
-            System.out.println(fields.length);
-            System.out.println(fields[0]);
             return JFrameUI.chooseFieldOnBoard(fields);
         }
     }
     
     public static int chooseOption(String[] options){
-        return 1;
+        if (CLI) {
+            return 0;
+        } else {
+            return JFrameUI.chooseOption(options);
+        }
     }
 
     

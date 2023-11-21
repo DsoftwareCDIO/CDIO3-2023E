@@ -1,7 +1,9 @@
 package dtu;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public final class MonopolyJunior {
     protected static Player[] players;
@@ -18,7 +20,6 @@ public final class MonopolyJunior {
 
     private static void play(String[] playerNames){
         int startcapital = 24 - (2*playerNames.length);
-
         //Recieves a list of player names and creats a new of players with the names
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
@@ -47,6 +48,29 @@ public final class MonopolyJunior {
                     int targetField = 0;
                     // TODO: Vælg felt at rykke til med UI
                     // Valget er kun mellem frie properties medmindre alle properties af købt, så er alle mulige
+                    List<Integer> freeFieldsTemp = new ArrayList<>();
+                    List<Integer> ownedFieldsTemp = new ArrayList<>();
+                    for (Field field : board.getFields()) {
+                        try {
+                            Property p = (Property)field;
+                            if (p.getOwner() == null) {
+                                freeFieldsTemp.add(field.getPosition());
+                                continue;
+                            }
+                            ownedFieldsTemp.add(field.getPosition());
+                        } catch (ClassCastException e) {
+                            
+                        }
+                    }
+                    int freeFields[] = new int[freeFieldsTemp.size()];
+                    for(int j =0;j<freeFieldsTemp.size();j++){
+                      freeFields[j] = freeFieldsTemp.get(j);
+                    }
+                    int ownedFields[] = new int[ownedFieldsTemp.size()];
+                    for(int j =0;j<ownedFieldsTemp.size();j++){
+                      ownedFields[j] = ownedFieldsTemp.get(j);
+                    }
+                    targetField = UIController.chooseFieldOnBoard(freeFields.length > 0 ? freeFields : ownedFields);
                     int movement = targetField - currentPlayer.piece.getPosition();
                     movement = movement < 0 ? movement + 24 : movement;
                     moveOnBoard(movement, true, false);

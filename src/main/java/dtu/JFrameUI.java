@@ -199,6 +199,7 @@ public class JFrameUI {
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
     private static HashMap<String, RollPanel> rollPanels = new HashMap<>();
     private static ChanceCardImage drawnCard;
+    private static JButton[] choiceBtns;
 
     public static boolean btnPressed = false;
     public static int btnChoice = 0;
@@ -206,8 +207,6 @@ public class JFrameUI {
     // Temp main method to test JFrame
     public static void main(String[] args){
         drawBoard(new String[]{"Cat", "Car", "Dog", "Ship"});
-        waitForRoll("Cat");
-        dieRollResult(1, "Cat");
         
         /* for (int i = 0; i < 24; i++) {
             movePlayer(i, "Cat");
@@ -261,8 +260,7 @@ public class JFrameUI {
         right.setBackground(backGroundColor);
         left.setBackground(backGroundColor);
         
-        JPanel backImage = new BoardImage
-    ();
+        JPanel backImage = new BoardImage();
         backImage.setPreferredSize(new Dimension(scale, scale));
         
         int playerWidth = 180;
@@ -358,21 +356,44 @@ public class JFrameUI {
         }
         
         backImage.setLayout(null);
-        ChanceCardImage chanceCard = new ChanceCardImage(0);
-        chanceCard.setLocation(scale/4,scale/3);
-        chanceCard.setSize(new Dimension(scale/2,scale/4));
-        chanceCard.setVisible(false);
-        backImage.add(chanceCard);
-        drawnCard = chanceCard;
+        drawnCard = new ChanceCardImage(0);
+        drawnCard.setLocation(scale/4,scale/3);
+        drawnCard.setSize(new Dimension(scale/2,scale/4));
+        drawnCard.setVisible(false);
+        backImage.add(drawnCard);
 
-        int btnScale = scale/10;
-        ImageIcon choiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
-        Image choiceImgTemp = choiceImg.getImage();
-        choiceImg = new ImageIcon(choiceImgTemp.getScaledInstance(btnScale, btnScale, Image.SCALE_DEFAULT));
+        choiceBtns = new JButton[2];
+        for (int i = 0; i < 2; i++) {
+            JButton choiceBtn = new JButton();
+            choiceBtn.setBackground(new Color(222, 203, 175));
+            choiceBtn.setSize(playerWidth*2, (int)(playerWidth*1.8));
+            choiceBtn.setText(i == 0 ? "Ryk 1 felt frem" : "Træk et nyt kort");
+            java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 40);
+            choiceBtn.setFont(smallFont);
+            choiceBtn.setLocation(i == 0 ? (int)(playerWidth/2) : playerWidth*3, playerWidth*2);
+            choiceBtn.setVisible(false);
+            backImage.add(choiceBtn);
+            choiceBtns[i] = choiceBtn;
+        }
+        choiceBtns[0].addActionListener(e ->
+        {
+            btnChoice = 0;
+            btnPressed = true;
+        }); 
+        choiceBtns[1].addActionListener(e ->
+        {
+            btnChoice = 1;
+            btnPressed = true;
+        }); 
+        
+        int propertyBtnScale = scale/10;
+        ImageIcon propertyChoiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
+        Image choiceImgTemp = propertyChoiceImg.getImage();
+        propertyChoiceImg = new ImageIcon(choiceImgTemp.getScaledInstance(propertyBtnScale, propertyBtnScale, Image.SCALE_DEFAULT));
 
         for (int i = 0; i < 24; i++) {
-            ChoiceBtn btn = new ChoiceBtn(choiceImg, i);
-            btn.setSize(new Dimension(btnScale, btnScale));
+            ChoiceBtn btn = new ChoiceBtn(propertyChoiceImg, i);
+            btn.setSize(new Dimension(propertyBtnScale, propertyBtnScale));
             btn.setBackground(Color.WHITE);
             btn.addActionListener(e ->
             {
@@ -564,6 +585,28 @@ public class JFrameUI {
         }
         drawnCard.setVisible(false);
     }
-
+    
+    public static int chooseOption(String[] options){
+        btnPressed = false;
+        for (int i = 0; i < options.length; i++) {
+            JButton btn = choiceBtns[i];
+            btn.setText(options[i]);
+            btn.setVisible(true);
+        }
+        
+        while (!btnPressed) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        for (int i = 0; i < options.length; i++) {
+            JButton btn = choiceBtns[i];
+            btn.setVisible(false);
+        }
+        System.out.println(btnChoice);
+        return btnChoice;
+    }
 
 }
