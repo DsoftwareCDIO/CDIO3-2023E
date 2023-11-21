@@ -391,11 +391,11 @@ public class JFrameUI {
         for (int i = 0; i < 2; i++) {
             JButton choiceBtn = new JButton();
             choiceBtn.setBackground(new Color(222, 203, 175));
-            choiceBtn.setSize(playerWidth * 2, (int) (playerWidth * 1.8));
+            choiceBtn.setSize(boardScale / 3, boardScale / 3);
             choiceBtn.setText(i == 0 ? "Ryk 1 felt frem" : "Træk et nyt kort");
             java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(40*fontScale));
             choiceBtn.setFont(smallFont);
-            choiceBtn.setLocation(i == 0 ? (int) (playerWidth / 2) : playerWidth * 3, playerWidth * 2);
+            choiceBtn.setLocation(i == 0 ? boardScale / 7 : (int)(boardScale / 1.9), boardScale / 3);
             choiceBtn.setVisible(false);
             backImage.add(choiceBtn);
             choiceBtns[i] = choiceBtn;

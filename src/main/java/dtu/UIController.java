@@ -6,7 +6,7 @@ public class UIController {
         if (CLI) {
             return CLIUI.drawMenu();
         }
-        return new String[]{"Cat", "Dog", "Ship"};
+        return new String[]{"Cat", "Dog", "Ship", "Car"};
     }
 
     public static void drawBoard(Player[] players, int startCapital) {
