@@ -62,29 +62,21 @@ class ChanceCardImage extends JPanel {
         this.cardId = cardId;
         images = new HashMap<>();
         images.put(0, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveUptoFiveFields.png"));
-        images.put(1, Toolkit.getDefaultToolkit()
-                .createImage("src\\\\pictures\\\\Chance-MoveOneFieldOrDrawAnotherChance.png"));
+        images.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveOneFieldOrDrawAnotherChance.png"));
         images.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ReceiveTwo.png"));
         images.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-PayTwoToBank.png"));
         images.put(4, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-EveryonePaysYouOne.png"));
         images.put(5, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
         images.put(6, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToStart.png"));
         images.put(7, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToStrandpromenaden.png"));
-        images.put(8, Toolkit.getDefaultToolkit()
-                .createImage("src\\\\pictures\\\\Chance-MoveToSkaterparkenGetFreeOrpay.png"));
-        images.put(9,
-                Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToOrangeGetFreeOrPay.png"));
-        images.put(10,
-                Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToLightblueGetFreeOrPay.png"));
+        images.put(8, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToSkaterparkenGetFreeOrpay.png"));
+        images.put(9, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToOrangeGetFreeOrPay.png"));
+        images.put(10, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToLightblueGetFreeOrPay.png"));
         images.put(11, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToRedGetFreeOrPay.png"));
-        images.put(12, Toolkit.getDefaultToolkit()
-                .createImage("src\\\\pictures\\\\Chance-MoveToLightblueOrRedGetFreeOrPay.png"));
-        images.put(13, Toolkit.getDefaultToolkit()
-                .createImage("src\\\\pictures\\\\Chance-MoveToBrownOrYellowGetFreeOrPay.png"));
-        images.put(14, Toolkit.getDefaultToolkit()
-                .createImage("src\\\\pictures\\\\Chance-MoveToOrangeOrGreenGetFreeOrPay.png"));
-        images.put(15, Toolkit.getDefaultToolkit()
-                .createImage("src\\\\pictures\\\\Chance-MoveToPinkOrDarkblueGetFreeOrPay.png"));
+        images.put(12, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToLightblueOrRedGetFreeOrPay.png"));
+        images.put(13, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToBrownOrYellowGetFreeOrPay.png"));
+        images.put(14, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToOrangeOrGreenGetFreeOrPay.png"));
+        images.put(15, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToPinkOrDarkblueGetFreeOrPay.png"));
         images.put(16, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
         images.put(17, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CatUnique.png"));
         images.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-DogUnique.png"));
@@ -285,7 +277,7 @@ public class JFrameUI {
         JPanel back = new JPanel();
         JPanel left = new JPanel(new BorderLayout());
         JPanel right = new JPanel(new BorderLayout());
-        boardScale = (int)(screenSize.getHeight()-screenSize.getHeight()/15);
+        boardScale = (int)(screenSize.getHeight()-screenSize.getHeight()/10);
         back.setPreferredSize(new Dimension(boardScale, boardScale));
         left.setPreferredSize(new Dimension((int)(screenSize.getWidth()-boardScale)/2, boardScale));
         right.setPreferredSize(new Dimension((int)(screenSize.getWidth()-boardScale)/2, boardScale));
@@ -295,7 +287,8 @@ public class JFrameUI {
         JPanel backImage = new BoardImage();
         backImage.setPreferredSize(new Dimension(boardScale, boardScale));
         
-        int playerWidth = (int)(boardScale/5.6);
+        int playerWidth = boardScale/5;
+        double fontScale = (double)boardScale/972;
         JPanel leftPlayerPanel = new JPanel(new BorderLayout());
         leftPlayerPanel.setPreferredSize(new Dimension(playerWidth, boardScale));
         leftPlayerPanel.setBackground(backGroundColor);
@@ -331,9 +324,9 @@ public class JFrameUI {
             moneyImg.setPreferredSize(new Dimension(playerWidth / 3, playerWidth / 3));
             moneyImg.setBackground(backGroundColor);
             moneyText.setForeground(Color.WHITE);
-            java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 80);
+            java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(80*fontScale));
             moneyText.setFont(font);
-            java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 60);
+            java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(60*fontScale));
             jailCardImg.setPreferredSize(new Dimension(playerWidth / 2, playerWidth / 4));
             jailCardImg.setBackground(backGroundColor);
             jailCardText.setForeground(Color.WHITE);
@@ -369,7 +362,7 @@ public class JFrameUI {
             JButton roll = new JButton("Slå terning");
             roll.setBackground(new Color(222, 203, 175));
             roll.setForeground(Color.BLACK);
-            roll.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 30));
+            roll.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(30*fontScale)));
             roll.setVisible(false);
             rollPanel.add(roll);
             rollPanels.put(playerNames[i], rollPanel);
@@ -400,7 +393,7 @@ public class JFrameUI {
             choiceBtn.setBackground(new Color(222, 203, 175));
             choiceBtn.setSize(playerWidth * 2, (int) (playerWidth * 1.8));
             choiceBtn.setText(i == 0 ? "Ryk 1 felt frem" : "Træk et nyt kort");
-            java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, 40);
+            java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(40*fontScale));
             choiceBtn.setFont(smallFont);
             choiceBtn.setLocation(i == 0 ? (int) (playerWidth / 2) : playerWidth * 3, playerWidth * 2);
             choiceBtn.setVisible(false);
