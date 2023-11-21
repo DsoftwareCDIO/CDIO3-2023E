@@ -130,21 +130,25 @@ public class ChanceCard {
                 // effect
                 // ship gets to choose what field to land on next round
                 givePlayerUniqueCard("Ship");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             case 17:
                 // effect
                 // cat gets to choose what field to land on next round
                 givePlayerUniqueCard("Cat");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             case 18:
                 // effect
                 // dog gets to choose what field to land on next round
                 givePlayerUniqueCard("Dog");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             case 19:
                 // effect
                 // car gets to choose what field to land on next round
                 givePlayerUniqueCard("Car");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             default:
                 break;
