@@ -55,7 +55,7 @@ public final class MonopolyJunior {
                     List<Integer> ownedFieldsTemp = new ArrayList<>();
                     for (Field field : board.getFields()) {
                         try {
-                            Property p = (Property) field;
+                            Property p = (Property)field;
                             if (p.getOwner() == null) {
                                 freeFieldsTemp.add(field.getPosition());
                                 continue;
@@ -171,5 +171,21 @@ public final class MonopolyJunior {
         // TODO: Other players might have 0 money without having lost/gone bancrupt
         // TODO: Opret test for dette
 
+    }
+
+    public static int getNetWorth(Player player, Board b) {
+        int worth = 0;
+        for (Field field : b.getFields()) {
+            try {
+                Property p = (Property)field;
+                if (p.getOwner() == player) {
+                    worth += p.getPrice();
+                }
+                
+            } catch (ClassCastException e) {
+
+            }
+        }
+        return worth;
     }
 }
