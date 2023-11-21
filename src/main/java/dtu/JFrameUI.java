@@ -2,6 +2,8 @@ package dtu;
 
 import java.util.HashMap;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,51 +57,51 @@ class ChoiceBtn extends JButton {
 }
 
 class ChanceCardImage extends JPanel {
-    HashMap<Integer, Image> images;
+    HashMap<Integer, Image> playerImages;
     int cardId;
 
     public ChanceCardImage(int cardId) {
         this.cardId = cardId;
-        images = new HashMap<>();
-        images.put(0, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveUptoFiveFields.png"));
-        images.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveOneFieldOrDrawAnotherChance.png"));
-        images.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ReceiveTwo.png"));
-        images.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-PayTwoToBank.png"));
-        images.put(4, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-EveryonePaysYouOne.png"));
-        images.put(5, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
-        images.put(6, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToStart.png"));
-        images.put(7, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToStrandpromenaden.png"));
-        images.put(8, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToSkaterparkenGetFreeOrpay.png"));
-        images.put(9, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToOrangeGetFreeOrPay.png"));
-        images.put(10, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToLightblueGetFreeOrPay.png"));
-        images.put(11, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToRedGetFreeOrPay.png"));
-        images.put(12, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToLightblueOrRedGetFreeOrPay.png"));
-        images.put(13, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToBrownOrYellowGetFreeOrPay.png"));
-        images.put(14, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToOrangeOrGreenGetFreeOrPay.png"));
-        images.put(15, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToPinkOrDarkblueGetFreeOrPay.png"));
-        images.put(16, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
-        images.put(17, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CatUnique.png"));
-        images.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-DogUnique.png"));
-        images.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CarUnique.png"));
+        playerImages = new HashMap<>();
+        playerImages.put(0, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveUptoFiveFields.png"));
+        playerImages.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveOneFieldOrDrawAnotherChance.png"));
+        playerImages.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ReceiveTwo.png"));
+        playerImages.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-PayTwoToBank.png"));
+        playerImages.put(4, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-EveryonePaysYouOne.png"));
+        playerImages.put(5, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-OutOfJail.png"));
+        playerImages.put(6, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToStart.png"));
+        playerImages.put(7, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToStrandpromenaden.png"));
+        playerImages.put(8, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToSkaterparkenGetFreeOrpay.png"));
+        playerImages.put(9, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToOrangeGetFreeOrPay.png"));
+        playerImages.put(10, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToLightblueGetFreeOrPay.png"));
+        playerImages.put(11, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToRedGetFreeOrPay.png"));
+        playerImages.put(12, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToLightblueOrRedGetFreeOrPay.png"));
+        playerImages.put(13, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToBrownOrYellowGetFreeOrPay.png"));
+        playerImages.put(14, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToOrangeOrGreenGetFreeOrPay.png"));
+        playerImages.put(15, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-MoveToPinkOrDarkblueGetFreeOrPay.png"));
+        playerImages.put(16, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
+        playerImages.put(17, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CatUnique.png"));
+        playerImages.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-DogUnique.png"));
+        playerImages.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CarUnique.png"));
     }
 
     public ChanceCardImage(String playerName) {
-        images = new HashMap<>();
+        playerImages = new HashMap<>();
         switch (playerName) {
             case "Ship":
-                images.put(16, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
+                playerImages.put(16, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-ShipUnique.png"));
                 cardId = 16;
                 break;
             case "Car":
-                images.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CarUnique.png"));
+                playerImages.put(19, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CarUnique.png"));
                 cardId = 19;
                 break;
             case "Cat":
-                images.put(17, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CatUnique.png"));
+                playerImages.put(17, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-CatUnique.png"));
                 cardId = 17;
                 break;
             case "Dog":
-                images.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-DogUnique.png"));
+                playerImages.put(18, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\Chance-DogUnique.png"));
                 cardId = 18;
                 break;
             default:
@@ -110,7 +112,7 @@ class ChanceCardImage extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(images.get(cardId), 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(playerImages.get(cardId), 0, 0, getWidth(), getHeight(), this);
     }
 
     public void setNewCardImg(int cardId) {
@@ -121,7 +123,6 @@ class ChanceCardImage extends JPanel {
 }
 
 class PlayerImage extends JPanel {
-    HashMap<String, Image> images;
     String playerName;
     int xOffset, yOffset;
     double scaleDivide;
@@ -131,41 +132,36 @@ class PlayerImage extends JPanel {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.scaleDivide = scaleDivide;
-        images = new HashMap<>();
-        images.put("Cat", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\katcirkel.png"));
-        images.put("Car", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\bilcirkel.png"));
-        images.put("Ship", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\bådcirkel.png"));
-        images.put("Dog", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\hundcirkel.png"));
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(images.get(playerName), xOffset, yOffset, (int) (getWidth() / scaleDivide),
+        g.drawImage(JFrameUI.playerImages.get(playerName), xOffset, yOffset, (int) (getWidth() / scaleDivide),
                 (int) (getHeight() / scaleDivide), this);
     }
 }
 
 class RollPanel extends JPanel {
-    HashMap<Integer, Image> images;
+    HashMap<Integer, Image> playerImages;
     int dieResult;
 
     public RollPanel(LayoutManager lm) {
         super(lm);
-        images = new HashMap<>();
-        images.put(0, null);
-        images.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieOneSide.png"));
-        images.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieTwoSide.png"));
-        images.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieThreeSide.png"));
-        images.put(4, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieFourSide.png"));
-        images.put(5, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieFiveSide.png"));
-        images.put(6, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieSixSide.png"));
+        playerImages = new HashMap<>();
+        playerImages.put(0, null);
+        playerImages.put(1, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieOneSide.png"));
+        playerImages.put(2, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieTwoSide.png"));
+        playerImages.put(3, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieThreeSide.png"));
+        playerImages.put(4, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieFourSide.png"));
+        playerImages.put(5, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieFiveSide.png"));
+        playerImages.put(6, Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\dieSixSide.png"));
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(images.get(dieResult), getHeight() / 4, getHeight() / 4, (int) (getHeight() * 0.7),
+        g.drawImage(playerImages.get(dieResult), getHeight() / 4, getHeight() / 4, (int) (getHeight() * 0.7),
                 (int) (getHeight() * 0.7), this);
     }
 
@@ -208,6 +204,7 @@ class PropertyTag extends JPanel {
 }
 
 public class JFrameUI {
+    private static JFrame frame;
     private static HashMap<String, Color> playerColors = new HashMap<>();
     private static HashMap<String, PlayerImage> players = new HashMap<>();
     private static HashMap<String, JLabel> playerMoney = new HashMap<>();
@@ -217,59 +214,108 @@ public class JFrameUI {
     private static HashMap<Integer, ChoiceBtn> fieldChoices = new HashMap<>();
     private static HashMap<String, JButton> rollBtns = new HashMap<>();
     private static HashMap<String, RollPanel> rollPanels = new HashMap<>();
+    protected static HashMap<String, Image> playerImages;
     private static ChanceCardImage drawnCard;
-    private static JButton[] choiceBtns;
-
+    private static ChoiceBtn[] choiceBtns;
+    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static JPanel characterChoicePanel;
+    private static JLabel characterChoiceText;
+    
     public static boolean btnPressed = false;
     public static int btnChoice = 0;
     private static int boardScale;
 
     // Temp main method to test JFrame
     public static void main(String[] args) {
-        drawBoard(new String[] { "Cat", "Car", "Dog", "Ship" });
-
+        drawMenu();
+        System.out.println(chooseCharacter(new String[]{"Dog", "Cat", "Car", "Ship"}, 1));
         
-        for (int i = 0; i < 24; i++) {
-        movePlayer(i, "Cat");
-        movePlayer(i, "Car");
-        movePlayer(i, "Dog");
-        movePlayer(i, "Ship");
-        try {
-            Thread.sleep(500);
+        drawBoard(new String[] { "Cat", "Car", "Dog", "Ship" });
+        /* try {
+            Thread.sleep(3000);
         } catch (Exception e) {
             // TODO: handle exception
         }
-        }
+        drawBoard(new String[] { "Cat", "Car", "Dog", "Ship" }); */
         
-        /*
-         * waitForRoll("Cat");
-         * movePlayer(2, "Cat");
-         * waitForRoll("Ship");
-         * System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
-         * System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
-         * System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
-         * System.out.println(chooseFieldOnBoard(new int[]{1,2,4,7,8}));
-         * waitForRoll("Car");
-         */
-
+        /* for (int i = 0; i < 24; i++) {
+            movePlayer(i, "Cat");
+            movePlayer(i, "Car");
+            movePlayer(i, "Dog");
+            movePlayer(i, "Ship");
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        } */
     }
 
-    public static void drawBoard(String[] playerNames) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        playerColors.put("Cat", Color.RED);
-        playerColors.put("Car", Color.GREEN);
-        playerColors.put("Dog", Color.BLACK);
-        playerColors.put("Ship", Color.BLUE);
+    public static String[] drawMenu() {
+        playerImages = new HashMap<>();
+        playerImages.put("Cat", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\katcirkel.png"));
+        playerImages.put("Car", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\bilcirkel.png"));
+        playerImages.put("Ship", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\bådcirkel.png"));
+        playerImages.put("Dog", Toolkit.getDefaultToolkit().createImage("src\\\\pictures\\\\hundcirkel.png"));
 
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         // Set to full screen constantly
         frame.setResizable(false);
         frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
         frame.setLayout(new BorderLayout());
-        frame.setBackground(Color.BLACK);
 
         // Program ends when JFrame closes
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel menuPanel = new JPanel();
+        menuPanel.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+        menuPanel.setBackground(new Color(222, 203, 175));
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+        menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/10))));
+
+        JLabel character = new JLabel("Spiller 1, vælg din karakter");
+        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/20));
+        character.setFont(font);
+        character.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        characterChoiceText = character;
+        menuPanel.add(character);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
+
+        JPanel choicePanel = new JPanel();
+        choicePanel.setMaximumSize(new Dimension((int)(screenSize.getWidth()/1.42), (int)(screenSize.getHeight()/3.5)));
+        choicePanel.setBackground(new Color(222, 203, 175));
+        menuPanel.add(choicePanel);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
+        characterChoicePanel = choicePanel;
+
+        JLabel fillText = new JLabel("Eller");
+        fillText.setFont(font);
+        fillText.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        menuPanel.add(fillText);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
+
+        JButton startBtn = new JButton("Start");
+        startBtn.setBackground(Color.GREEN);
+        startBtn.setFont(font);
+        startBtn.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        startBtn.addActionListener(e -> {
+            btnChoice = -1;
+            btnPressed = true;
+        });
+        menuPanel.add(startBtn);
+
+        frame.add(menuPanel, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+        return new String[]{};
+    }
+
+    public static void drawBoard(String[] playerNames) {
+        frame.getContentPane().removeAll();
+
+        playerColors.put("Cat", Color.RED);
+        playerColors.put("Car", Color.GREEN);
+        playerColors.put("Dog", Color.BLACK);
+        playerColors.put("Ship", Color.BLUE);
 
         Color backGroundColor = new Color(0, 0, 0);
 
@@ -306,7 +352,7 @@ public class JFrameUI {
         leftRollField.setBackground(backGroundColor);
 
         for (int i = 0; i < playerNames.length; i++) {
-            JPanel panel = i % 2 == 0 ? leftPlayerPanel : rightPlayerPanel;
+            JPanel panel = (i == 0 || i == 3) ? leftPlayerPanel : rightPlayerPanel;
             JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 5));
             JPanel img = new PlayerImage(playerNames[i], 0, 0, 1);
             JPanel moneyImg = new MoneyImage();
@@ -370,7 +416,7 @@ public class JFrameUI {
                 btnPressed = true;
             });
 
-            (i % 2 == 0 ? leftRollField : rightRollField).add(rollPanel,
+            ((i == 0 || i == 3) ? leftRollField : rightRollField).add(rollPanel,
                     i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
             panel.add(newPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
 
@@ -387,9 +433,9 @@ public class JFrameUI {
         drawnCard.setVisible(false);
         backImage.add(drawnCard);
 
-        choiceBtns = new JButton[2];
+        choiceBtns = new ChoiceBtn[2];
         for (int i = 0; i < 2; i++) {
-            JButton choiceBtn = new JButton();
+            ChoiceBtn choiceBtn = new ChoiceBtn(null, i);
             choiceBtn.setBackground(new Color(222, 203, 175));
             choiceBtn.setSize(boardScale / 3, boardScale / 3);
             choiceBtn.setText(i == 0 ? "Ryk 1 felt frem" : "Træk et nyt kort");
@@ -397,17 +443,14 @@ public class JFrameUI {
             choiceBtn.setFont(smallFont);
             choiceBtn.setLocation(i == 0 ? boardScale / 7 : (int)(boardScale / 1.9), boardScale / 3);
             choiceBtn.setVisible(false);
-            backImage.add(choiceBtn);
+            choiceBtn.addActionListener(e -> 
+            {
+                btnChoice = ((ChoiceBtn) e.getSource()).id;
+                btnPressed = true;
+            });
             choiceBtns[i] = choiceBtn;
+            backImage.add(choiceBtn);
         }
-        choiceBtns[0].addActionListener(e -> {
-            btnChoice = 0;
-            btnPressed = true;
-        });
-        choiceBtns[1].addActionListener(e -> {
-            btnChoice = 1;
-            btnPressed = true;
-        }); 
         
         int propertyBtnScale = boardScale/10;
         ImageIcon propertyChoiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
@@ -428,7 +471,6 @@ public class JFrameUI {
 
             switch (i/6) {
                     case 0:
-                    System.out.println(boardScale);
                         btn.setLocation(boardScale/5+(int)(boardScale/7.6)*(i-1), boardScale/25);
                         break;
                     case 1:
@@ -607,7 +649,7 @@ public class JFrameUI {
     public static int chooseOption(String[] options) {
         btnPressed = false;
         for (int i = 0; i < options.length; i++) {
-            JButton btn = choiceBtns[i];
+            ChoiceBtn btn = choiceBtns[i];
             btn.setText(options[i]);
             btn.setVisible(true);
         }
@@ -624,6 +666,41 @@ public class JFrameUI {
             btn.setVisible(false);
         }
         System.out.println(btnChoice);
+        return btnChoice;
+    }
+
+    public static int chooseCharacter(String[] options, int playerNum) {
+        characterChoiceText.setText("Player " + playerNum + ", vælg din karakter");
+        for (int i = 0; i < options.length; i++) {
+            if (options[i].equals("")) {
+                continue;
+            }
+            Image choiceTemp = playerImages.get(options[i]);
+            ImageIcon choiceImg = new ImageIcon(choiceTemp.getScaledInstance((int)(screenSize.getHeight()/4), (int)(screenSize.getHeight()/4), Image.SCALE_DEFAULT));
+            ChoiceBtn choiceBtn = new ChoiceBtn(choiceImg, i);
+            choiceBtn.setSize(new Dimension((int)(screenSize.getHeight()/4), (int)(screenSize.getHeight()/4)));
+            choiceBtn.setBackground(Color.WHITE);
+            choiceBtn.setBorder(null);
+            choiceBtn.setOpaque(false);
+            choiceBtn.setLocation(i * (int)(screenSize.getHeight()/3), 0);
+            choiceBtn.addActionListener(e -> {
+                btnChoice = ((ChoiceBtn) e.getSource()).id;
+                btnPressed = true;
+            });
+            characterChoicePanel.add(choiceBtn);
+            characterChoicePanel.paintComponents(characterChoicePanel.getGraphics());
+        }
+
+        while (!btnPressed) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+
+        characterChoicePanel.removeAll();
+        btnPressed = false;
         return btnChoice;
     }
 

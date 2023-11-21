@@ -89,8 +89,7 @@ public final class MonopolyJunior {
     }
 
     // Moves player on the board, switch case for different field types
-    public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree)
-            throws TransactionImpossibleException {
+    public static void moveOnBoard(int movement, boolean forceBuy, boolean getForFree) throws TransactionImpossibleException {
         Field[] fields = board.move(currentPlayer.piece.getPosition(), movement);
         currentPlayer.piece.setPosition(fields[fields.length - 1].position);
         UIController.movePlayer(fields[fields.length - 1].position, currentPlayer);
@@ -145,8 +144,6 @@ public final class MonopolyJunior {
     // Checks if player has enough money, if false is returned the game ends
     public static void transaction(Player player, int money) throws TransactionImpossibleException {
         if (!player.account.changeMoney(money)) {
-            // TODO: End game UI ting
-            // TODO: document when done
             throw new TransactionImpossibleException(player);
         }
         UIController.updateMoneyInAccount(money, player);

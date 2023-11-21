@@ -1,12 +1,27 @@
 package dtu;
 
+import java.util.Arrays;
+
 public class UIController {
     private static boolean CLI = false;
     public static String[] drawMenu() {
         if (CLI) {
             return CLIUI.drawMenu();
+        } else {
+            JFrameUI.drawMenu();
+            String[] availableCharacters = new String[]{"Cat", "Dog", "Car", "Ship"};
+            String[] chosenCharaters = new String[4];
+            for (int i = 0; i < 4; i++) {
+                int p = JFrameUI.chooseCharacter(availableCharacters, i+1);
+                if (p == -1) {
+                    chosenCharaters = Arrays.copyOfRange(chosenCharaters, 0, i);
+                    break;
+                }
+                chosenCharaters[i] = availableCharacters[p];
+                availableCharacters[p] = "";
+            }
+            return chosenCharaters;
         }
-        return new String[]{"Cat", "Dog", "Ship", "Car"};
     }
 
     public static void drawBoard(Player[] players, int startCapital) {
@@ -122,6 +137,4 @@ public class UIController {
             return JFrameUI.chooseOption(options);
         }
     }
-
-    
 }
