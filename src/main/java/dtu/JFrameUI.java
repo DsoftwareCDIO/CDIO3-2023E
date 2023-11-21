@@ -159,11 +159,11 @@ class RollPanel extends JPanel{
 }
 
 class PropertyTag extends JPanel {
-    protected int scale; 
+    protected int boardScale; 
     private static HashMap<String, Color> playerColors = new HashMap<>();
     private String player;
-    public PropertyTag(int scale, String player) {
-        this.scale = scale;
+    public PropertyTag(int boardScale, String player) {
+        this.boardScale = boardScale;
         this.player = player;
         playerColors.put("Cat", Color.RED);
         playerColors.put("Car", Color.GREEN);
@@ -173,7 +173,7 @@ class PropertyTag extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCircle(g, 0, 0, scale/40);
+        drawCircle(g, 0, 0, boardScale/40);
     }
     public void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
         this.setForeground(playerColors.get(player));
@@ -203,6 +203,7 @@ public class JFrameUI {
 
     public static boolean btnPressed = false;
     public static int btnChoice = 0;
+    private static int boardScale;
 
     // Temp main method to test JFrame
     public static void main(String[] args){
@@ -253,31 +254,31 @@ public class JFrameUI {
         JPanel back = new JPanel();
         JPanel left = new JPanel(new BorderLayout());
         JPanel right = new JPanel(new BorderLayout());
-        int scale = (int)(screenSize.getHeight()-screenSize.getHeight()/15);
-        back.setPreferredSize(new Dimension(scale, scale));
-        left.setPreferredSize(new Dimension((int)(screenSize.getWidth()-scale)/2, scale));
-        right.setPreferredSize(new Dimension((int)(screenSize.getWidth()-scale)/2, scale));
+        boardScale = (int)(screenSize.getHeight()-screenSize.getHeight()/15);
+        back.setPreferredSize(new Dimension(boardScale, boardScale));
+        left.setPreferredSize(new Dimension((int)(screenSize.getWidth()-boardScale)/2, boardScale));
+        right.setPreferredSize(new Dimension((int)(screenSize.getWidth()-boardScale)/2, boardScale));
         right.setBackground(backGroundColor);
         left.setBackground(backGroundColor);
         
         JPanel backImage = new BoardImage();
-        backImage.setPreferredSize(new Dimension(scale, scale));
+        backImage.setPreferredSize(new Dimension(boardScale, boardScale));
         
         int playerWidth = 180;
         JPanel leftPlayerPanel = new JPanel(new BorderLayout());
-        leftPlayerPanel.setPreferredSize(new Dimension(playerWidth, scale));
+        leftPlayerPanel.setPreferredSize(new Dimension(playerWidth, boardScale));
         leftPlayerPanel.setBackground(backGroundColor);
 
         JPanel rightPlayerPanel = new JPanel(new BorderLayout());
-        rightPlayerPanel.setPreferredSize(new Dimension(playerWidth, scale));
+        rightPlayerPanel.setPreferredSize(new Dimension(playerWidth, boardScale));
         rightPlayerPanel.setBackground(backGroundColor);
 
         JPanel rightRollField = new JPanel(new BorderLayout());
-        rightRollField.setPreferredSize(new Dimension((int)((screenSize.getWidth()-scale)/2-playerWidth), scale));
+        rightRollField.setPreferredSize(new Dimension((int)((screenSize.getWidth()-boardScale)/2-playerWidth), boardScale));
         rightRollField.setBackground(backGroundColor);
 
         JPanel leftRollField = new JPanel(new BorderLayout());
-        leftRollField.setPreferredSize(new Dimension((int)((screenSize.getWidth()-scale)/2-playerWidth), scale));
+        leftRollField.setPreferredSize(new Dimension((int)((screenSize.getWidth()-boardScale)/2-playerWidth), boardScale));
         leftRollField.setBackground(backGroundColor);
 
         for (int i = 0; i < playerNames.length; i++) {
@@ -357,8 +358,8 @@ public class JFrameUI {
         
         backImage.setLayout(null);
         drawnCard = new ChanceCardImage(0);
-        drawnCard.setLocation(scale/4,scale/3);
-        drawnCard.setSize(new Dimension(scale/2,scale/4));
+        drawnCard.setLocation(boardScale/4,boardScale/3);
+        drawnCard.setSize(new Dimension(boardScale/2,boardScale/4));
         drawnCard.setVisible(false);
         backImage.add(drawnCard);
 
@@ -386,7 +387,7 @@ public class JFrameUI {
             btnPressed = true;
         }); 
         
-        int propertyBtnScale = scale/10;
+        int propertyBtnScale = boardScale/10;
         ImageIcon propertyChoiceImg = new ImageIcon("src\\\\pictures\\\\ChoiceArrow.png");
         Image choiceImgTemp = propertyChoiceImg.getImage();
         propertyChoiceImg = new ImageIcon(choiceImgTemp.getScaledInstance(propertyBtnScale, propertyBtnScale, Image.SCALE_DEFAULT));
@@ -405,16 +406,17 @@ public class JFrameUI {
 
             switch (i/6) {
                     case 0:
-                        btn.setLocation(200+(int)(scale/7.6)*(i-1), 40);
+                    System.out.println(boardScale);
+                        btn.setLocation(boardScale/5+(int)(boardScale/7.6)*(i-1), boardScale/25);
                         break;
                     case 1:
-                        btn.setLocation(220+(int)(scale/7.6*5), 180+(int)(scale/7.6)*(i-7));
+                        btn.setLocation((int)(boardScale/4.5+boardScale/7.6*5), (int)(boardScale/5.6 + (boardScale/7.6)*(i-7)));
                         break;
                     case 2:
-                        btn.setLocation(200+(int)(scale/7.6)*(17-i), 200+(int)(scale/7.6)*5);
+                        btn.setLocation(boardScale/5+(int)(boardScale/7.6)*(17-i), boardScale/5+(int)(boardScale/7.6)*5);
                         break;
                     case 3:
-                        btn.setLocation(50, 180+(int)(scale/7.6)*(23-i));
+                        btn.setLocation(boardScale/20, (int)(boardScale/5.6+(boardScale/7.6)*(23-i)));
                         break;
                     default:
                         break;
@@ -423,12 +425,12 @@ public class JFrameUI {
             backImage.add(btn);
         }
         
-        int[] xOffsets = new int[]{0, scale/20, 0, scale/20};
-        int[] yOffsets = new int[]{0, 0, scale/20, scale/20};
+        int[] xOffsets = new int[]{0, boardScale/20, 0, boardScale/20};
+        int[] yOffsets = new int[]{0, 0, boardScale/20, boardScale/20};
         for (int i = 0; i < playerNames.length; i++) {
             PlayerImage player = new PlayerImage(playerNames[i], xOffsets[i], yOffsets[i], 1.9);
-            player.setSize(new Dimension(scale/10, scale/10));
-            player.setLocation(50, 50);
+            player.setSize(new Dimension(boardScale/10, boardScale/10));
+            player.setLocation(boardScale/20, boardScale/20);
             player.setBackground(new Color(255, 255, 255, 0));
             player.setForeground(playerColors.get(playerNames[i]));
             players.put(playerNames[i], player);
@@ -437,22 +439,22 @@ public class JFrameUI {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 1; j <= 2; j++) {
-                PropertyTag propertyTag = new PropertyTag(scale, "Cat");
-                propertyTag.setSize(new Dimension(scale/18, scale/18));
+                PropertyTag propertyTag = new PropertyTag(boardScale, "Cat");
+                propertyTag.setSize(new Dimension(boardScale/18, boardScale/18));
                 propertyTag.setBackground(new Color(255, 255, 255, 0));
                 propertyTags.put(i*3+j, propertyTag);
                 switch (i/2) {
                     case 0:
-                        propertyTag.setLocation(220+(int)(scale/7.6)*(3*i+j-1), 140);
+                        propertyTag.setLocation((int)(boardScale/4.6 + (boardScale/7.6)*(3*i+j-1)), (int)(boardScale/7.2));
                         break;
                     case 1:
-                        propertyTag.setLocation(150+(int)(scale/7.6*5), 220+(int)(scale/7.6)*(i*3+j-7));
+                        propertyTag.setLocation(150+(int)(boardScale/7.6*5), (int)(boardScale/4.6 + (boardScale/7.6)*(i*3+j-7)));
                         break;
                     case 2:
-                        propertyTag.setLocation(220+(int)(scale/7.6)*(17-i*3-j), 140+(int)(scale/7.6)*5);
+                        propertyTag.setLocation((int)(boardScale/4.6 + (boardScale/7.6)*(17-i*3-j)), (int)(boardScale/7.2+(boardScale/7.6)*5));
                         break;
                     case 3:
-                        propertyTag.setLocation(150, 220+(int)(scale/7.6)*(23-3*i-j));
+                        propertyTag.setLocation((int)(boardScale/6.7), (int)(boardScale/4.6 + (boardScale/7.6)*(23-3*i-j)));
                         break;
                     default:
                         break;
@@ -462,15 +464,12 @@ public class JFrameUI {
                 backImage.add(propertyTag);
             }
         }
-        
-        
 
         left.add(leftPlayerPanel, BorderLayout.WEST);
         right.add(rightPlayerPanel, BorderLayout.EAST);
 
         left.add(leftRollField, BorderLayout.EAST);
         right.add(rightRollField, BorderLayout.WEST);
-
 
         // Show frame
         back.add(backImage, BorderLayout.CENTER);
@@ -503,8 +502,8 @@ public class JFrameUI {
 
     public static void movePlayer(int position, String player) {
         int xOffset, yOffset;
-        int startOffset = 50;
-        int fieldSize = 135;
+        int startOffset = boardScale/20;
+        int fieldSize = (int)(boardScale/8.2);
         if (position <= 5) {
             xOffset = position*fieldSize+startOffset;
             yOffset = startOffset;
