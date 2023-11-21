@@ -236,19 +236,19 @@ public class JFrameUI {
     public static void main(String[] args) {
         drawBoard(new String[] { "Cat", "Car", "Dog", "Ship" });
 
-        /*
-         * for (int i = 0; i < 24; i++) {
-         * movePlayer(i, "Cat");
-         * movePlayer(i, "Car");
-         * movePlayer(i, "Dog");
-         * movePlayer(i, "Ship");
-         * try {
-         * Thread.sleep(500);
-         * } catch (Exception e) {
-         * // TODO: handle exception
-         * }
-         * }
-         */
+        
+        for (int i = 0; i < 24; i++) {
+        movePlayer(i, "Cat");
+        movePlayer(i, "Car");
+        movePlayer(i, "Dog");
+        movePlayer(i, "Ship");
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        }
+        
         /*
          * waitForRoll("Cat");
          * movePlayer(2, "Cat");
@@ -533,7 +533,7 @@ public class JFrameUI {
     public static void movePlayer(int position, String player) {
         int xOffset, yOffset;
         int startOffset = boardScale/20;
-        int fieldSize = (int)(boardScale/8.2);
+        int fieldSize = (int)(boardScale/7.4);
         if (position <= 5) {
             xOffset = position * fieldSize + startOffset;
             yOffset = startOffset;
