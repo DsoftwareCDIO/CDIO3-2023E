@@ -462,6 +462,7 @@ public class JFrameUI {
             player.setLocation(boardScale/20, boardScale/20);
             player.setBackground(new Color(255, 255, 255, 0));
             player.setForeground(playerColors.get(playerNames[i]));
+            player.setOpaque(false);
             players.put(playerNames[i], player);
             backImage.add(player);
         }
