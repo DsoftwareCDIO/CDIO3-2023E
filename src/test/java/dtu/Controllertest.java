@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class Controllertest {
+public class ControllerTest{
     
     @Test
     void testTransaction() {
