@@ -1,5 +1,15 @@
 package dtu;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.LayoutManager;
+import java.awt.Toolkit;
 import java.util.HashMap;
 
 import javax.swing.Box;
@@ -10,15 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.LayoutManager;
-import java.awt.Toolkit;
 
 class BoardImage extends JPanel {
     Image img;
@@ -37,8 +38,12 @@ class BoardImage extends JPanel {
 class MoneyImage extends JPanel {
     Image img;
 
-    public MoneyImage() {
-        img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/other/monopolybuckswhite.png"));
+    public MoneyImage(boolean white) {
+        if (white) {
+            img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/other/monopolybuckswhite.png"));
+        } else {
+            img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/other/monopolybucksblack.png"));
+        }
     }
 
     @Override
@@ -125,7 +130,8 @@ class ChanceCardImage extends JPanel {
 
 class PlayerImage extends JPanel {
     String playerName;
-    int xOffset, yOffset;
+    int xOffset;
+    int yOffset;
     double scaleDivide;
 
     public PlayerImage(String playerName, int xOffset, int yOffset, double scaleDivide) {
@@ -231,27 +237,7 @@ public class JFrameUI {
     // Temp main method to test JFrame
     public static void main(String[] args) {
         drawMenu();
-        System.out.println(chooseCharacter(new String[]{"Dog", "Cat", "Car", "Ship"}, 1));
-        
-        drawBoard(new String[] { "Cat", "Car", "Dog", "Ship" });
-        /* try {
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        drawBoard(new String[] { "Cat", "Car", "Dog", "Ship" }); */
-        
-        /* for (int i = 0; i < 24; i++) {
-            movePlayer(i, "Cat");
-            movePlayer(i, "Car");
-            movePlayer(i, "Dog");
-            movePlayer(i, "Ship");
-            try {
-                Thread.sleep(500);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        } */
+        endGamePodium(new String[]{"Cat", "Car", "Ship"}, new int[]{15, 4, 2}, "Dog");
     }
 
     public static void drawMenu() { 
@@ -279,30 +265,29 @@ public class JFrameUI {
         rules.setBackground(new Color(222, 203, 175));
         rules.setLineWrap(true);
         rules.setEditable(false);
-        rules.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+        rules.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         rules.setMaximumSize(new Dimension((int)(screenSize.getWidth()*0.8), (int)(screenSize.getHeight()*0.8)));
         rules.setFont(font);
-        rules.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        rules.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         menuPanel.add(rules);
         menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
 
         JButton nextBtn = new JButton("Videre");
         nextBtn.setBackground(Color.GREEN);
         nextBtn.setFont(font);
-        nextBtn.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        nextBtn.addActionListener(e -> {
-            btnPressed = true;
-        });
+        nextBtn.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        nextBtn.addActionListener(e -> btnPressed = true);
         menuPanel.add(nextBtn);
         frame.add(menuPanel, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
 
+        // Loop to wait for button press
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         menuPanel.removeAll();
@@ -313,7 +298,7 @@ public class JFrameUI {
 
         JLabel character = new JLabel("Spiller 1, vælg din karakter");
         character.setFont(font);
-        character.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        character.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         characterChoiceText = character;
         menuPanel.add(character);
         menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
@@ -327,7 +312,7 @@ public class JFrameUI {
 
         JLabel fillText = new JLabel("Eller");
         fillText.setFont(font);
-        fillText.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        fillText.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         fillText.setVisible(false);
         startText = fillText;
         menuPanel.add(fillText);
@@ -336,7 +321,7 @@ public class JFrameUI {
         JButton startBtn = new JButton("Start");
         startBtn.setBackground(Color.GREEN);
         startBtn.setFont(font);
-        startBtn.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        startBtn.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         startBtn.addActionListener(e -> {
             btnChoice = -1;
             btnPressed = true;
@@ -395,7 +380,7 @@ public class JFrameUI {
             JPanel panel = (i == 0 || i == 3) ? leftPlayerPanel : rightPlayerPanel;
             JPanel newPanel = new JPanel(new FlowLayout(i > 1 ? FlowLayout.LEFT : FlowLayout.LEADING, 0, 5));
             JPanel img = new PlayerImage(playerNames[i], 0, 0, 1);
-            JPanel moneyImg = new MoneyImage();
+            JPanel moneyImg = new MoneyImage(true);
             JLabel moneyText = new JLabel("0");
             JPanel jailCardImg = new ChanceCardImage(5);
             JLabel jailCardText = new JLabel("0");
@@ -452,10 +437,7 @@ public class JFrameUI {
             roll.setVisible(false);
             rollPanel.add(roll);
             rollPanels.put(playerNames[i], rollPanel);
-            roll.addActionListener(e -> {
-                btnPressed = true;
-            });
-
+            roll.addActionListener(e -> btnPressed = true);
             ((i == 0 || i == 3) ? leftRollField : rightRollField).add(rollPanel,
                     i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
             panel.add(newPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
@@ -592,8 +574,8 @@ public class JFrameUI {
             playerMoney.get(player).setText("" + money);
             Thread.sleep(500);
             playerMoney.get(player).setForeground(Color.WHITE);
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -606,7 +588,8 @@ public class JFrameUI {
     }
 
     public static void movePlayer(int position, String player) {
-        int xOffset, yOffset;
+        int xOffset;
+        int yOffset;
         int startOffset = boardScale/20;
         int fieldSize = (int)(boardScale/7.4);
         if (position <= 5) {
@@ -637,8 +620,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         btn.setVisible(false);
@@ -650,8 +633,8 @@ public class JFrameUI {
         try {
             Thread.sleep(500);
             r.showNewResult(0);
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -665,8 +648,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         for (int field : fields) {
@@ -680,8 +663,8 @@ public class JFrameUI {
         drawnCard.setNewCardImg(cardId);
         try {
             Thread.sleep(cardId > 15 ? 5000 : 3000);
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
         drawnCard.setVisible(false);
     }
@@ -697,8 +680,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         for (int i = 0; i < options.length; i++) {
@@ -738,8 +721,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -749,4 +732,80 @@ public class JFrameUI {
         return btnChoice;
     }
 
+    public static void endGamePodium(String[] players, int[] money, String loser) {
+        try {
+            Thread.sleep(1000);
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        frame.getContentPane().removeAll();
+        frame.repaint();
+        frame.setLayout(new BorderLayout());
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+        panel.setBackground(new Color(222, 203, 175));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
+        JLabel text1;
+        switch (loser) {
+            case "Cat":
+                text1 = new JLabel("Kat er gået bankerot og har tabt, og spillet er slut");
+                break;
+            case "Dog":
+                text1 = new JLabel("Hund er gået bankerot og har tabt, og spillet er slut");
+                break;
+            case "Car":
+                text1 = new JLabel("Bil er gået bankerot og har tabt, og spillet er slut");
+                break;
+            default:
+                text1 = new JLabel("Skib er gået bankerot og har tabt, og spillet er slut");
+                break;
+        }
+        JLabel text2 = new JLabel("Her er ranglisten");
+        JLabel text3 = new JLabel("(Hvis nogle står lige, bliver det vurderet efter værdien af ens ejendomme)");
+        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/30));
+        text1.setFont(font);
+        text1.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        text2.setFont(font);
+        text2.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        text3.setFont(font);
+        text3.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        panel.add(text1);
+        panel.add(text2);
+        panel.add(text3);
+        panel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/10))));
+
+        font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/10));
+        for (int i = 0; i < players.length+1; i++) {
+            JPanel playerRanking = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+            playerRanking.setMaximumSize(new Dimension((int)(screenSize.getWidth()/3), (int)(screenSize.getHeight()/7)));
+            playerRanking.setBackground(new Color(222, 203, 175));
+
+            JLabel rankText = new JLabel(i+1 + ".");
+            rankText.setFont(font);
+
+            PlayerImage playerImg = new PlayerImage(i == players.length ? loser : players[i], 0, 0, 1);
+            playerImg.setOpaque(false);
+            playerImg.setPreferredSize(new Dimension((int)(screenSize.getHeight()/8), (int)(screenSize.getHeight()/8)));
+
+            JLabel moneyText = new JLabel("" + (i == players.length ? 0 : money[i]));
+            moneyText.setFont(font);
+
+            MoneyImage moneyImg = new MoneyImage(false);
+            moneyImg.setOpaque(false);
+            moneyImg.setPreferredSize(new Dimension((int)(screenSize.getHeight()/12), (int)(screenSize.getHeight()/12)));
+
+            playerRanking.add(rankText);
+            playerRanking.add(playerImg);
+            playerRanking.add(moneyText);
+            playerRanking.add(moneyImg);
+            panel.add(playerRanking);
+        }
+        frame.add(panel, BorderLayout.CENTER);
+        frame.setVisible(true);
+        frame.repaint();
+    }
 }

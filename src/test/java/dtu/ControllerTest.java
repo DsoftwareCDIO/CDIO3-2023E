@@ -1,11 +1,43 @@
 package dtu;
 
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class Controllertest {
+public class ControllerTest{
     
+    @Test
+    void testTransaction() {
+        Player p = new Player("Test", 0);
+        try {
+            MonopolyJunior.transaction(p, -1);
+            fail();
+        } catch (TransactionImpossibleException e) {
+            try {
+                MonopolyJunior.transaction(p, 2);
+            } catch (TransactionImpossibleException ex) {
+                fail();
+            }
+        }
+        try {
+            MonopolyJunior.transaction(p, -1);
+        } catch (TransactionImpossibleException ee) {
+            fail();
+        }
+        try {
+            MonopolyJunior.transaction(p, -2);
+            fail();
+        } catch (TransactionImpossibleException e) {
+            try {
+                MonopolyJunior.transaction(p, -1);
+            } catch (TransactionImpossibleException ex) {
+                fail();
+            }
+        }  
+    } 
+
     @Test
     public void testgetNetWorth() {
         Player p = new Player("Cat", 0);
@@ -16,6 +48,7 @@ public class Controllertest {
         //Check for 1 property
         assertEquals(1, MonopolyJunior.getNetWorth(p, board));
 
+       
         //Check for 2 property
         Property apartment2 = (Property)(board.getFields()[4]);
         apartment2.setOwner(p);
