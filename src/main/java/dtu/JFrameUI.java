@@ -24,7 +24,7 @@ class BoardImage extends JPanel {
     Image img;
 
     public BoardImage() {
-        img = Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\Board.png");
+        img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/other/Board.png"));
     }
 
     @Override
@@ -38,7 +38,7 @@ class MoneyImage extends JPanel {
     Image img;
 
     public MoneyImage() {
-        img = Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\monopolybuckswhite.png");
+        img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/other/monopolybuckswhite.png"));
     }
 
     @Override
@@ -64,45 +64,45 @@ class ChanceCardImage extends JPanel {
     public ChanceCardImage(int cardId) {
         this.cardId = cardId;
         playerImages = new HashMap<>();
-        playerImages.put(0, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveUptoFiveFields.png"));
-        playerImages.put(1, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveOneFieldOrDrawAnotherChance.png"));
-        playerImages.put(2, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-ReceiveTwo.png"));
-        playerImages.put(3, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-PayTwoToBank.png"));
-        playerImages.put(4, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-EveryonePaysYouOne.png"));
-        playerImages.put(5, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-OutOfJail.png"));
-        playerImages.put(6, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToStart.png"));
-        playerImages.put(7, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToStrandpromenaden.png"));
-        playerImages.put(8, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToSkaterparkenGetFreeOrpay.png"));
-        playerImages.put(9, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToOrangeGetFreeOrPay.png"));
-        playerImages.put(10, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToLightblueGetFreeOrPay.png"));
-        playerImages.put(11, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToRedGetFreeOrPay.png"));
-        playerImages.put(12, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToLightblueOrRedGetFreeOrPay.png"));
-        playerImages.put(13, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToBrownOrYellowGetFreeOrPay.png"));
-        playerImages.put(14, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToOrangeOrGreenGetFreeOrPay.png"));
-        playerImages.put(15, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-MoveToPinkOrDarkblueGetFreeOrPay.png"));
-        playerImages.put(16, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-ShipUnique.png"));
-        playerImages.put(17, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-CatUnique.png"));
-        playerImages.put(18, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-DogUnique.png"));
-        playerImages.put(19, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-CarUnique.png"));
+        playerImages.put(0, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveUptoFiveFields.png")));
+        playerImages.put(1, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveOneFieldOrDrawAnotherChance.png")));
+        playerImages.put(2, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-ReceiveTwo.png")));
+        playerImages.put(3, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-PayTwoToBank.png")));
+        playerImages.put(4, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-EveryonePaysYouOne.png")));
+        playerImages.put(5, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-OutOfJail.png")));
+        playerImages.put(6, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToStart.png")));
+        playerImages.put(7, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToStrandpromenaden.png")));
+        playerImages.put(8, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToSkaterparkenGetFreeOrpay.png")));
+        playerImages.put(9, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToOrangeGetFreeOrPay.png")));
+        playerImages.put(10, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToLightblueGetFreeOrPay.png")));
+        playerImages.put(11, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToRedGetFreeOrPay.png")));
+        playerImages.put(12, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToLightblueOrRedGetFreeOrPay.png")));
+        playerImages.put(13, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToBrownOrYellowGetFreeOrPay.png")));
+        playerImages.put(14, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToOrangeOrGreenGetFreeOrPay.png")));
+        playerImages.put(15, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-MoveToPinkOrDarkblueGetFreeOrPay.png")));
+        playerImages.put(16, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-ShipUnique.png")));
+        playerImages.put(17, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-CatUnique.png")));
+        playerImages.put(18, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-DogUnique.png")));
+        playerImages.put(19, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-CarUnique.png")));
     }
 
     public ChanceCardImage(String playerName) {
         playerImages = new HashMap<>();
         switch (playerName) {
             case "Ship":
-                playerImages.put(16, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-ShipUnique.png"));
+                playerImages.put(16, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-ShipUnique.png")));
                 cardId = 16;
                 break;
             case "Car":
-                playerImages.put(19, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-CarUnique.png"));
+                playerImages.put(19, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-CarUnique.png")));
                 cardId = 19;
                 break;
             case "Cat":
-                playerImages.put(17, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-CatUnique.png"));
+                playerImages.put(17, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-CatUnique.png")));
                 cardId = 17;
                 break;
             case "Dog":
-                playerImages.put(18, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\chancecards\\Chance-DogUnique.png"));
+                playerImages.put(18, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/chancecards/Chance-DogUnique.png")));
                 cardId = 18;
                 break;
             default:
@@ -151,12 +151,12 @@ class RollPanel extends JPanel {
         super(lm);
         playerImages = new HashMap<>();
         playerImages.put(0, null);
-        playerImages.put(1, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\dice\\dieOneSide.png"));
-        playerImages.put(2, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\dice\\dieTwoSide.png"));
-        playerImages.put(3, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\dice\\dieThreeSide.png"));
-        playerImages.put(4, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\dice\\dieFourSide.png"));
-        playerImages.put(5, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\dice\\dieFiveSide.png"));
-        playerImages.put(6, Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\dice\\dieSixSide.png"));
+        playerImages.put(1, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/dice/dieOneSide.png")));
+        playerImages.put(2, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/dice/dieTwoSide.png")));
+        playerImages.put(3, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/dice/dieThreeSide.png")));
+        playerImages.put(4, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/dice/dieFourSide.png")));
+        playerImages.put(5, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/dice/dieFiveSide.png")));
+        playerImages.put(6, Toolkit.getDefaultToolkit().getImage(getClass().getResource("/dice/dieSixSide.png")));
     }
 
     @Override
@@ -254,12 +254,12 @@ public class JFrameUI {
         } */
     }
 
-    public static void drawMenu() {
+    public static void drawMenu() { 
         playerImages = new HashMap<>();
-        playerImages.put("Cat", Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\playermodel\\catcircle.png"));
-        playerImages.put("Car", Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\playermodel\\carcircle.png"));
-        playerImages.put("Ship", Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\playermodel\\boatcircle.png"));
-        playerImages.put("Dog", Toolkit.getDefaultToolkit().createImage("src\\main\\resources\\playermodel\\dogcircle.png"));
+        playerImages.put("Cat", Toolkit.getDefaultToolkit().getImage(PlayerImage.class.getResource("/playermodel/catcircle.png")));
+        playerImages.put("Car", Toolkit.getDefaultToolkit().getImage(PlayerImage.class.getResource("/playermodel/carcircle.png")));
+        playerImages.put("Ship", Toolkit.getDefaultToolkit().getImage(PlayerImage.class.getResource("/playermodel/boatcircle.png")));
+        playerImages.put("Dog", Toolkit.getDefaultToolkit().getImage(PlayerImage.class.getResource("/playermodel/dogcircle.png")));
 
         frame = new JFrame();
         // Set to full screen constantly
