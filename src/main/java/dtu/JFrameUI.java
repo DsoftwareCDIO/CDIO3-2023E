@@ -262,8 +262,15 @@ public class JFrameUI {
         menuPanel.setBackground(new Color(222, 203, 175));
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
 
-        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/20));
-        JTextArea rules = new JTextArea("Regler:\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rhoncus metus sit amet enim placerat, quis tempor ex auctor. Fusce mollis risus et eros iaculis, eget egestas massa tempor. Sed rhoncus, quam in molestie dictum, est massa fermentum lorem, id aliquam tellus elit et dui. Sed a ex non lacus bibendum porttitor eget nec est. Cras nunc magna, finibus a ultrices ac, consequat eget mauris. Pellentesque gravida tellus vitae dui pulvinar, eu tincidunt ipsum laoreet. Integer nec odio vehicula, imperdiet risus ut, tincidunt urna. Mauris mattis vulputate metus a condimentum. Donec cursus porta metus. Proin mauris enim, mattis et elit ac, ornare lacinia leo. Vestibulum gravida quam non posuere viverra.");
+        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/30));
+        JTextArea rules = new JTextArea("Regler: " + System.lineSeparator() + "1. Hvis du ikke har nok penge til at betale huslejen," +
+        " købe en ejendom, som du lander på, eller betale afgiften fra et chancekort, er du gået falit! Og så er spillet slut." + 
+        System.lineSeparator() + "2. De andre spillere tæller deres penge, og den der har flest, har VUNDET!" + 
+        System.lineSeparator() + "3. Uafgjort? Tæl, hvor meget dine ejendomme er værd, og læg det til dine penge" + 
+        System.lineSeparator() + "4. Den yngste spiller vælger figur først" +
+        System.lineSeparator() + "5. Hvis en spiller ejer begge felter af en farve bliver huslejen dobbelt så stor" +
+        System.lineSeparator() + System.lineSeparator() + "Sådan spiller du:" + System.lineSeparator() + "Tryk på knappen 'Rul terning' for at slå" + 
+        System.lineSeparator() + "Hvis du får et chancekort hvor du skal rykke dig på brættet skal du trykke på en af de røde pile der viser hvor du kan flytte dig hen");
         rules.setBackground(new Color(222, 203, 175));
         rules.setLineWrap(true);
         rules.setEditable(false);
