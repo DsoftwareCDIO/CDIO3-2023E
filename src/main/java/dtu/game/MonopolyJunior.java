@@ -21,7 +21,7 @@ public final class MonopolyJunior {
     }
 
     private static void play(String[] playerNames) {
-        int startcapital = 0 /*24 - (2 * playerNames.length)*/;
+        int startcapital = 24 - (2 * playerNames.length);
         // Recieves a list of player names and creats a new of players with the names
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
