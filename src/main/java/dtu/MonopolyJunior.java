@@ -30,9 +30,11 @@ public final class MonopolyJunior {
         board = new Board(players);
         die = new Die();
 
+        boolean endGame = false;
         int turn = 0;
-        try {
-            while (true) {
+        Player loser = null;
+        while (!endGame) {  
+            try {
                 currentPlayer = players[turn % players.length];
 
                 // Checks if a player is in jail, if player is in jail eihter remove 1 money or
@@ -46,45 +48,49 @@ public final class MonopolyJunior {
                 // If special card(move to x location) is recieved from chancepile, moves the
                 // player to chosen target
                 if (currentPlayer.useUniqueCardIfPossible()) {
-                    int targetField = 0;
-                    // Choice is only available properties, unless they are all bought
-                    // In which case, player can choose any property
-                    List<Integer> freeFieldsTemp = new ArrayList<>();
-                    List<Integer> ownedFieldsTemp = new ArrayList<>();
-                    for (Field field : board.getFields()) {
-                        try {
-                            Property p = (Property)field;
-                            if (p.getOwner() == null) {
-                                freeFieldsTemp.add(field.getPosition());
-                                continue;
-                            }
-                            ownedFieldsTemp.add(field.getPosition());
-                        } catch (ClassCastException e) {
-
-                        }
-                    }
-                    int freeFields[] = new int[freeFieldsTemp.size()];
-                    for (int j = 0; j < freeFieldsTemp.size(); j++) {
-                        freeFields[j] = freeFieldsTemp.get(j);
-                    }
-                    int ownedFields[] = new int[ownedFieldsTemp.size()];
-                    for (int j = 0; j < ownedFieldsTemp.size(); j++) {
-                        ownedFields[j] = ownedFieldsTemp.get(j);
-                    }
-                    targetField = UIController.chooseFieldOnBoard(freeFields.length > 0 ? freeFields : ownedFields);
-                    int movement = targetField - currentPlayer.piece.getPosition();
-                    movement = movement < 0 ? movement + 24 : movement;
-                    moveOnBoard(movement, true, false);
+                    
+                    moveOnBoard(movementWithUniqueCard(), true, false);
                 } else {
                     UIController.waitForRoll(currentPlayer);
                     moveOnBoard(die.roll(), false, false);
                 }
-
                 turn++;
+            } catch (TransactionImpossibleException e) {
+                loser = e.loser;
+                endGame = true;
             }
-        } catch (TransactionImpossibleException e) {
-            endGame(e.loser);
         }
+        endGame(loser);
+    }
+
+    private static int movementWithUniqueCard() {
+        // Choice is only available properties, unless they are all bought
+        // In which case, player can choose any property
+        List<Integer> freeFieldsTemp = new ArrayList<>();
+        List<Integer> ownedFieldsTemp = new ArrayList<>();
+        for (Field field : board.getFields()) {
+            try {
+                Property p = (Property)field;
+                if (p.getOwner() == null) {
+                    freeFieldsTemp.add(field.getPosition());
+                    continue;
+                }
+                ownedFieldsTemp.add(field.getPosition());
+            } catch (ClassCastException e) {
+
+            }
+        }
+        int[] freeFields = new int[freeFieldsTemp.size()];
+        for (int j = 0; j < freeFieldsTemp.size(); j++) {
+            freeFields[j] = freeFieldsTemp.get(j);
+        }
+        int[] ownedFields = new int[ownedFieldsTemp.size()];
+        for (int j = 0; j < ownedFieldsTemp.size(); j++) {
+            ownedFields[j] = ownedFieldsTemp.get(j);
+        }
+        int targetField = UIController.chooseFieldOnBoard(freeFields.length > 0 ? freeFields : ownedFields);
+        int movement = targetField - currentPlayer.piece.getPosition();
+        return movement < 0 ? movement + 24 : movement;
     }
 
     // Moves player on the board, switch case for different field types
@@ -151,10 +157,11 @@ public final class MonopolyJunior {
     // Creates a list of the player account holdings, sorts them by value
     private static void endGame(Player loser) {
         Player[] leaderBoard = new Player[players.length - 1];
-        for (int i = 0, k = 0; i < players.length; i++) {
+        int place = 0;
+        for (int i = 0; i < players.length; i++) {
             if (players[i] != currentPlayer) {
-                leaderBoard[k] = players[i];
-                k++;
+                leaderBoard[place] = players[i];
+                place++;
             }
         }
 
@@ -175,7 +182,7 @@ public final class MonopolyJunior {
                 }
                 
             } catch (ClassCastException e) {
-
+                
             }
         }
         return worth;

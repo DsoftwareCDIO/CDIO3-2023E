@@ -128,7 +128,8 @@ class ChanceCardImage extends JPanel {
 
 class PlayerImage extends JPanel {
     String playerName;
-    int xOffset, yOffset;
+    int xOffset;
+    int yOffset;
     double scaleDivide;
 
     public PlayerImage(String playerName, int xOffset, int yOffset, double scaleDivide) {
@@ -262,20 +263,18 @@ public class JFrameUI {
         rules.setBackground(new Color(222, 203, 175));
         rules.setLineWrap(true);
         rules.setEditable(false);
-        rules.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+        rules.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         rules.setMaximumSize(new Dimension((int)(screenSize.getWidth()*0.8), (int)(screenSize.getHeight()*0.8)));
         rules.setFont(font);
-        rules.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        rules.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         menuPanel.add(rules);
         menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
 
         JButton nextBtn = new JButton("Videre");
         nextBtn.setBackground(Color.GREEN);
         nextBtn.setFont(font);
-        nextBtn.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        nextBtn.addActionListener(e -> {
-            btnPressed = true;
-        });
+        nextBtn.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        nextBtn.addActionListener(e -> btnPressed = true);
         menuPanel.add(nextBtn);
         frame.add(menuPanel, BorderLayout.CENTER);
         frame.pack();
@@ -285,8 +284,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         menuPanel.removeAll();
@@ -297,7 +296,7 @@ public class JFrameUI {
 
         JLabel character = new JLabel("Spiller 1, vælg din karakter");
         character.setFont(font);
-        character.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        character.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         characterChoiceText = character;
         menuPanel.add(character);
         menuPanel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/20))));
@@ -311,7 +310,7 @@ public class JFrameUI {
 
         JLabel fillText = new JLabel("Eller");
         fillText.setFont(font);
-        fillText.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        fillText.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         fillText.setVisible(false);
         startText = fillText;
         menuPanel.add(fillText);
@@ -320,7 +319,7 @@ public class JFrameUI {
         JButton startBtn = new JButton("Start");
         startBtn.setBackground(Color.GREEN);
         startBtn.setFont(font);
-        startBtn.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        startBtn.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         startBtn.addActionListener(e -> {
             btnChoice = -1;
             btnPressed = true;
@@ -436,10 +435,7 @@ public class JFrameUI {
             roll.setVisible(false);
             rollPanel.add(roll);
             rollPanels.put(playerNames[i], rollPanel);
-            roll.addActionListener(e -> {
-                btnPressed = true;
-            });
-
+            roll.addActionListener(e -> btnPressed = true);
             ((i == 0 || i == 3) ? leftRollField : rightRollField).add(rollPanel,
                     i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
             panel.add(newPanel, i > 1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
@@ -576,8 +572,8 @@ public class JFrameUI {
             playerMoney.get(player).setText("" + money);
             Thread.sleep(500);
             playerMoney.get(player).setForeground(Color.WHITE);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -590,7 +586,8 @@ public class JFrameUI {
     }
 
     public static void movePlayer(int position, String player) {
-        int xOffset, yOffset;
+        int xOffset;
+        int yOffset;
         int startOffset = boardScale/20;
         int fieldSize = (int)(boardScale/7.4);
         if (position <= 5) {
@@ -621,8 +618,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         btn.setVisible(false);
@@ -634,8 +631,8 @@ public class JFrameUI {
         try {
             Thread.sleep(500);
             r.showNewResult(0);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -649,8 +646,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         for (int field : fields) {
@@ -664,8 +661,8 @@ public class JFrameUI {
         drawnCard.setNewCardImg(cardId);
         try {
             Thread.sleep(cardId > 15 ? 5000 : 3000);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
         drawnCard.setVisible(false);
     }
@@ -681,8 +678,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         for (int i = 0; i < options.length; i++) {
@@ -722,8 +719,8 @@ public class JFrameUI {
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -736,8 +733,11 @@ public class JFrameUI {
     public static void endGamePodium(String[] players, int[] money, String loser) {
         try {
             Thread.sleep(1000);
-        } catch (Exception e) {
-            
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
         frame.getContentPane().removeAll();
         frame.repaint();
@@ -763,14 +763,14 @@ public class JFrameUI {
                 break;
         }
         JLabel text2 = new JLabel("Her er ranglisten");
-        JLabel text3 = new JLabel("(Hvis nogle stårlige, bliver det vurderet efter værdien af ens ejendomme)");
-        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/20));
+        JLabel text3 = new JLabel("(Hvis nogle står lige, bliver det vurderet efter værdien af ens ejendomme)");
+        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/30));
         text1.setFont(font);
-        text1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        text1.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         text2.setFont(font);
-        text2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        text2.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         text3.setFont(font);
-        text3.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        text3.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         panel.add(text1);
         panel.add(text2);
         panel.add(text3);

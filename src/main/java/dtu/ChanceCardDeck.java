@@ -28,6 +28,8 @@ public class ChanceCardDeck {
                 case "Car":
                     cards.add(new ChanceCard(19));
                     break;
+                default:
+                    break;
             }
         }
         // Shuffle carddeck

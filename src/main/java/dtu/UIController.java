@@ -3,9 +3,10 @@ package dtu;
 import java.util.Arrays;
 
 public class UIController {
-    private static boolean CLI = false;
+    private UIController() {}
+    private static boolean usingCLI = false;
     public static String[] drawMenu() {
-        if (CLI) {
+        if (usingCLI) {
             return CLIUI.drawMenu();
         } else {
             JFrameUI.drawMenu();
@@ -29,7 +30,7 @@ public class UIController {
         for (int i = 0; i < players.length; i++) {
             playerNames[i] = players[i].getName();
         }
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.drawBoard(playerNames);
         } else {
             JFrameUI.drawBoard(playerNames);
@@ -40,7 +41,7 @@ public class UIController {
     }
 
     public static void movePlayer(int position, Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.movePlayer(position, player.getName());
         } else {
             JFrameUI.movePlayer(position, player.getName());
@@ -48,7 +49,7 @@ public class UIController {
     }
 
     public static void updateFieldOwnership(int fieldId, Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.updateFieldOwnership(fieldId, player.getName());
         } else {
             JFrameUI.updateFieldOwnership(fieldId, player.getName());
@@ -62,7 +63,7 @@ public class UIController {
             playerNames[i] = players[i].getName();
             money[i] = players[i].account.getMoney();
         }
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.endGamePodium(playerNames, loser.getName());
         } else {
             JFrameUI.endGamePodium(playerNames, money, loser.getName());
@@ -70,7 +71,7 @@ public class UIController {
     }
 
     public static void dieRollResult(int result, Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.dieRollResult(result);
         } else {
             JFrameUI.dieRollResult(result, player.getName());
@@ -78,7 +79,7 @@ public class UIController {
     }
 
     public static void waitForRoll(Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.waitForRoll();
         } else {
             JFrameUI.waitForRoll(player.getName());
@@ -86,7 +87,7 @@ public class UIController {
     }
 
     public static void updateMoneyInAccount(int money, Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.updateMoneyInAccount(Math.abs(money), player.account.getMoney(), player.getName(), money >= 0);
         }
         else {
@@ -95,13 +96,13 @@ public class UIController {
     }
 
     public static void showNetWorth(Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.showNetWorth(player.getName());
         }
     }
 
     public static void showChanceCard(ChanceCard card) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.showChanceCard("" + card.id); // Temporary
         } else {
             JFrameUI.showChanceCard(card.id);
@@ -109,7 +110,7 @@ public class UIController {
     }
 
     public static void updateGetOutOfJailCards(int cardsTotal, boolean gained, Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.updateGetOutOfJailCards(cardsTotal, gained, player.getName());
         } else {
             JFrameUI.updateGetOutOfJailCards(cardsTotal, player.getName());
@@ -117,7 +118,7 @@ public class UIController {
     }
 
     public static void updateUniqueCards(boolean gained, Player player) {
-        if (CLI) {
+        if (usingCLI) {
             CLIUI.updateUniqueCards(gained, player.getName());
         } else {
             JFrameUI.updateUniqueCards(gained, player.getName());
@@ -125,7 +126,7 @@ public class UIController {
     }
 
     public static int chooseFieldOnBoard(int[] fields) {
-        if (CLI) {
+        if (usingCLI) {
             return 0;
         } else {
             return JFrameUI.chooseFieldOnBoard(fields);
@@ -133,7 +134,7 @@ public class UIController {
     }
     
     public static int chooseOption(String[] options){
-        if (CLI) {
+        if (usingCLI) {
             return 0;
         } else {
             return JFrameUI.chooseOption(options);

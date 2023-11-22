@@ -80,7 +80,7 @@ public class ChanceCard {
             case 9:
                 // effect
                 // go to an orange field
-                // get it for free if its availablepos = MonopolyJunior.currentPlayer.piece.getPosition();
+                // get it for free if its available
                 movement = UIController.chooseFieldOnBoard(new int[]{10, 11});
                 movePlayerToTarget(movement, true);
                 break;
