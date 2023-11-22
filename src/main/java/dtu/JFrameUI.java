@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
@@ -556,6 +558,14 @@ public class JFrameUI {
         left.add(leftRollField, BorderLayout.EAST);
         right.add(rightRollField, BorderLayout.WEST);
 
+        players = new pl[playerNames.length];
+        for (int player = 0; player < playerNames.length; player++) {
+            pl p = new pl();
+            p.setForeground(Color.RED);
+            p.setSize(100,100);               
+            c.anchor = GridBagConstraints.EAST;
+            frame.add(p, c);
+        }
         // Show frame
         back.add(backImage, BorderLayout.CENTER);
         frame.add(left, BorderLayout.WEST);
@@ -806,5 +816,4 @@ public class JFrameUI {
         frame.setVisible(true);
         frame.repaint();
     }
-
 }
