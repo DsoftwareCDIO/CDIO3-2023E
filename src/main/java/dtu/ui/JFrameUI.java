@@ -77,7 +77,7 @@ public class JFrameUI {
         System.lineSeparator() + "4. Den yngste spiller vælger figur først" +
         System.lineSeparator() + "5. Hvis en spiller ejer begge felter af en farve bliver huslejen dobbelt så stor" +
         System.lineSeparator() + "6. For at komme ud af fængslet, skal man bruge et Get Out Of Jail Free Card eller" + 
-        "betale 1 MonopolyBuck, man taber også, hvis man ikke kan betale for det" +
+        " betale 1 MonopolyBuck, man taber også, hvis man ikke kan betale for det" +
         System.lineSeparator() + System.lineSeparator() + "Sådan spiller du:" + System.lineSeparator() + "Tryk på knappen 'Rul terning' for at slå" + 
         System.lineSeparator() + "Hvis du får et chancekort hvor du skal rykke dig på brættet skal du trykke på en af de røde pile der viser hvor du kan flytte dig hen" +
         System.lineSeparator() + "Ved din spiller figur viser den hvor mange Get Out Of Jail Free kort du har og om du har et specialkort, der påvirker din næste tur");
