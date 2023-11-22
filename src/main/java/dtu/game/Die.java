@@ -1,6 +1,8 @@
-package dtu;
+package dtu.game;
 
 import java.util.Random;
+
+import dtu.UIController;
 
 //6 sided die to roll on turn, same old same old
 public class Die {

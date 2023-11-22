@@ -1,4 +1,6 @@
-package dtu;
+package dtu.game;
+
+import dtu.UIController;
 
 public class Player {
     public final Account account;
@@ -7,8 +9,7 @@ public class Player {
     private int getOutOfJailCards = 0;
     private boolean uniqueCard = false;
     private String name;
-
-    protected boolean inJail = false;
+    private boolean inJail = false;
 
     public Player(String name, int startCapital){
         piece = new Piece();
@@ -29,6 +30,10 @@ public class Player {
         inJail = true;
         piece.setPosition(6);
         UIController.movePlayer(6, this);
+    }
+    
+    public boolean isInJail() {
+        return inJail;
     }
 
     //Method to check if a player has a get out of jail card, removed upon landing in jail

@@ -1,4 +1,4 @@
-package dtu;
+package dtu.game;
 
 public class Piece {
     private int position = 0;

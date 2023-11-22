@@ -1,4 +1,4 @@
-package dtu;
+package dtu.game;
 
 public class TransactionImpossibleException extends Exception { 
     protected Player loser;

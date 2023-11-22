@@ -1,4 +1,4 @@
-package dtu;
+package dtu.game;
 
 public class Account {
     private int money;
