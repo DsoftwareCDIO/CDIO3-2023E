@@ -1,6 +1,7 @@
 package dtu;
 
 import java.awt.BorderLayout;
+import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -475,7 +477,7 @@ public class JFrameUI {
         }
         
         int propertyBtnScale = boardScale/10;
-        Image choiceImgTemp = Toolkit.getDefaultToolkit().getImage(JButton.class.getResource("/other/ChoiceArrow.png"));
+        Image choiceImgTemp = Toolkit.getDefaultToolkit().getImage(ChoiceBtn.class.getResource("/other/ChoiceArrow.png"));
         ImageIcon propertyChoiceImg = new ImageIcon(
         choiceImgTemp.getScaledInstance(propertyBtnScale, propertyBtnScale, Image.SCALE_DEFAULT));
 
