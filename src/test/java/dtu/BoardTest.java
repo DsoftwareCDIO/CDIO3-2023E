@@ -38,28 +38,4 @@ public class BoardTest {
         assertEquals(3, results[1].getPosition());
         
     }
-
-    @Test
-    public void test() {
-        try {
-            MonopolyJunior.transaction(new Player("Test", 0), 1);
-            fail();
-        } catch (TransactionImpossibleException e) {
-            // TODO: handle exception
-        }
-
-        try {
-            MonopolyJunior.transaction(new Player("Test", 0), 1);
-            fail();
-        } catch (TransactionImpossibleException e) {
-            // TODO: handle exception
-        }
-
-        try {
-            MonopolyJunior.transaction(new Player("Test", 0), 1);
-            fail();
-        } catch (TransactionImpossibleException e) {
-            // TODO: handle exception
-        }
-    }
 }

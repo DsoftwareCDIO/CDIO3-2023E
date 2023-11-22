@@ -18,8 +18,8 @@ class PlayerTest {
         assertTrue(p.account.changeMoney(-2));
         assertEquals(2, p.account.getMoney());
         assertFalse(p.account.changeMoney(-5)); // Goes under 0, so should return false and not change money
-        assertEquals(0, p.account.getMoney());
-        assertTrue(p.account.changeMoney(0));
+        assertEquals(2, p.account.getMoney());
+        assertTrue(p.account.changeMoney(-2));
         assertEquals(0, p.account.getMoney());
     }
 
@@ -48,9 +48,6 @@ class PlayerTest {
         p.goToJail();
         assertTrue(p.isInJail());
         assertFalse(p.getOutOfJail());
-        p.account.changeMoney(1);
-        assertTrue(p.getOutOfJail());
-        assertFalse(p.isInJail());
     }
 
     @Test

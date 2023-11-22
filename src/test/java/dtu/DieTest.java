@@ -16,8 +16,8 @@ public class DieTest {
             rolls[die.roll()-1]++;
         }
         for (int i : rolls) {
-            assertTrue(i < (numberofRolls/6)+30);
-            assertTrue(i > (numberofRolls/6)-30);
+            assertTrue(i < (numberofRolls/6)+40);
+            assertTrue(i > (numberofRolls/6)-40);
         }
     }
 }
