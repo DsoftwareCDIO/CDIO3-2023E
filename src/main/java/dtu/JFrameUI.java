@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
@@ -237,6 +235,8 @@ public class JFrameUI {
     // Temp main method to test JFrame
     public static void main(String[] args) {
         drawMenu();
+        drawBoard(new String[]{"Cat", "Dog"});
+        chooseFieldOnBoard(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
         endGamePodium(new String[]{"Cat", "Car", "Ship"}, new int[]{15, 4, 2}, "Dog");
     }
 
@@ -475,9 +475,8 @@ public class JFrameUI {
         }
         
         int propertyBtnScale = boardScale/10;
-        ImageIcon propertyChoiceImg = new ImageIcon("src\\main\\resources\\ChoiceArrow.png");
-        Image choiceImgTemp = propertyChoiceImg.getImage();
-        propertyChoiceImg = new ImageIcon(
+        Image choiceImgTemp = Toolkit.getDefaultToolkit().getImage(JButton.class.getResource("/other/ChoiceArrow.png"));
+        ImageIcon propertyChoiceImg = new ImageIcon(
         choiceImgTemp.getScaledInstance(propertyBtnScale, propertyBtnScale, Image.SCALE_DEFAULT));
 
         for (int i = 0; i < 24; i++) {

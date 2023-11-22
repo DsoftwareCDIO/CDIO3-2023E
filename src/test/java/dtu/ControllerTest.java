@@ -1,12 +1,11 @@
 package dtu;
 
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class ControllerTest{
+class ControllerTest{
     
     @Test
     void testTransaction() {
@@ -39,7 +38,7 @@ public class ControllerTest{
     } 
 
     @Test
-    public void testgetNetWorth() {
+    void testgetNetWorth() {
         Player p = new Player("Cat", 0);
         Player p2 = new Player("Car", 0);
         Board board = new Board(new Player[]{p, p2});
