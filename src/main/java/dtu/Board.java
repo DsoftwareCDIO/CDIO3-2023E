@@ -68,4 +68,8 @@ public class Board {
         }
         return new Field[]{fields[endPosition]};
     }
+
+    public Field[] getFields() {
+        return fields;
+    }
 }

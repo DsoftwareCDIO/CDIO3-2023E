@@ -1,5 +1,7 @@
 package dtu;
 
+import java.util.stream.IntStream;
+
 public class ChanceCard {
     protected final int id;
 
@@ -9,20 +11,25 @@ public class ChanceCard {
     }
 
     public void activate() throws TransactionImpossibleException {
-        // TODO: switch statement with effects
         int movement;
+        int pos;
         switch (id) {
             case 0:
                 // effect
                 // go 1-5 fields ahead
-                movement = 5; // UI input
-                MonopolyJunior.moveOnBoard(movement, false, false);
+                pos = MonopolyJunior.currentPlayer.piece.getPosition();
+                int[] temp = IntStream.range(pos+1, pos+6).toArray();
+                for (int i = 0; i < temp.length; i++) {
+                    temp[i] = temp[i] > 23 ? temp[i] - 24 : temp[i];
+                }
+                movement = UIController.chooseFieldOnBoard(temp);
+                movePlayerToTarget(movement, false);
                 break;
             case 1:
                 // effect
                 // go one field ahead or take another chancecard
-                boolean chooseMove = true;// UI choose an option
-                if (chooseMove == true) {
+                int choice = UIController.chooseOption(new String[]{"Ryk 1 felt frem", "Træk et nyt kort"});// UI choose an option
+                if (choice == 0) {
                     MonopolyJunior.moveOnBoard(1, false, false);
                     break;
                 }
@@ -44,9 +51,9 @@ public class ChanceCard {
                 for (Player p : MonopolyJunior.players) {
                     if (p != MonopolyJunior.currentPlayer) {
                         MonopolyJunior.transaction(p, -1);
-                        MonopolyJunior.transaction(MonopolyJunior.currentPlayer, 1);
                     }
                 }
+                MonopolyJunior.transaction(MonopolyJunior.currentPlayer, MonopolyJunior.players.length-1);
                 break;
             case 5:
                 // effect
@@ -74,63 +81,74 @@ public class ChanceCard {
                 // effect
                 // go to an orange field
                 // get it for free if its available
-                movePlayerToTarget(1 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{10, 11});
+                movePlayerToTarget(movement, true);
                 break;
             case 10:
                 // effect
                 // go to lightblue field
                 // get it for free if its available
-                movePlayerToTarget(2 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{4, 5});
+                movePlayerToTarget(movement, true);
                 break;
             case 11:
                 // effect
                 // go to a red feild
                 // you get it for free if its available
-                movePlayerToTarget(3 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{13, 14});
+                movePlayerToTarget(movement, true);
                 break;
             case 12:
                 // effect
                 // go to a light blue or red field
                 // get it for free if its available
-                movePlayerToTarget(4 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{4, 5, 13, 14});
+                movePlayerToTarget(movement, true);
                 break;
             case 13:
                 // effect
                 // go to a brown or yellow field
                 // get it for free if its available
-                movePlayerToTarget(4 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{1, 2, 16, 17});
+                movePlayerToTarget(movement, true);
                 break;
             case 14:
                 // effect
                 // go to orange or green
                 // get it for free if its available
-                movePlayerToTarget(5 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{10, 11, 19, 20});
+                movePlayerToTarget(movement, true);
                 break;
             case 15:
                 // effect
                 // go to a pink or dark blue field
                 // get it for free if its available
-                movePlayerToTarget(6 /* Chhose with UI */, true);
+                movement = UIController.chooseFieldOnBoard(new int[]{7, 8, 22, 23});
+                movePlayerToTarget(movement, true);
                 break;
             case 16:
                 // effect
                 // ship gets to choose what field to land on next round
                 givePlayerUniqueCard("Ship");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             case 17:
                 // effect
                 // cat gets to choose what field to land on next round
                 givePlayerUniqueCard("Cat");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             case 18:
                 // effect
                 // dog gets to choose what field to land on next round
                 givePlayerUniqueCard("Dog");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             case 19:
                 // effect
                 // car gets to choose what field to land on next round
                 givePlayerUniqueCard("Car");
+                MonopolyJunior.board.cardDeck.draw().activate();
                 break;
             default:
                 break;
