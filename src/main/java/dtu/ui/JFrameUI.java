@@ -30,6 +30,7 @@ public class JFrameUI {
     private static HashMap<String, RollPanel> rollPanels = new HashMap<>();
     protected static HashMap<String, Image> playerImages;
     private static ChanceCardImage drawnCard;
+    private static JButton cardBtn;
     private static ChoiceBtn[] choiceBtns;
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static JPanel characterChoicePanel;
@@ -42,12 +43,21 @@ public class JFrameUI {
     private static int boardScale;
 
     // Temp main method to test JFrame
-    /* public static void main(String[] args) {
+    public static void main(String[] args) {
         drawMenu();
-        drawBoard(new String[]{"Cat", "Dog"});
-        chooseFieldOnBoard(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
-        endGamePodium(new String[]{"Cat", "Car", "Ship"}, new int[]{15, 4, 2}, "Dog");
-    } */
+        drawBoard(new String[]{"Cat", "Dog", "Car", "Ship"});
+        for (int i = 0; i < 24; i++) {
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            movePlayer(i, "Cat");
+            movePlayer(i, "Car");
+            movePlayer(i, "Dog");
+            movePlayer(i, "Ship");
+        }
+    }
 
     public static void drawMenu() { 
         playerImages = new HashMap<>();
@@ -69,7 +79,7 @@ public class JFrameUI {
         menuPanel.setBackground(new Color(222, 203, 175));
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
 
-        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/30));
+        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.BOLD, (int)(screenSize.getHeight()/30));
         JTextArea rules = new JTextArea("Regler: " + System.lineSeparator() + "1. Hvis du ikke har nok penge til at betale huslejen," +
         " købe en ejendom, som du lander på, eller betale afgiften fra et chancekort, er du gået falit! Og så er spillet slut." + 
         System.lineSeparator() + "2. De andre spillere tæller deres penge, og den der har flest, har VUNDET!" + 
@@ -252,7 +262,7 @@ public class JFrameUI {
             JButton roll = new JButton("Slå terning");
             roll.setBackground(new Color(222, 203, 175));
             roll.setForeground(Color.BLACK);
-            roll.setFont(new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(30*fontScale)));
+            roll.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, (int)(30*fontScale)));
             roll.setVisible(false);
             rollPanel.add(roll);
             rollPanels.put(playerNames[i], rollPanel);
@@ -267,12 +277,21 @@ public class JFrameUI {
             playerUniqueCards.put(playerNames[i], uniqueCardText);
         }
 
+        java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.BOLD, (int)(40*fontScale));
+        cardBtn = new JButton("Ok");
+        cardBtn.setFont(smallFont);
+        cardBtn.setBackground(Color.GREEN);
+        cardBtn.setLocation((int)(boardScale/2.2),(int)(boardScale/1.5));
+        cardBtn.setSize(boardScale / 9, boardScale / 15);
+        cardBtn.addActionListener(e -> btnPressed = true);
+        cardBtn.setVisible(false);
         backImage.setLayout(null);
         drawnCard = new ChanceCardImage(0);
         drawnCard.setLocation(boardScale/4,boardScale/3);
         drawnCard.setSize(new Dimension(boardScale/2,boardScale/4));
         drawnCard.setVisible(false);
         backImage.add(drawnCard);
+        backImage.add(cardBtn);
 
         choiceBtns = new ChoiceBtn[2];
         for (int i = 0; i < 2; i++) {
@@ -280,7 +299,6 @@ public class JFrameUI {
             choiceBtn.setBackground(new Color(222, 203, 175));
             choiceBtn.setSize(boardScale / 3, boardScale / 3);
             choiceBtn.setText(i == 0 ? "Ryk 1 felt frem" : "Træk et nyt kort");
-            java.awt.Font smallFont = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(40*fontScale));
             choiceBtn.setFont(smallFont);
             choiceBtn.setLocation(i == 0 ? boardScale / 7 : (int)(boardScale / 1.9), boardScale / 3);
             choiceBtn.setVisible(false);
@@ -329,12 +347,12 @@ public class JFrameUI {
             backImage.add(btn);
         }
         
-        int[] xOffsets = new int[]{0, boardScale/20, 0, boardScale/20};
-        int[] yOffsets = new int[]{0, 0, boardScale/20, boardScale/20};
+        int[] xOffsets = new int[]{0, boardScale/15, 0, boardScale/15};
+        int[] yOffsets = new int[]{0, 0, boardScale/15, boardScale/15};
         for (int i = 0; i < playerNames.length; i++) {
-            PlayerImage player = new PlayerImage(playerNames[i], xOffsets[i], yOffsets[i], 1.9);
-            player.setSize(new Dimension(boardScale/10, boardScale/10));
-            player.setLocation(boardScale/20, boardScale/20);
+            PlayerImage player = new PlayerImage(playerNames[i], xOffsets[i], yOffsets[i], 2.2);
+            player.setSize(new Dimension(boardScale/7, boardScale/7));
+            player.setLocation(boardScale/30, boardScale/40);
             player.setBackground(new Color(255, 255, 255, 0));
             player.setForeground(playerColors.get(playerNames[i]));
             player.setOpaque(false);
@@ -408,20 +426,21 @@ public class JFrameUI {
     public static void movePlayer(int position, String player) {
         int xOffset;
         int yOffset;
-        int startOffset = boardScale/20;
+        int startxOffset = boardScale/30;
+        int startyOffset = boardScale/40;
         int fieldSize = (int)(boardScale/7.4);
         if (position <= 5) {
-            xOffset = position * fieldSize + startOffset;
-            yOffset = startOffset;
+            xOffset = position * fieldSize + startxOffset;
+            yOffset = startyOffset;
         } else if (position > 5 && position <= 12) {
-            xOffset = 6 * fieldSize + startOffset;
-            yOffset = (position - 6) * fieldSize + startOffset;
+            xOffset = 6 * fieldSize + startxOffset;
+            yOffset = (position - 6) * fieldSize + startyOffset;
         } else if (position > 12 && position <= 18) {
-            xOffset = (18 - position) * fieldSize + startOffset;
-            yOffset = 6 * fieldSize + startOffset;
+            xOffset = (18 - position) * fieldSize + startxOffset;
+            yOffset = 6 * fieldSize + startyOffset;
         } else {
-            xOffset = startOffset;
-            yOffset = (24 - position) * fieldSize + startOffset;
+            xOffset = startxOffset;
+            yOffset = (24 - position) * fieldSize + startyOffset;
         }
         players.get(player).setLocation(xOffset, yOffset);
     }
@@ -479,12 +498,17 @@ public class JFrameUI {
 
     public static void showChanceCard(int cardId) {
         drawnCard.setNewCardImg(cardId);
-        try {
-            Thread.sleep(cardId > 15 ? 5000 : 3000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        cardBtn.setVisible(true);
+        while (!btnPressed) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
+        btnPressed = false;
         drawnCard.setVisible(false);
+        cardBtn.setVisible(false);
     }
 
     public static int chooseOption(String[] options) {
@@ -584,7 +608,7 @@ public class JFrameUI {
         }
         JLabel text2 = new JLabel("Her er ranglisten");
         JLabel text3 = new JLabel("(Hvis nogle står lige, bliver det vurderet efter værdien af ens ejendomme)");
-        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/30));
+        java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.BOLD, (int)(screenSize.getHeight()/30));
         text1.setFont(font);
         text1.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         text2.setFont(font);
@@ -596,7 +620,7 @@ public class JFrameUI {
         panel.add(text3);
         panel.add(Box.createRigidArea(new Dimension(0, (int)(screenSize.getHeight()/10))));
 
-        font = new java.awt.Font("Arial", java.awt.Font.ROMAN_BASELINE, (int)(screenSize.getHeight()/10));
+        font = new java.awt.Font("Arial", java.awt.Font.BOLD, (int)(screenSize.getHeight()/10));
         for (int i = 0; i < players.length+1; i++) {
             JPanel playerRanking = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
             playerRanking.setMaximumSize(new Dimension((int)(screenSize.getWidth()/3), (int)(screenSize.getHeight()/7)));
