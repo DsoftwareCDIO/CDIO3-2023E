@@ -1,4 +1,4 @@
-package dtu;
+package dtu.ui;
 
 import java.util.Scanner;
 

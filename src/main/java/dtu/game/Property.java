@@ -1,4 +1,6 @@
-package dtu;
+package dtu.game;
+
+import dtu.UIController;
 
 public class Property extends Field {
     public enum Color {

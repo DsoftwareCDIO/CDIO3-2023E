@@ -1,13 +1,19 @@
-package dtu;
+package dtu.game;
 
 import java.util.stream.IntStream;
 
+import dtu.UIController;
+
 public class ChanceCard {
-    protected final int id;
+    private final int id;
 
     public ChanceCard(int id) {
         this.id = id;
         // Activate things, description and so on is determined by id
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void activate() throws TransactionImpossibleException {

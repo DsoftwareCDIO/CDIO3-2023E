@@ -1,7 +1,7 @@
-package dtu;
+package dtu.game;
 
-import dtu.Field.FieldType;
-import dtu.Property.Color;
+import dtu.game.Field.FieldType;
+import dtu.game.Property.Color;
 
 public class Board {
     private Field[] fields;

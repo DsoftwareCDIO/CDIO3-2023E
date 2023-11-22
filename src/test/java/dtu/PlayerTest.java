@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import dtu.game.Player;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -37,18 +39,18 @@ class PlayerTest {
     void testPlayerInJail() {
         Player p = new Player("Test", 0);
         p.goToJail();
-        assertTrue(p.inJail);
+        assertTrue(p.isInJail());
         assertFalse(p.getOutOfJail());
         p.addGetOutOfJailCard();
         assertTrue(p.getOutOfJail());
-        assertFalse(p.inJail);
+        assertFalse(p.isInJail());
         
         p.goToJail();
-        assertTrue(p.inJail);
+        assertTrue(p.isInJail());
         assertFalse(p.getOutOfJail());
         p.account.changeMoney(1);
         assertTrue(p.getOutOfJail());
-        assertFalse(p.inJail);
+        assertFalse(p.isInJail());
     }
 
     @Test

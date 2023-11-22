@@ -1,10 +1,12 @@
-package dtu;
+package dtu.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import dtu.UIController;
 
 public final class MonopolyJunior {
     protected static Player[] players;
@@ -39,7 +41,7 @@ public final class MonopolyJunior {
 
                 // Checks if a player is in jail, if player is in jail eihter remove 1 money or
                 // use a goojfc
-                if (currentPlayer.inJail) {
+                if (currentPlayer.isInJail()) {
                     if (!currentPlayer.getOutOfJail()) {
                         transaction(currentPlayer, -1);
                     }

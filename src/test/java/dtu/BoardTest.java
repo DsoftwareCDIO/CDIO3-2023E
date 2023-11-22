@@ -5,6 +5,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
+import dtu.game.Board;
+import dtu.game.Field;
+import dtu.game.MonopolyJunior;
+import dtu.game.Player;
+import dtu.game.TransactionImpossibleException;
+
 public class BoardTest {
     @Test
     public void testMove() {

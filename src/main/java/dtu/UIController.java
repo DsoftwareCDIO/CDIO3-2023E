@@ -2,6 +2,11 @@ package dtu;
 
 import java.util.Arrays;
 
+import dtu.game.ChanceCard;
+import dtu.game.Player;
+import dtu.ui.CLIUI;
+import dtu.ui.JFrameUI;
+
 public class UIController {
     private UIController() {}
     private static boolean usingCLI = false;
@@ -103,9 +108,9 @@ public class UIController {
 
     public static void showChanceCard(ChanceCard card) {
         if (usingCLI) {
-            CLIUI.showChanceCard("" + card.id); // Temporary
+            CLIUI.showChanceCard("" + card.getId()); // Temporary
         } else {
-            JFrameUI.showChanceCard(card.id);
+            JFrameUI.showChanceCard(card.getId());
         }
     }
 

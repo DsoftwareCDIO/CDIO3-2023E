@@ -1,4 +1,4 @@
-package dtu;
+package dtu.game;
 
 public class Field {
     //Enumeration of the different field types

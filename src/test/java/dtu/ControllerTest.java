@@ -5,6 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import dtu.game.Board;
+import dtu.game.MonopolyJunior;
+import dtu.game.Player;
+import dtu.game.Property;
+import dtu.game.TransactionImpossibleException;
+
 class ControllerTest{
     
     @Test
