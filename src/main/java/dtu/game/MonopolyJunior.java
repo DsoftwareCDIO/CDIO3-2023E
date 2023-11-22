@@ -11,8 +11,9 @@ import dtu.UIController;
 public final class MonopolyJunior {
     protected static Player[] players;
     protected static Board board;
-    protected static Die die;
-    protected static Player currentPlayer;
+    //protected static Die die;
+    public static Player currentPlayer;
+    public static DieStub die;
 
     public static void main(String[] args) {
         String[] playerNames = UIController.drawMenu();
@@ -20,7 +21,7 @@ public final class MonopolyJunior {
     }
 
     private static void play(String[] playerNames) {
-        int startcapital = 24 - (2 * playerNames.length);
+        int startcapital = 0 /*24 - (2 * playerNames.length)*/;
         // Recieves a list of player names and creats a new of players with the names
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
@@ -30,7 +31,7 @@ public final class MonopolyJunior {
 
         // Creates board with chosen amount of players (2/4)
         board = new Board(players);
-        die = new Die();
+        die = new DieStub();
 
         boolean endGame = false;
         int turn = 0;
