@@ -499,6 +499,7 @@ public class JFrameUI {
     public static void showChanceCard(int cardId) {
         drawnCard.setNewCardImg(cardId);
         cardBtn.setVisible(true);
+        btnPressed = false;
         while (!btnPressed) {
             try {
                 Thread.sleep(10);
