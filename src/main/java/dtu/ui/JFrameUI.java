@@ -42,23 +42,6 @@ public class JFrameUI {
     public static int btnChoice = 0;
     private static int boardScale;
 
-    // Temp main method to test JFrame
-    public static void main(String[] args) {
-        drawMenu();
-        drawBoard(new String[]{"Cat", "Dog", "Car", "Ship"});
-        for (int i = 0; i < 24; i++) {
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-            movePlayer(i, "Cat");
-            movePlayer(i, "Car");
-            movePlayer(i, "Dog");
-            movePlayer(i, "Ship");
-        }
-    }
-
     public static void drawMenu() { 
         playerImages = new HashMap<>();
         playerImages.put("Cat", Toolkit.getDefaultToolkit().getImage(PlayerImage.class.getResource("/playermodel/catcircle.png")));
